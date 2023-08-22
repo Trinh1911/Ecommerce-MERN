@@ -1,6 +1,7 @@
 import styles from "styled-components";
-export const Wrapper = styles.div`
+export const WrapperTypeProduct = styles.div`
     display: flex;
     align-items: center;
     gap: 12px;
+    height: 32px;
 `

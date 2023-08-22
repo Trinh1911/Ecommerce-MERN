@@ -7,7 +7,7 @@ const onSearch = (value) => console.log(value);
 const Header = () => {
   return (
     <div>
-      <Wrapper gutter={16}>
+      <Wrapper>
         <Col span={5}>
           <LogoHeader>KT</LogoHeader>
         </Col>
