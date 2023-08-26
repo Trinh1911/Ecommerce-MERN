@@ -1,9 +1,9 @@
 import React from 'react'
 import { Wrapper } from "./styles";
 
-const TypeProduct = () => {
+const TypeProduct = ({name}) => {
   return (
-    <div>TypeProduct</div>
+    <div>{name}</div>
   )
 }
 
