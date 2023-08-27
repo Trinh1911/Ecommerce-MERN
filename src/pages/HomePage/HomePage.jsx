@@ -3,6 +3,7 @@ import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import { WrapperTypeProduct } from "./styles";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
 import CardComponent from "../../components/CardComponent/CardComponent";
+import NavbarCoponent from "../../components/NavbarComponent/NavbarCoponent";
 import slider1 from "../../assets/images/slider1.webp";
 import slider2 from "../../assets/images/slider2.webp";
 import slider3 from "../../assets/images/slider3.webp";
@@ -29,6 +30,7 @@ const HomePage = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "20px",marginTop: '20px' }}>
           <CardComponent />
         </div>
+        <NavbarCoponent></NavbarCoponent>
       </div>
     </>
   );
