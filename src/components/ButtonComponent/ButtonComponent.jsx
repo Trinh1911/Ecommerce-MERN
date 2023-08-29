@@ -7,7 +7,6 @@ const ButtonComponent = ({ size, bordered, style, textButton, ...rest }) => {
       <Button
         size={size}
         bordered={false}
-        icon={<SearchOutlined />}
         style={style}
         {...rest}
       >

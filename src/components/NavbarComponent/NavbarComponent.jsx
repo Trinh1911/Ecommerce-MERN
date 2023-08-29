@@ -2,7 +2,7 @@ import { Checkbox, Rate } from "antd";
 import { Content, LableText, TextPrice, TextValue } from "./styles";
 import React from "react";
 
-const NavbarCoponent = () => {
+const NavbarComponent = () => {
   const onChange = () => {};
   const renderContent = (type, options) => {
     switch (type) {
@@ -43,12 +43,10 @@ const NavbarCoponent = () => {
             </div>
           );
         });
-        case 'price':
-                return options.map((option) => {
-                    return (
-                        <TextPrice>{option}</TextPrice>
-                    )
-                })
+      case "price":
+        return options.map((option) => {
+          return <TextPrice>{option}</TextPrice>;
+        });
       default:
         return {};
     }
@@ -64,9 +62,11 @@ const NavbarCoponent = () => {
         ])}
       </Content>
       <Content>{renderContent("star", [1, 2, 3, 4, 5])}</Content>
-      <Content>{renderContent("price", ['duoi 40.000', 'tren 50.000'])}</Content>
+      <Content>
+        {renderContent("price", ["duoi 40.000", "tren 50.000"])}
+      </Content>
     </div>
   );
 };
 
-export default NavbarCoponent;
+export default NavbarComponent;

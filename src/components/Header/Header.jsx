@@ -1,5 +1,5 @@
 import React from "react";
-import { Col } from "antd";
+import { Badge, Col } from "antd";
 import { LogoHeader, MenuItems, TextHeader, Wrapper } from "./styles";
 import { SmileOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import Search from "../Search/Search";
@@ -40,9 +40,11 @@ const Header = () => {
             <TextHeader>Tài Khoản</TextHeader>
           </MenuItems>
           <MenuItems style={{ marginLeft: "24px" }}>
-            <ShoppingCartOutlined
-              style={{ fontSize: "24px", marginRight: "4px" }}
-            />
+            <Badge count={4} size='small'>
+              <ShoppingCartOutlined
+                style={{ fontSize: "24px", marginRight: "4px", color: "#fff" }}
+              />
+            </Badge>
           </MenuItems>
         </Col>
       </Wrapper>
