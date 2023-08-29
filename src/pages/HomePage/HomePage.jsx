@@ -56,8 +56,8 @@ const HomePage = () => {
             <Col className="gutter-row" span={4}>
               <div> <CardComponent /></div>
             </Col>
-            <Col className="gutter-row" span={4}>
-              <div> <CardComponent /></div>
+            <Col className="gutter-row" span={4}>0
+ 0             <div> <CardComponent /></div>
             </Col>
           </Row>
           {/* <CardComponent />
