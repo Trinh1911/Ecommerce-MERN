@@ -41,7 +41,7 @@ const CardComponent = () => {
           <StarFilled
             style={{
               fontSize: "12px",
-              color: "#ffc400",
+              color: "#fdd836",
             }}
           />
         </span>
