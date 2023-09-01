@@ -1,7 +1,7 @@
 import { Image } from "antd";
 import React from "react";
 import Slider from "react-slick";
-
+import {WrapSlider} from "./styles.js"
 const SliderComponent = ({ arraySlider }) => {
   const settings = {
     dots: true,
@@ -14,13 +14,13 @@ const SliderComponent = ({ arraySlider }) => {
   };
   return (
     <div>
-      <Slider {...settings}>
+      <WrapSlider {...settings}>
         {arraySlider.map((item)=> {
             return (
                 <Image src={item} alt={item} preview={false} width="100%" height="426px"/>
             )
         })}
-      </Slider>
+      </WrapSlider>
     </div>
   );
 };

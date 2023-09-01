@@ -1,17 +1,17 @@
 import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import {WrapButton} from "./styles.js"
 const ButtonComponent = ({ size, bordered, style, textButton, ...rest }) => {
   return (
     <>
-      <Button
+      <WrapButton
         size={size}
         bordered={false}
         style={style}
         {...rest}
       >
         {textButton}
-      </Button>
+      </WrapButton>
     </>
   );
 };

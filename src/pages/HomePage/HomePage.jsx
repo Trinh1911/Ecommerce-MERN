@@ -20,70 +20,86 @@ const HomePage = () => {
           })}
         </WrapperTypeProduct>
       </div>
-      <div
-        id="container"
-        style={{ height: "1000px", width: "1270px", margin: "0 auto" }}
-      >
-        <SliderComponent arraySlider={[slider1, slider2, slider3]} />
+      <div className="body" style={{ width: "100%", backgroundColor: "#fff" }}>
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "20px",
-            marginTop: "20px",
-          }}
+          id="container"
+          style={{ height: "1000px", width: "1270px", margin: "0 auto" }}
         >
-          <Row
-            gutter={{
-              xs: 8,
-              sm: 16,
-              md: 24,
-              lg: 32,
+          <SliderComponent arraySlider={[slider1, slider2, slider3]} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+              marginTop: "20px",
             }}
           >
-            <Col className="gutter-row" span={4}>
-              <div> <CardComponent /></div>
-            </Col>
-            <Col className="gutter-row" span={4}>
-              <div> <CardComponent /></div>
-            </Col>
-            <Col className="gutter-row" span={4}>
-              <div> <CardComponent /></div>
-            </Col>
-            <Col className="gutter-row" span={4}>
-              <div> <CardComponent /></div>
-            </Col>
-            <Col className="gutter-row" span={4}>
-              <div> <CardComponent /></div>
-            </Col>
-            <Col className="gutter-row" span={4}>0
- 0             <div> <CardComponent /></div>
-            </Col>
-          </Row>
-          {/* <CardComponent />
-          <CardComponent />
-          <CardComponent />
-          <CardComponent />
-          <CardComponent />
-          <CardComponent /> */}
-        </div>
-        <div style={{
-          width: '100%',
-          marginTop: '15px',
-        }}>
-          <ButtonMore
-            textButton="xem them"
-            type="outline"
+            <Row
+              gutter={{
+                xs: 8,
+                sm: 16,
+                md: 24,
+                lg: 32,
+              }}
+            >
+              <Col className="gutter-row" span={4}>
+                <div>
+                  <CardComponent />
+                </div>
+              </Col>
+              <Col className="gutter-row" span={4}>
+                <div>
+                  <CardComponent />
+                </div>
+              </Col>
+              <Col className="gutter-row" span={4}>
+                <div>
+                  <CardComponent />
+                </div>
+              </Col>
+              <Col className="gutter-row" span={4}>
+                <div>
+                  <CardComponent />
+                </div>
+              </Col>
+              <Col className="gutter-row" span={4}>
+                <div>
+                  <CardComponent />
+                </div>
+              </Col>
+              <Col className="gutter-row" span={4}>
+                <div>
+                  <CardComponent />
+                </div>
+              </Col>
+            </Row>
+            {/* <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent /> */}
+          </div>
+          <div
             style={{
-              display:'block',
-              width: "240px",
-              height: "38px",
-              margin: '0 auto',
-              borderRadius: "4px",
-              border: "1px solid rgb(11, 116, 229)",
-              color: "rgb(11, 116, 229)",
+              width: "100%",
+              marginTop: "15px",
             }}
-          />
+          >
+            <ButtonMore
+              textButton="xem them"
+              type="outline"
+              style={{
+                display: "block",
+                width: "240px",
+                height: "38px",
+                margin: "0 auto",
+                borderRadius: "4px",
+                border: "1px solid rgb(11, 116, 229)",
+                color: "rgb(11, 116, 229)",
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

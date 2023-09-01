@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import { WrapperLeft, WrapperRight } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import { Image } from "antd";
 import logoSignIn from "../../assets/images/logoSignIn.png"
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 const SignInPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false)
   return (
     <div style={{position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0, 0, 0, 0.53)', zIndex: '10'}}>
       <div style={{display: 'flex',width: '800px', height: '528px', borderRadius: '20px', backgroundColor: '#fff', margin: '80px auto'}}>
@@ -14,7 +16,28 @@ const SignInPage = () => {
             <p style={{margin: '0px', fontSize: '15px'}}>Dang nhap hoac Tao tai khoan</p>
           </div>
           <FormComponent placeholder='abc.email.com' style={{marginBottom: '15px'}}/>
-          <FormComponent placeholder='mat khau' style={{marginBottom: '15px'}}/>
+          <div style={{ position: 'relative' }}>
+            <span
+              onClick={() => setIsShowPassword(!isShowPassword)}
+              style={{
+                zIndex: 10,
+                position: 'absolute',
+                top: '4px',
+                right: '8px'
+              }}
+            >{
+                isShowPassword ? (
+                  <EyeFilled />
+                ) : (
+                  <EyeInvisibleFilled />
+                )
+              }
+            </span>
+            <FormComponent  style={{marginBottom: '15px'}}
+              placeholder="password"
+              type={isShowPassword ? "text" : "password"}
+            />
+          </div>
           <ButtonComponent
             bordered={false}
             textButton={"tiep tuc"}
