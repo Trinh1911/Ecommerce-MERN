@@ -17,7 +17,7 @@ const SliderComponent = ({ arraySlider }) => {
       <WrapSlider {...settings}>
         {arraySlider.map((item)=> {
             return (
-                <Image src={item} alt={item} preview={false} width="100%" height="426px"/>
+                <Image key={item} src={item} alt={item} preview={false} width="100%" height="426px"/>
             )
         })}
       </WrapSlider>
