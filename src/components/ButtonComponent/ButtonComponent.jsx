@@ -1,7 +1,7 @@
 import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import {WrapButton} from "./styles.js"
-const ButtonComponent = ({ size, bordered, style, textButton,disabled, ...rest }) => {
+const ButtonComponent = ({ size, bordered, style, textButton,disabled, ...rests }) => {
   return (
     <>
       <WrapButton
@@ -9,12 +9,11 @@ const ButtonComponent = ({ size, bordered, style, textButton,disabled, ...rest }
         style={{...style,
           backgroundColor: disabled ? "#ccc" : style.backgroundColor
         }}
-        {...rest}
+        {...rests}
       >
         {textButton}
       </WrapButton>
     </>
   );
 };
-
 export default ButtonComponent;

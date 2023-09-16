@@ -12,8 +12,8 @@ const FormComponent = (props) => {
         placeholder={placeholder}
         value={props.value}
         style={style}
-        onChange={handleOnChangeInput}
         {...rest}
+        onChange={handleOnChangeInput}
       />
     </>
   );
