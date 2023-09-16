@@ -175,7 +175,6 @@ const ProductDetailComponents = ({ textButton }) => {
             </div>
           </Quanlity>
           <ButtonComponent
-            bordered={false}
             textButton={"chon mua"}
             style={{
               marginTop: "16px",

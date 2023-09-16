@@ -1,13 +1,33 @@
 import React, { useState } from "react";
-import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
+import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { WrapperLeft, WrapperRight } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import { Image } from "antd";
 import logoSignIn from "../../assets/images/logoSignIn.png";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
+import { useNavigate } from "react-router-dom";
 const SignUpPage = () => {
-  const [isShowPassword, setIsShowPassword] = useState(false)
-  const [isConfirmPassword, setIsConfirmPassword] = useState(false)
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+  const handleNavigateSignIn = () => {
+    navigate("/sign-in");
+  };
+  const handleOnChangeEmail = (value) => {
+    setEmail(value);
+  };
+  const handleOnChangePassword = (value) => {
+    setPassword(value);
+  };
+  const handleOnChangeConfirmPassword = (value) => {
+    setConfirmPassword(value);
+  };
+  const showresult = () => {
+    console.log("value: ", email, password, confirmPassword);
+  };
   return (
     <div
       style={{
@@ -48,6 +68,8 @@ const SignUpPage = () => {
           <FormComponent
             placeholder="abc.email.com"
             style={{ marginBottom: "15px", fontSize: "14px" }}
+            value={email}
+            onChange={handleOnChangeEmail}
           />
           <div style={{ position: "relative" }}>
             <span
@@ -65,11 +87,13 @@ const SignUpPage = () => {
               style={{ marginBottom: "15px" }}
               placeholder="password"
               type={isShowPassword ? "text" : "password"}
+              value={password}
+              onChange={handleOnChangePassword}
             />
           </div>
           <div style={{ position: "relative" }}>
             <span
-              onClick={() => setIsConfirmPassword(!isConfirmPassword)}
+              onClick={() => setIsShowConfirmPassword(!isShowConfirmPassword)}
               style={{
                 zIndex: 10,
                 position: "absolute",
@@ -77,16 +101,21 @@ const SignUpPage = () => {
                 right: "8px",
               }}
             >
-              {isConfirmPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+              {isShowConfirmPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
             </span>
             <FormComponent
               style={{ marginBottom: "15px" }}
               placeholder="confirm password"
-              type={isConfirmPassword ? "text" : "password"}
+              type={isShowConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={handleOnChangeConfirmPassword}
             />
           </div>
           <ButtonComponent
-            bordered={false}
+            disabled={
+              !email.length || !password.length || !confirmPassword.length
+            }
+            onClick={showresult}
             textButton={"tiep tuc"}
             style={{
               margin: "26px 0px 10px",
@@ -107,7 +136,6 @@ const SignUpPage = () => {
               fontSize: "14px",
               margin: "20px 0 0",
               cursor: "pointer",
-              textAlign: "center",
             }}
           >
             Đăng nhập bằng email
@@ -119,16 +147,16 @@ const SignUpPage = () => {
               margin: "10px 0 0",
             }}
           >
-            {" "}
             Ban da co tai khoan ?
             <span
               style={{
                 color: "rgb(13, 92, 182)",
                 fontSize: "14px",
                 marginLeft: "5px",
+                cursor: "pointer",
               }}
+              onClick={() => handleNavigateSignIn()}
             >
-              {" "}
               Đăng nhập
             </span>
           </p>

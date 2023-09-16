@@ -10,7 +10,6 @@ const Search = (props) => {
       <InputComponent
         size={size}
         placeholder={placeholder}
-        bordered={false}
         style={{
           borderRight: "0",
           borderTopRightRadius: "0",
@@ -20,7 +19,6 @@ const Search = (props) => {
       />
       <ButtonComponent
         size={size}
-        bordered={false}
         textButton={textButton}
         icon={<SearchOutlined />}
         style={{ borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}

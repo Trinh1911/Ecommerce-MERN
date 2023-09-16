@@ -3,8 +3,13 @@ import { Badge, Col } from "antd";
 import { LogoHeader, MenuItems, TextHeader, Wrapper } from "./styles";
 import { SmileOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import Search from "../Search/Search";
+import { useNavigate } from "react-router-dom";
 const onSearch = (value) => console.log(value);
 const Header = () => {
+  const navigate = useNavigate()
+  const handleNavigateLogin = () => {
+    navigate('/sign-in')
+  }
   return (
     <div>
       <Wrapper>
@@ -35,7 +40,7 @@ const Header = () => {
             justifyContent: "center",
           }}
         >
-          <MenuItems>
+          <MenuItems onClick={handleNavigateLogin} style={{cursor:'pointer'}}>
             <SmileOutlined style={{ fontSize: "24px", marginRight: "4px" }} />
             <TextHeader>Tài Khoản</TextHeader>
           </MenuItems>

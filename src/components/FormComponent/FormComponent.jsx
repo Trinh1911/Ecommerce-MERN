@@ -1,15 +1,18 @@
 import { InputWrap } from "./styles";
 import React, { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
-const FormComponent = ({ placeholder, style, ...rest }) => {
-  const [ValueInput, setValueInput] = useState("");
+const FormComponent = (props) => {
+  const { placeholder, style, ...rest } = props
+  const handleOnChangeInput = (e) => {
+    props.onChange(e.target.value)
+  }
   return (
     <>
-      {/* <EyeOutlined/> */}
       <InputWrap
         placeholder={placeholder}
-        ValueInput={ValueInput}
+        value={props.value}
         style={style}
+        onChange={handleOnChangeInput}
         {...rest}
       />
     </>
