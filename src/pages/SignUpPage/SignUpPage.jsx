@@ -3,9 +3,12 @@ import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { WrapperLeft, WrapperRight } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import { Image } from "antd";
+import * as UserService from "../../service/UserService";
 import logoSignIn from "../../assets/images/logoSignIn.png";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import { useNavigate } from "react-router-dom";
+import useMutationHooks from "../../hooks/UseMutationHook";
+import Loading from "../../components/LoadingComponent/Loading";
 const SignUpPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
@@ -13,6 +16,8 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const mutation = useMutationHooks((data) => UserService.UserSign(data));
+  const { data, isLoading } = mutation;
   const handleNavigateSignIn = () => {
     navigate("/sign-in");
   };
@@ -26,6 +31,7 @@ const SignUpPage = () => {
     setConfirmPassword(value);
   };
   const showresult = () => {
+    mutation.mutate({email, password, confirmPassword})
     console.log("value: ", email, password, confirmPassword);
   };
   return (
@@ -111,25 +117,30 @@ const SignUpPage = () => {
               onChange={handleOnChangeConfirmPassword}
             />
           </div>
-          <ButtonComponent
-            disabled={
-              !email.length || !password.length || !confirmPassword.length
-            }
-            onClick={showresult}
-            textButton={"tiep tuc"}
-            style={{
-              margin: "26px 0px 10px",
-              backgroundColor: "rgb(255, 57, 69)",
-              borderRadius: "4px",
-              color: "#fff",
-              minWidth: "190px",
-              width: "100%",
-              height: "50px",
-              fontSize: "20px",
-              lineHeight: "24px",
-              fontWeight: "500",
-            }}
-          ></ButtonComponent>
+          {data?.status === "ERR" && (
+            <span style={{ color: "red" }}>{data?.message}</span>
+          )}
+          <Loading isLoading={isLoading}>
+            <ButtonComponent
+              disabled={
+                !email.length || !password.length || !confirmPassword.length
+              }
+              onClick={showresult}
+              textButton={"tiep tuc"}
+              style={{
+                margin: "26px 0px 10px",
+                backgroundColor: "rgb(255, 57, 69)",
+                borderRadius: "4px",
+                color: "#fff",
+                minWidth: "190px",
+                width: "100%",
+                height: "50px",
+                fontSize: "20px",
+                lineHeight: "24px",
+                fontWeight: "500",
+              }}
+            ></ButtonComponent>
+          </Loading>
           <p
             style={{
               color: "rgb(13, 92, 182)",
