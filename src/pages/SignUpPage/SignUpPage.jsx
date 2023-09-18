@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { WrapperLeft, WrapperRight } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
@@ -9,6 +9,7 @@ import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.js
 import { useNavigate } from "react-router-dom";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
+import * as Message from "../../components/Message/Message";
 const SignUpPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
@@ -17,7 +18,7 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   const mutation = useMutationHooks((data) => UserService.UserSign(data));
-  const { data, isLoading } = mutation;
+  const { data, isLoading, isError, isSuccess } = mutation;
   const handleNavigateSignIn = () => {
     navigate("/sign-in");
   };
@@ -31,9 +32,17 @@ const SignUpPage = () => {
     setConfirmPassword(value);
   };
   const showresult = () => {
-    mutation.mutate({email, password, confirmPassword})
+    mutation.mutate({ email, password, confirmPassword });
     console.log("value: ", email, password, confirmPassword);
   };
+  useEffect(() => {
+    if(isSuccess) {
+      Message.success()
+      handleNavigateSignIn()
+    } else if(isError) {
+      Message.error()
+    }
+  }, [isError, isSuccess]);
   return (
     <div
       style={{

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { WrapperLeft, WrapperRight } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
@@ -9,13 +9,18 @@ import { useNavigate } from "react-router-dom";
 import * as UserService from "../../service/UserService";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
+import { updateUser } from "../../redux/slides/userSlide";
+// lay du lieu tu api
+import { useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
 const SignInPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const mutation = useMutationHooks((data) => UserService.UserLogin(data));
-  const { data, isLoading } = mutation;
+  const { data, isLoading, isError, isSuccess } = mutation;
   console.log("mutation", mutation);
   const handleNavigateSignUp = () => {
     navigate("/sign-up");
@@ -32,6 +37,24 @@ const SignInPage = () => {
       password,
     });
     console.log("value: ", email, password);
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+      localStorage.setItem("acess_token", data?.access_token);
+      if (data?.access_token) {
+        const decoded = jwt_decode(data?.access_token);
+        console.log("decoded:", decoded);
+        if (decoded?.id) {
+          handleGetDetailsUser(decoded?.id, data?.access_token);
+        }
+      }
+    }
+  }, [isSuccess]);
+  const handleGetDetailsUser = async (id, token) => {
+    // lay duoc du lieu tu backend
+    const res = await UserService.getDetailsUser(id, token);
+    dispatch(updateUser({ ...res?.data, access_token: token }));
   };
   return (
     <div
