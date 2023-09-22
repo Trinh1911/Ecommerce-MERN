@@ -41,6 +41,8 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:3001"
+  ,
   "devDependencies": {
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
