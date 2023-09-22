@@ -1,18 +1,34 @@
-import React from "react";
-import { Badge, Col } from "antd";
-import { LogoHeader, MenuItems, TextHeader, Wrapper } from "./styles";
+import React, { useState } from "react";
+import { Badge, Col, Popover } from "antd";
+import { ContentPopover, LogoHeader, MenuItems, TextHeader, Wrapper } from "./styles";
 import { SmileOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import Search from "../Search/Search";
+import * as UserService from "../../service/UserService";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { resetUser } from "../../redux/slides/userSlide";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../LoadingComponent/Loading";
 const onSearch = (value) => console.log(value);
 const Header = () => {
-  const navigate = useNavigate()
-  const user = useSelector((state)=> state.user)
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   const handleNavigateLogin = () => {
-    navigate('/sign-in')
-  }
-  console.log('user', user)
+    navigate("/sign-in");
+  };
+  const handleLogout = async() => {
+    setLoading(true);
+    await UserService.logoutUser()
+    dispatch(resetUser())
+    setLoading(false);
+  };
+  const content = (
+    <div>
+      <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
+      <ContentPopover onClick={handleNavigateLogin}>Thông tin người dùng</ContentPopover>
+    </div>
+  );
   return (
     <div>
       <Wrapper>
@@ -44,19 +60,29 @@ const Header = () => {
           }}
         >
           {/* ten dang nhap */}
-          <MenuItems onClick={handleNavigateLogin} style={{cursor:'pointer'}}>
-            {user?.name ? (
-            <TextHeader>{user?.name}</TextHeader>
-            ) : (
-              <>
-                <SmileOutlined style={{ fontSize: "24px", marginRight: "4px" }} />
-                <TextHeader>Tài Khoản</TextHeader>
-              </>
-            )}
-          </MenuItems>
+          <Loading isLoading={loading}>
+            <MenuItems
+              style={{ cursor: "pointer" }}
+            >
+              {user?.name ? (
+                <>
+                  <Popover content={content} trigger="click">
+                      <TextHeader>{user.name}</TextHeader>
+                    </Popover>
+                </>
+              ) : (
+                <>
+                  <SmileOutlined  onClick={handleNavigateLogin}
+                    style={{ fontSize: "24px", marginRight: "4px" }}
+                  />
+                  <TextHeader>Tài Khoản</TextHeader>
+                </>
+              )}
+            </MenuItems>
+          </Loading>
           {/*  */}
           <MenuItems style={{ marginLeft: "24px" }}>
-            <Badge count={4} size='small'>
+            <Badge count={4} size="small">
               <ShoppingCartOutlined
                 style={{ fontSize: "24px", marginRight: "4px", color: "#fff" }}
               />

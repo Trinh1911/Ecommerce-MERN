@@ -28,3 +28,10 @@ export const MenuItems = styles(Row)`
     cursor: pointer;
     border-radius: 8px;
 `
+export const ContentPopover = styles(Row)`
+    cursor: pointer;
+    &:hover {
+        background: rgb(26, 148, 255);
+        color: #fff;
+    }
+`
