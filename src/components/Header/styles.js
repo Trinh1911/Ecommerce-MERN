@@ -31,7 +31,6 @@ export const MenuItems = styles(Row)`
 export const ContentPopover = styles(Row)`
     cursor: pointer;
     &:hover {
-        background: rgb(26, 148, 255);
-        color: #fff;
+        color: rgb(26, 148, 255);
     }
 `

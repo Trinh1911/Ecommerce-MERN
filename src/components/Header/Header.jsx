@@ -17,6 +17,12 @@ const Header = () => {
   const handleNavigateLogin = () => {
     navigate("/sign-in");
   };
+  const handleNavigateHome = () => {
+    navigate("/");
+  };
+  const handleNavigateProfileUser = () => {
+    navigate("/profile-user");
+  };
   const handleLogout = async() => {
     setLoading(true);
     await UserService.logoutUser()
@@ -26,14 +32,14 @@ const Header = () => {
   const content = (
     <div>
       <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
-      <ContentPopover onClick={handleNavigateLogin}>Thông tin người dùng</ContentPopover>
+      <ContentPopover onClick={handleNavigateProfileUser}>Thông tin người dùng</ContentPopover>
     </div>
   );
   return (
     <div>
       <Wrapper>
         <Col span={5}>
-          <LogoHeader>KT</LogoHeader>
+          <LogoHeader onClick={handleNavigateHome}>KT</LogoHeader>
         </Col>
         <Col
           span={13}
@@ -71,12 +77,12 @@ const Header = () => {
                     </Popover>
                 </>
               ) : (
-                <>
-                  <SmileOutlined  onClick={handleNavigateLogin}
+                <div onClick={handleNavigateLogin} style={{display: 'flex'}}>
+                  <SmileOutlined 
                     style={{ fontSize: "24px", marginRight: "4px" }}
                   />
                   <TextHeader>Tài Khoản</TextHeader>
-                </>
+                </div>
               )}
             </MenuItems>
           </Loading>
