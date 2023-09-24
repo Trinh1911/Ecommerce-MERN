@@ -70,10 +70,10 @@ const Header = () => {
             <MenuItems
               style={{ cursor: "pointer" }}
             >
-              {user?.name ? (
+              {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                      <TextHeader>{user.name}</TextHeader>
+                      <TextHeader>{user?.name?.length ? user?.name : user?.email}</TextHeader>
                     </Popover>
                 </>
               ) : (
