@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge, Col, Popover } from "antd";
 import { ContentPopover, LogoHeader, MenuItems, TextHeader, Wrapper } from "./styles";
 import { SmileOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -11,6 +11,7 @@ import Loading from "../LoadingComponent/Loading";
 const onSearch = (value) => console.log(value);
 const Header = () => {
   const [loading, setLoading] = useState(false)
+  const [userName, setUserName] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -29,6 +30,10 @@ const Header = () => {
     dispatch(resetUser())
     setLoading(false);
   };
+  // cập nhật tên người dùng khi có sự cập nhật từ trang thông tin người dùng
+ useEffect(()=> {
+  setUserName(user?.name)
+ }, [user?.name])
   const content = (
     <div>
       <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
@@ -73,7 +78,7 @@ const Header = () => {
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                      <TextHeader>{user?.name?.length ? user?.name : user?.email}</TextHeader>
+                      <TextHeader>{userName?.length ? userName : user?.email}</TextHeader>
                     </Popover>
                 </>
               ) : (

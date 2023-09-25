@@ -7,6 +7,8 @@ import * as UserService from "../../service/UserService";
 import * as Message from "../../components/Message/Message";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
+import { updateUser } from "../../redux/slides/userSlide";
+
 const ProfilePage = () => {
   // lay state ben sign in sau do lai lay ra nhap vao
   const dispatch = useDispatch();
@@ -16,9 +18,10 @@ const ProfilePage = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [avatar, setAvatar] = useState("");
-  const mutation = useMutationHooks((id, data) =>
-    UserService.updateUser(id, data)
-  );
+  const mutation = useMutationHooks((data) => {
+    const {id,access_token, ...rests} = data;
+    UserService.updateUser(id, rests, access_token);
+  });
   const { data, isLoading, isError, isSuccess } = mutation;
   useEffect(() => {
     setEmail(user?.email);
@@ -27,17 +30,17 @@ const ProfilePage = () => {
     setAddress(user?.address);
   }, [user]);
   useEffect(() => {
-    if(isSuccess) {
-      Message.success()
-      handleGetDetailsUser(user?.id, user?.access_token)
+    if (isSuccess) {
+      Message.success();
+      handleGetDetailsUser(user?.id, user?.access_token);
     } else if (isError) {
-      Message.error()
+      Message.error();
     }
-  },[isError, isSuccess])
+  }, [isError, isSuccess]);
   const handleGetDetailsUser = async (id, token) => {
     // lay duoc du lieu tu backend
     const res = await UserService.getDetailsUser(id, token);
-    dispatch(UserService.updateUser({ ...res?.data, access_token: token }));
+    dispatch(updateUser({ ...res?.data, access_token: token }));
   };
   const handleOnChangeEmail = (value) => {
     setEmail(value);
@@ -55,7 +58,7 @@ const ProfilePage = () => {
     setAddress(value);
   };
   const handleUpdate = () => {
-    mutation.mutate(user?.id, { email, name, address, avatar });
+    mutation.mutate({ id: user?.id, email, name, address, avatar,access_token: user?.access_token });
   };
   return (
     <div style={{ height: "1000px", width: "1270px", margin: "0 auto" }}>
