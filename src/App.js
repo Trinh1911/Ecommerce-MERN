@@ -19,20 +19,26 @@ function App() {
   // console.log('query', query)
   const dispatch = useDispatch()
   useEffect(() => {
+    // lấy storageData, decoded từ handleDecoded
     const { storageData, decoded } = handleDecoded()
     if (decoded?.id) {
       handleGetDetailsUser(decoded?.id, storageData);
     }
   }, [])
   const handleDecoded = () => {
+    // lấy access_token từ localStorage
     let storageData = localStorage.getItem('access_token')
     let decoded = {}
+    // kiểm tra xem storageData có phải json không 
     if (storageData && isJsonString(storageData)) {
+      // tiến hành parse json
       storageData = JSON.parse(storageData)
+      // tiến hành giải mã payload trong storageData có chứa acccess_token
       decoded = jwt_decode(storageData)
     }
     return { storageData, decoded }
   }
+  // xử lí refresh token 
   UserService.axiosJWT.interceptors.request.use(async (config) => {
     // Do something before request is sent
     const currentTime = new Date()

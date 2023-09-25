@@ -19,7 +19,9 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // gọi api login và truyền vào data
   const mutation = useMutationHooks((data) => UserService.UserLogin(data));
+  // lấy các giữ liệu từ mutation
   const { data, isLoading, isError, isSuccess } = mutation;
   console.log("mutation", mutation);
   const handleNavigateSignUp = () => {
@@ -32,20 +34,29 @@ const SignInPage = () => {
     setPassword(value);
   };
   const showresult = () => {
+    //phần mutation.mutate để thực hiện render lại giao diện khi dữ liệu thay đổi, lúc này data được cập nhật là email và password
     mutation.mutate({
       email,
       password,
     });
     console.log("value: ", email, password);
   };
+  /* 
+    bước 1: click => hàm showresult được thực hiện, thì email, password sẽ được render lại
+    bước 2: lấy dữ liệu từ mutation lấy các dữ liệu: data, isLoading, isError, isSuccess
+    bước 3: theo useEffect thì khi thành công access_token và refresh_token sẽ được lưu vào localStorage, sau đó ... lấy id và access_token
+    Vì: ta phải lấy được dữ liệu của người đăng nhập để lưu vào kho từ đó sử dụng ở components khác
+   */
   useEffect(() => {
     if (isSuccess) {
       navigate("/");
       localStorage.setItem("access_token", JSON.stringify(data?.access_token))
       localStorage.setItem("refresh_token", JSON.stringify(data?.refresh_token))
       if (data?.access_token) {
+        // sử dụng thư viện jwt_decode để giải mã payload của access_token
         const decoded = jwt_decode(data?.access_token);
         if (decoded?.id) {
+          // thông qua hàm để lấy dữ liệu người dùng từ api
           handleGetDetailsUser(decoded?.id, data?.access_token);
         }
       }

@@ -8,7 +8,9 @@ import * as Message from "../../components/Message/Message";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
 import { updateUser } from "../../redux/slides/userSlide";
-
+import Upload from "antd/es/upload/Upload";
+import { Button } from "antd/es/radio";
+import { UploadOutlined } from '@ant-design/icons';
 const ProfilePage = () => {
   // lay state ben sign in sau do lai lay ra nhap vao
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ const ProfilePage = () => {
   const [address, setAddress] = useState("");
   const [avatar, setAvatar] = useState("");
   const mutation = useMutationHooks((data) => {
-    const {id,access_token, ...rests} = data;
+    const { id, access_token, ...rests } = data;
     UserService.updateUser(id, rests, access_token);
   });
   const { data, isLoading, isError, isSuccess } = mutation;
@@ -52,13 +54,19 @@ const ProfilePage = () => {
     setPhone(value);
   };
   const handleOnChangeAddress = (value) => {
-    setEmail(value);
-  };
-  const handleOnChangeAvatar = (value) => {
     setAddress(value);
   };
+  const handleOnChangeAvatar = ({file}) => {
+  };
   const handleUpdate = () => {
-    mutation.mutate({ id: user?.id, email, name, address, avatar,access_token: user?.access_token });
+    mutation.mutate({
+      id: user?.id,
+      email,
+      name,
+      address,
+      avatar,
+      access_token: user?.access_token,
+    });
   };
   return (
     <div style={{ height: "1000px", width: "1270px", margin: "0 auto" }}>
@@ -164,13 +172,16 @@ const ProfilePage = () => {
           {/* avatar */}
           <WrapperInput>
             <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
-            <FormComponent
+            <Upload onChange={handleOnChangeAvatar}>
+              <Button icon={<UploadOutlined />}>Select File</Button>
+            </Upload>
+            {/* <FormComponent
               id="avatar"
               style={{ marginBottom: "15px", width: "300px" }}
               value={avatar}
               onChange={handleOnChangeAvatar}
               placeholder={"nhap dia chi avatar"}
-            />
+            /> */}
             <ButtonComponent
               onClick={handleUpdate}
               textButton={"Cập nhật"}
