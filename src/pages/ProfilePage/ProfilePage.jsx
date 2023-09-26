@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Title, WrapperLabel, WrapperInput } from "./styles";
+import { Container, Title, WrapperLabel, WrapperInput, WrapperUploadFile } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,12 +8,11 @@ import * as Message from "../../components/Message/Message";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
 import { updateUser } from "../../redux/slides/userSlide";
-import Upload from "antd/es/upload/Upload";
 import { Button } from "antd/es/radio";
 import { UploadOutlined } from '@ant-design/icons';
+import { getBase64 } from "../../untils";
 const ProfilePage = () => {
   // lay state ben sign in sau do lai lay ra nhap vao
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,13 +23,15 @@ const ProfilePage = () => {
     const { id, access_token, ...rests } = data;
     UserService.updateUser(id, rests, access_token);
   });
+  const dispatch = useDispatch();
   const { data, isLoading, isError, isSuccess } = mutation;
   useEffect(() => {
-    setEmail(user?.email);
-    setName(user?.name);
-    setPhone(user?.phone);
-    setAddress(user?.address);
-  }, [user]);
+    setEmail(user?.email)
+    setName(user?.name)
+    setPhone(user?.phone)
+    setAddress(user?.address)
+    setAvatar(user?.avatar)
+}, [user])
   useEffect(() => {
     if (isSuccess) {
       Message.success();
@@ -41,7 +42,7 @@ const ProfilePage = () => {
   }, [isError, isSuccess]);
   const handleGetDetailsUser = async (id, token) => {
     // lay duoc du lieu tu backend
-    const res = await UserService.getDetailsUser(id, token);
+    const res = await UserService.getDetailsUser(id, token)
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
   const handleOnChangeEmail = (value) => {
@@ -56,7 +57,12 @@ const ProfilePage = () => {
   const handleOnChangeAddress = (value) => {
     setAddress(value);
   };
-  const handleOnChangeAvatar = ({file}) => {
+  const handleOnChangeAvatar = async({fileList}) => {
+    const file = fileList[0]
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setAvatar(file.preview)
   };
   const handleUpdate = () => {
     mutation.mutate({
@@ -172,9 +178,19 @@ const ProfilePage = () => {
           {/* avatar */}
           <WrapperInput>
             <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
-            <Upload onChange={handleOnChangeAvatar}>
+            <WrapperUploadFile onChange={handleOnChangeAvatar} maxCount={1}>
               <Button icon={<UploadOutlined />}>Select File</Button>
-            </Upload>
+            </WrapperUploadFile>
+            {
+              avatar && (
+                <img src={avatar} style={{
+                  height: '60px',
+                  width: '60px',
+                  borderRadius: '50%',
+                  objectFit: 'cover'
+                }} alt="avatar"/>
+              )
+            }
             {/* <FormComponent
               id="avatar"
               style={{ marginBottom: "15px", width: "300px" }}

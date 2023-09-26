@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Badge, Col, Popover } from "antd";
-import { ContentPopover, LogoHeader, MenuItems, TextHeader, Wrapper } from "./styles";
+import {
+  ContentPopover,
+  LogoHeader,
+  MenuItems,
+  TextHeader,
+  Wrapper,
+} from "./styles";
 import { SmileOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import Search from "../Search/Search";
 import * as UserService from "../../service/UserService";
@@ -10,9 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "../LoadingComponent/Loading";
 const onSearch = (value) => console.log(value);
 const Header = () => {
-  const [loading, setLoading] = useState(false)
-  const [userName, setUserName] = useState('')
-  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const handleNavigateLogin = () => {
@@ -24,20 +31,23 @@ const Header = () => {
   const handleNavigateProfileUser = () => {
     navigate("/profile-user");
   };
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     setLoading(true);
-    await UserService.logoutUser()
-    dispatch(resetUser())
+    await UserService.logoutUser();
+    dispatch(resetUser());
     setLoading(false);
   };
   // cập nhật tên người dùng khi có sự cập nhật từ trang thông tin người dùng
- useEffect(()=> {
-  setUserName(user?.name)
- }, [user?.name])
+  useEffect(() => {
+    setUserName(user?.name);
+    setUserAvatar(user?.avatar);
+  }, [user?.name, user?.avatar]);
   const content = (
     <div>
       <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
-      <ContentPopover onClick={handleNavigateProfileUser}>Thông tin người dùng</ContentPopover>
+      <ContentPopover onClick={handleNavigateProfileUser}>
+        Thông tin người dùng
+      </ContentPopover>
     </div>
   );
   return (
@@ -72,18 +82,31 @@ const Header = () => {
         >
           {/* ten dang nhap */}
           <Loading isLoading={loading}>
-            <MenuItems
-              style={{ cursor: "pointer" }}
-            >
+            <MenuItems >
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                      <TextHeader>{userName?.length ? userName : user?.email}</TextHeader>
-                    </Popover>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <img
+                        src={user?.avatar}
+                        style={{
+                          height: "30px",
+                          width: "30px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                          marginRight: "10px",
+                        }}
+                        alt="avatar"
+                      />
+                      <TextHeader>
+                        {userName?.length ? userName : user?.email}
+                      </TextHeader>
+                  </div>
+                  </Popover>
                 </>
               ) : (
-                <div onClick={handleNavigateLogin} style={{display: 'flex'}}>
-                  <SmileOutlined 
+                <div onClick={handleNavigateLogin} style={{ display: "flex" }}>
+                  <SmileOutlined
                     style={{ fontSize: "24px", marginRight: "4px" }}
                   />
                   <TextHeader>Tài Khoản</TextHeader>
