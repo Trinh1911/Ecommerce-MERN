@@ -4,7 +4,8 @@ import React from "react";
 import { StarFilled } from "@ant-design/icons";
 import { DiscountText, NameProduct, PriceText, SaleText } from "./styles";
 import logoSales from "../../assets/images/logoSales.png";
-const CardComponent = () => {
+const CardComponent = (props) => {
+  const { countInStock, description, image, name, price, rating, type, discount, selled, id } = props
   return (
     <Card
       hoverable
@@ -34,10 +35,10 @@ const CardComponent = () => {
           left: "-6px",
         }}
       />
-      <NameProduct>Nike</NameProduct>
+      <NameProduct>{name}</NameProduct>
       <SaleText>
         <span style={{ marginRight: "4px" }}>
-          <span>4.5</span>
+          <span>{rating}</span>
           <StarFilled
             style={{
               fontSize: "12px",
@@ -45,11 +46,11 @@ const CardComponent = () => {
             }}
           />
         </span>
-        <span> | Đã bán 400+</span>
+        <span> | Đã bán {selled || 1000}+</span>
       </SaleText>
       <PriceText>
-        <span style={{ marginRight: "8px" }}>1.000.000</span>
-        <DiscountText> -15%</DiscountText>
+        <span style={{ marginRight: "8px" }}>{price}</span>
+        <DiscountText> {discount || 5} %</DiscountText>
       </PriceText>
     </Card>
   );

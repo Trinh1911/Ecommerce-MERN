@@ -7,7 +7,11 @@ import {
   TextHeader,
   Wrapper,
 } from "./styles";
-import { SmileOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  SmileOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import Search from "../Search/Search";
 import * as UserService from "../../service/UserService";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +19,7 @@ import { resetUser } from "../../redux/slides/userSlide";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../LoadingComponent/Loading";
 const onSearch = (value) => console.log(value);
-const Header = () => {
+const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
@@ -31,6 +35,9 @@ const Header = () => {
   const handleNavigateProfileUser = () => {
     navigate("/profile-user");
   };
+  const handleNavigateAdmin = () => {
+    navigate("/admin");
+  };
   const handleLogout = async () => {
     setLoading(true);
     await UserService.logoutUser();
@@ -44,34 +51,43 @@ const Header = () => {
   }, [user?.name, user?.avatar]);
   const content = (
     <div>
-      <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
+      {user?.isAdmin && (
+        <ContentPopover onClick={handleNavigateAdmin}>
+          Quản lí hệ thống
+        </ContentPopover>
+      )}
       <ContentPopover onClick={handleNavigateProfileUser}>
         Thông tin người dùng
       </ContentPopover>
+      <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
     </div>
   );
   return (
     <div>
-      <Wrapper>
+      <Wrapper
+        style={{ justifyContent: isHiddenSearch ? "space-between" : "unset" }}
+      >
         <Col span={5}>
           <LogoHeader onClick={handleNavigateHome}>KT</LogoHeader>
         </Col>
-        <Col
-          span={13}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Search
-            placeholder="input search text"
-            size="default"
-            textButton="Search"
-            onSearch={onSearch}
-            enterButton
-          />
-        </Col>
+        {!isHiddenSearch && (
+          <Col
+            span={13}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Search
+              placeholder="input search text"
+              size="default"
+              textButton="Search"
+              onSearch={onSearch}
+              enterButton
+            />
+          </Col>
+        )}
         <Col
           span={6}
           style={{
@@ -82,26 +98,32 @@ const Header = () => {
         >
           {/* ten dang nhap */}
           <Loading isLoading={loading}>
-            <MenuItems >
+            <MenuItems>
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <img
-                        src={user?.avatar}
-                        style={{
-                          height: "30px",
-                          width: "30px",
-                          borderRadius: "50%",
-                          objectFit: "cover",
-                          marginRight: "10px",
-                        }}
-                        alt="avatar"
-                      />
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {user?.avatar ? (
+                        <img
+                          src={user?.avatar}
+                          style={{
+                            height: "30px",
+                            width: "30px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            marginRight: "10px",
+                          }}
+                          alt="avatar"
+                        />
+                      ) : (
+                        <UserOutlined
+                          style={{ fontSize: "24px", marginRight: "4px" }}
+                        />
+                      )}
                       <TextHeader>
                         {userName?.length ? userName : user?.email}
                       </TextHeader>
-                  </div>
+                    </div>
                   </Popover>
                 </>
               ) : (
@@ -115,13 +137,19 @@ const Header = () => {
             </MenuItems>
           </Loading>
           {/*  */}
-          <MenuItems style={{ marginLeft: "24px" }}>
-            <Badge count={4} size="small">
-              <ShoppingCartOutlined
-                style={{ fontSize: "24px", marginRight: "4px", color: "#fff" }}
-              />
-            </Badge>
-          </MenuItems>
+          {!isHiddenCart && (
+            <MenuItems style={{ marginLeft: "24px" }}>
+              <Badge count={4} size="small">
+                <ShoppingCartOutlined
+                  style={{
+                    fontSize: "24px",
+                    marginRight: "4px",
+                    color: "#fff",
+                  }}
+                />
+              </Badge>
+            </MenuItems>
+          )}
         </Col>
       </Wrapper>
     </div>

@@ -7,6 +7,7 @@ import SignUpPage from "../pages/SignUpPage/SignUpPage"
 import SignInPage from "../pages/SignInPage/SignInPage"
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
+import AdminPage from "../pages/AdminPage/AdminPage"
 export const routes = [
     {
         path: '/',
@@ -47,6 +48,12 @@ export const routes = [
         path: '/profile-user',
         page: ProfilePage,
         isShowheader: true,
+    },
+    {
+        path: '/admin',
+        page: AdminPage,
+        isShowheader: false,
+        isPrivate: true,
     },
     {
         // duong link nguoi dung nhap sai
