@@ -41,9 +41,6 @@ const HomePage = () => {
           <SliderComponent arraySlider={[slider1, slider2, slider3]} />
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "20px",
               marginTop: "20px",
             }}
           >
