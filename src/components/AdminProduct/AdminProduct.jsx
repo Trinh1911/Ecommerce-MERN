@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Checkbox, Divider, Form, Input, Modal, Radio, Table } from "antd";
 import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import TableComponent from "../TableComponent/TableComponent";
 import { WrapperHeader, WrapperUploadFile } from "./styles";
 import { UploadOutlined } from "@ant-design/icons";
@@ -48,7 +48,6 @@ const AdminProduct = () => {
     return res;
   });
   const { data, isLoading, isError, isSuccess } = mutation;
-  console.log('data', data);
   // lien ket voi api get all product
   const fetchProductAll = async () => {
     const res = await ProductService.getAllProduct();
@@ -57,6 +56,14 @@ const AdminProduct = () => {
   const { isLoading: isLoadingProducts, data: products } = useQuery(
     {queryKey: ['products'], queryFn: fetchProductAll}
   );
+  const renderAction =() => {
+    return (
+      <div>
+        <DeleteOutlined style={{cursor: "pointer"}}/>
+        <EditOutlined style={{cursor: "pointer"}}/>
+      </div>
+    )
+  }
   const columns = [
     {
       title: "Name",
@@ -78,7 +85,7 @@ const AdminProduct = () => {
     {
       title: "Action",
       dataIndex: "action",
-      render: (text) => <a>{text}</a>,
+      render: renderAction,
     },
   ];
   const dataTable =

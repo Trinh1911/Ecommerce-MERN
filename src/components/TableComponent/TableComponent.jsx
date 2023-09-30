@@ -1,7 +1,6 @@
 import { Divider, Radio, Table } from "antd";
 import React from "react";
 import Loading from "../LoadingComponent/Loading";
-
 const TableComponent = (props) => {
   const {
     selectionType = "checkbox",
