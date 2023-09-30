@@ -37,7 +37,6 @@ const AdminProduct = () => {
     type: "",
     countInStock: "",
   });
-  const [form] = Form.useForm();
   const mutation = useMutationHooks((data) => {
     const {
       name,
@@ -59,6 +58,7 @@ const AdminProduct = () => {
     });
     return res;
   });
+  const [form] = Form.useForm();
   // update product
   const fetchGetDetailsProduct = async (rowSelected) => {
     const res = await ProductService.getDetailsProduct(rowSelected);
@@ -75,15 +75,18 @@ const AdminProduct = () => {
     }
     return res;
   };
-  useEffect (()=> {
-    form.setFieldValue(productDetails)
+  useEffect (() => {
+    form.setFieldsValue(productDetails)
   }, [form, productDetails])
+
   useEffect(()=> {
     if(rowSelected) {
       fetchGetDetailsProduct(rowSelected)
     }
   },[rowSelected])
+
   console.log('productDetails', productDetails)
+
   const handleDetailsProduct = () => {
     if (rowSelected) {
       fetchGetDetailsProduct();
@@ -401,7 +404,7 @@ const AdminProduct = () => {
               maxWidth: 600,
             }}
             onFinish={onFinish}
-            autoComplete="off"
+            autoComplete="on"
             form={form}
           >
             <Form.Item
