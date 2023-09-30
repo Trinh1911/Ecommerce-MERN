@@ -13,12 +13,15 @@ import Loading from "../LoadingComponent/Loading";
 import { useQuery } from "@tanstack/react-query";
 import * as Message from "../../components/Message/Message";
 import DrawerComponent from "../DrawerComponent/DrawerComponent";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdminProduct = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rowSelected, setRowSelected] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const user = useSelector((state) => state.user);
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -58,6 +61,11 @@ const AdminProduct = () => {
     });
     return res;
   });
+  const mutationUpdate = useMutationHooks((data) => {
+    const { id, token, ...rests } = data;
+    const res = ProductService.updateProduct(id, token, ...rests);
+    return res;
+  });
   const [form] = Form.useForm();
   // update product
   const fetchGetDetailsProduct = async (rowSelected) => {
@@ -73,28 +81,30 @@ const AdminProduct = () => {
         countInStock: res?.data?.countInStock,
       });
     }
-    return res;
+    setIsLoadingUpdate(false);
   };
-  useEffect (() => {
-    form.setFieldsValue(productDetails)
-  }, [form, productDetails])
+  useEffect(() => {
+    form.setFieldsValue(productDetails);
+  }, [form, productDetails]);
 
-  useEffect(()=> {
-    if(rowSelected) {
-      fetchGetDetailsProduct(rowSelected)
+  useEffect(() => {
+    if (rowSelected) {
+      fetchGetDetailsProduct(rowSelected);
     }
-  },[rowSelected])
+  }, [rowSelected]);
 
-  console.log('productDetails', productDetails)
+  console.log("productDetails", productDetails);
 
   const handleDetailsProduct = () => {
     if (rowSelected) {
+      setIsLoadingUpdate(true);
       fetchGetDetailsProduct();
     }
     setIsOpenDrawer(true);
-    console.log("rowSelected", rowSelected);
   };
   const { data, isLoading, isError, isSuccess } = mutation;
+  const { data: dataUpdated, isLoading: isLoadingUpdated, isError: isErrorUpdated, isSuccess: isSuccessUpdated} = mutationUpdate;
+  console.log('dataUpdated', dataUpdated)
   // lien ket voi api get all product
   const fetchProductAll = async () => {
     const res = await ProductService.getAllProduct();
@@ -153,6 +163,27 @@ const AdminProduct = () => {
       Message.error();
     }
   }, [isSuccess]);
+  useEffect(() => {
+    if (isSuccessUpdated && dataUpdated?.status === "OK") {
+      Message.success();
+      handleCloseDrawer();
+    } else if (isErrorUpdated) {
+      Message.error();
+    }
+  }, [isSuccessUpdated]);
+  const handleCloseDrawer = () => {
+    setIsOpenDrawer(false);
+    setProductDetails({
+      name: "",
+      price: "",
+      description: "",
+      rating: "",
+      image: "",
+      type: "",
+      countInStock: "",
+    });
+    form.resetFields();
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
     setProduct({
@@ -200,6 +231,9 @@ const AdminProduct = () => {
   };
   const onFinish = () => {
     mutation.mutate(product);
+  };
+  const onUpdateProduct = () => {
+    mutationUpdate.mutate({id: rowSelected, token: user?.access_token, productDetails});
   };
   return (
     <>
@@ -262,7 +296,7 @@ const AdminProduct = () => {
               ]}
             >
               <InputComponent
-                value={product.name}
+                value={product["name"]}
                 onChange={handleOnchange}
                 name="name"
               />
@@ -317,8 +351,8 @@ const AdminProduct = () => {
               />
             </Form.Item>
             <Form.Item
-              label="price"
-              name="Price"
+              label="Price"
+              name="price"
               rules={[
                 {
                   required: true,
@@ -391,7 +425,7 @@ const AdminProduct = () => {
         onClose={() => setIsOpenDrawer(false)}
         width="50%"
       >
-        <Loading isLoading={loading}>
+        <Loading isLoading={isLoadingUpdate}>
           <Form
             name="basic"
             labelCol={{
@@ -403,7 +437,7 @@ const AdminProduct = () => {
             style={{
               maxWidth: 600,
             }}
-            onFinish={onFinish}
+            onFinish={onUpdateProduct}
             autoComplete="on"
             form={form}
           >
@@ -418,7 +452,7 @@ const AdminProduct = () => {
               ]}
             >
               <InputComponent
-                value={productDetails.name}
+                value={productDetails["name"]}
                 onChange={handleOnchangeDetails}
                 name="name"
               />
@@ -435,7 +469,7 @@ const AdminProduct = () => {
               ]}
             >
               <InputComponent
-                value={productDetails.type}
+                value={productDetails["type"]}
                 onChange={handleOnchangeDetails}
                 name="type"
               />
@@ -473,8 +507,8 @@ const AdminProduct = () => {
               />
             </Form.Item>
             <Form.Item
-              label="price"
-              name="Price"
+              label="Price"
+              name="price"
               rules={[
                 {
                   required: true,
@@ -538,7 +572,7 @@ const AdminProduct = () => {
               }}
             >
               <Button type="primary" htmlType="submit">
-                Submit
+                Apply
               </Button>
             </Form.Item>
           </Form>
