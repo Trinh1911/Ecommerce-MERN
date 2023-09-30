@@ -10,6 +10,7 @@ import InputComponent from "../InputComponent/InputComponent";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import * as ProductService from "../../service/ProductService";
 import Loading from "../LoadingComponent/Loading";
+import { useQuery } from "@tanstack/react-query";
 import * as Message from "../../components/Message/Message";
 
 const AdminProduct = () => {
@@ -24,7 +25,7 @@ const AdminProduct = () => {
     type: "",
     countInStock: "",
   });
-
+  const [form] = Form.useForm()
   const mutation = useMutationHooks((data) => {
     const {
       name,
@@ -47,27 +48,45 @@ const AdminProduct = () => {
     return res;
   });
   const { data, isLoading, isError, isSuccess } = mutation;
-
-  
-  const handleOnchange = (e) => {
-    setProduct({
-      ...product,
-      [e.target.name]: e.target.value,
+  console.log('data', data);
+  // lien ket voi api get all product
+  const fetchProductAll = async () => {
+    const res = await ProductService.getAllProduct();
+    return res;
+  };
+  const { isLoading: isLoadingProducts, data: products } = useQuery(
+    {queryKey: ['products'], queryFn: fetchProductAll}
+  );
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+    },
+    {
+      title: "Rating",
+      dataIndex: "rating",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text) => <a>{text}</a>,
+    },
+  ];
+  const dataTable =
+    products?.data?.length &&
+    products?.data?.map((product) => {
+      return { ...product, key: product._id };
     });
-  };
-  const handleOnChangeAvatar = async ({ fileList }) => {
-    const file = fileList[0];
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setProduct({
-      ...product,
-      image: file.preview,
-    });
-  };
-  const onFinish = () => {
-    mutation.mutate(product);
-  };
+  console.log('products', products);
   // khi tao 1 san moi thanh cong thi
   useEffect(() => {
     if (isSuccess && data?.status === "OK") {
@@ -76,7 +95,7 @@ const AdminProduct = () => {
     } else if (isError) {
       Message.error();
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess]);
   const handleCancel = () => {
     setIsModalOpen(false);
     setProduct({
@@ -88,6 +107,27 @@ const AdminProduct = () => {
       type: "",
       countInStock: "",
     });
+    form.resetFields()
+  };
+  const handleOnchange = (e) => {
+    setProduct({
+      ...product,
+      [e.target.name]: e.target.value,
+    });
+  };
+ 
+  const handleOnchangeAvatar = async ({ fileList }) => {
+    const file = fileList[0]
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setProduct({
+      ...product,
+      image: file.preview
+    })
+  }
+  const onFinish = () => {
+    mutation.mutate(product);
   };
   return (
     <>
@@ -105,30 +145,28 @@ const AdminProduct = () => {
           <PlusOutlined style={{ fontSize: "60px" }} />
         </Button>
       </div>
-      <TableComponent />
+      <TableComponent columns={columns} isLoading={isLoadingProducts} data={dataTable}/>
       <Modal
         title="Tạo sản phẩm"
         open={isModalOpen}
         onCancel={handleCancel}
-        okText=""
+        footer={null}
       >
         <Loading isLoading={loading}>
           <Form
             name="basic"
             labelCol={{
-              span: 8,
+              span: 6,
             }}
             wrapperCol={{
-              span: 16,
+              span: 18,
             }}
             style={{
               maxWidth: 600,
             }}
-            initialValues={{
-              remember: true,
-            }}
             onFinish={onFinish}
             autoComplete="off"
+            form={form}
           >
             <Form.Item
               label="name"
@@ -230,32 +268,24 @@ const AdminProduct = () => {
             <Form.Item
               label="Image"
               name="image"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your image!",
-                },
-              ]}
+              rules={[{ required: true, message: 'Please input your count image!' }]}
             >
-              <WrapperUploadFile onChange={handleOnChangeAvatar} maxCount={1}>
-                <Button icon={<UploadOutlined />}>Select File</Button>
+              <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                <Button >Select File</Button>
                 {product?.image && (
-                  <img
-                    src={product?.image}
-                    style={{
-                      height: "60px",
-                      width: "60px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                    alt="avatar"
-                  />
+                  <img src={product?.image} style={{
+                    height: '60px',
+                    width: '60px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    marginLeft: '10px'
+                  }} alt="avatar" />
                 )}
               </WrapperUploadFile>
             </Form.Item>
             <Form.Item
               wrapperCol={{
-                offset: 8,
+                offset: 20,
                 span: 16,
               }}
             >

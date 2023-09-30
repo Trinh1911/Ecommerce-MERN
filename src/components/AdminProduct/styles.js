@@ -1,12 +1,12 @@
 import { Upload } from "antd";
-import styled from "styled-components";
+import styles from "styled-components";
 
-export const WrapperHeader = styled.h1`
+export const WrapperHeader = styles.h1`
     color: #000;
     font-size: 14px;
 `
 
-export const WrapperUploadFile = styled(Upload)`
+export const WrapperUploadFile = styles(Upload)`
     & .ant-upload.ant-upload-select.ant-upload-select-picture-card {
         width: 60px;
         height: 60px;
