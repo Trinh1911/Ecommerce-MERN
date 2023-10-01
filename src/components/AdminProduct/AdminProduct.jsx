@@ -22,6 +22,7 @@ const AdminProduct = () => {
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const user = useSelector((state) => state.user);
+  // product
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -31,6 +32,7 @@ const AdminProduct = () => {
     type: "",
     countInStock: "",
   });
+  // product update
   const [productDetails, setProductDetails] = useState({
     name: "",
     price: "",
@@ -41,6 +43,7 @@ const AdminProduct = () => {
     countInStock: "",
   });
   const [form] = Form.useForm();
+  // gia tri duoc dua vao mutation
   const mutation = useMutationHooks((data) => {
     const {
       name,
@@ -62,19 +65,12 @@ const AdminProduct = () => {
     });
     return res;
   });
-  
-  const mutationUpdate = useMutationHooks(
-    (data) => {
-      const { id,
-        token,
-        ...rests } = data
-      const res = ProductService.updateProduct(
-        id,
-        token,
-        { ...rests })
-      return res
-    },
-  )
+  // gia tri duoc dua vao mutation update product
+  const mutationUpdate = useMutationHooks((data) => {
+    const { id, token, ...rests } = data;
+    const res = ProductService.updateProduct(id, token, { ...rests });
+    return res;
+  });
   // lien ket voi api get all product
   const fetchProductAll = async () => {
     const res = await ProductService.getAllProduct();
@@ -106,9 +102,7 @@ const AdminProduct = () => {
       fetchGetDetailsProduct(rowSelected);
     }
   }, [rowSelected]);
-
-  console.log("productDetails", productDetails);
-
+  // khi click vao lan dau tien se goi api lan dau
   const handleDetailsProduct = () => {
     if (rowSelected) {
       setIsLoadingUpdate(true);
@@ -117,13 +111,18 @@ const AdminProduct = () => {
     setIsOpenDrawer(true);
   };
   const { data, isLoading, isError, isSuccess } = mutation;
-  const { data: dataUpdated, isLoading: isLoadingUpdated, isError: isErrorUpdated, isSuccess: isSuccessUpdated} = mutationUpdate;
-  console.log('dataUpdated', dataUpdated)
-  
-  const { isLoading: isLoadingProducts, data: products } = useQuery({
+  const {
+    data: dataUpdated,
+    isLoading: isLoadingUpdated,
+    isError: isErrorUpdated,
+    isSuccess: isSuccessUpdated,
+  } = mutationUpdate;
+
+  const queryProduct = useQuery({
     queryKey: ["products"],
     queryFn: fetchProductAll,
   });
+  const { isLoading: isLoadingProducts, data: products } =  queryProduct
   const renderAction = () => {
     return (
       <div>
@@ -181,6 +180,7 @@ const AdminProduct = () => {
       Message.error();
     }
   }, [isSuccessUpdated]);
+  // set product vao gia tri ban dau khi update da thanh cong
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
     setProductDetails({
@@ -207,6 +207,7 @@ const AdminProduct = () => {
     });
     form.resetFields();
   };
+  // lay gia tri cua nguoi dung nhap vao
   const handleOnchange = (e) => {
     setProduct({
       ...product,
@@ -239,12 +240,18 @@ const AdminProduct = () => {
       image: file.preview,
     });
   };
+  // khi click vao finish thi gia tri nhap vao se duoc luu vao mutation
   const onFinish = () => {
     mutation.mutate(product);
   };
   const onUpdateProduct = () => {
-    mutationUpdate.mutate({id: rowSelected, token: user?.access_token, ...productDetails});
-    console.log('nhan duoc')
+    mutationUpdate.mutate(
+      { id: rowSelected, token: user?.access_token, ...productDetails },
+      { onSettled: () => {
+        queryProduct.refetch()
+      } }
+    );
+    console.log("nhan duoc");
   };
   return (
     <>
@@ -436,7 +443,7 @@ const AdminProduct = () => {
         onClose={() => setIsOpenDrawer(false)}
         width="50%"
       >
-        <Loading isLoading={isLoadingUpdate}>
+        <Loading isLoading={isLoadingUpdate || isLoadingUpdated}>
           <Form
             name="basic"
             labelCol={{
