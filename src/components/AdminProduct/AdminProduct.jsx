@@ -13,7 +13,7 @@ import Loading from "../LoadingComponent/Loading";
 import { useQuery } from "@tanstack/react-query";
 import * as Message from "../../components/Message/Message";
 import DrawerComponent from "../DrawerComponent/DrawerComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const AdminProduct = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,6 +40,7 @@ const AdminProduct = () => {
     type: "",
     countInStock: "",
   });
+  const [form] = Form.useForm();
   const mutation = useMutationHooks((data) => {
     const {
       name,
@@ -61,12 +62,24 @@ const AdminProduct = () => {
     });
     return res;
   });
-  const mutationUpdate = useMutationHooks((data) => {
-    const { id, token, ...rests } = data;
-    const res = ProductService.updateProduct(id, token, ...rests);
+  
+  const mutationUpdate = useMutationHooks(
+    (data) => {
+      const { id,
+        token,
+        ...rests } = data
+      const res = ProductService.updateProduct(
+        id,
+        token,
+        { ...rests })
+      return res
+    },
+  )
+  // lien ket voi api get all product
+  const fetchProductAll = async () => {
+    const res = await ProductService.getAllProduct();
     return res;
-  });
-  const [form] = Form.useForm();
+  };
   // update product
   const fetchGetDetailsProduct = async (rowSelected) => {
     const res = await ProductService.getDetailsProduct(rowSelected);
@@ -83,6 +96,7 @@ const AdminProduct = () => {
     }
     setIsLoadingUpdate(false);
   };
+
   useEffect(() => {
     form.setFieldsValue(productDetails);
   }, [form, productDetails]);
@@ -105,11 +119,7 @@ const AdminProduct = () => {
   const { data, isLoading, isError, isSuccess } = mutation;
   const { data: dataUpdated, isLoading: isLoadingUpdated, isError: isErrorUpdated, isSuccess: isSuccessUpdated} = mutationUpdate;
   console.log('dataUpdated', dataUpdated)
-  // lien ket voi api get all product
-  const fetchProductAll = async () => {
-    const res = await ProductService.getAllProduct();
-    return res;
-  };
+  
   const { isLoading: isLoadingProducts, data: products } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProductAll,
@@ -233,7 +243,8 @@ const AdminProduct = () => {
     mutation.mutate(product);
   };
   const onUpdateProduct = () => {
-    mutationUpdate.mutate({id: rowSelected, token: user?.access_token, productDetails});
+    mutationUpdate.mutate({id: rowSelected, token: user?.access_token, ...productDetails});
+    console.log('nhan duoc')
   };
   return (
     <>
@@ -282,7 +293,7 @@ const AdminProduct = () => {
               maxWidth: 600,
             }}
             onFinish={onFinish}
-            autoComplete="off"
+            autoComplete="on"
             form={form}
           >
             <Form.Item
