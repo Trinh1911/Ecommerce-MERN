@@ -27,7 +27,6 @@ const AdminProduct = () => {
   // filter
   const searchInput = useRef(null);
   const [searchText, setSearchText] = useState("")
-  const [searchedColumn, setSearchedColumn] = useState("")
   // product
   const [product, setProduct] = useState({
     name: "",
@@ -160,7 +159,7 @@ const AdminProduct = () => {
     );
   };
 
-  // filter
+  // search
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     // setSearchText(selectedKeys[0]);
@@ -240,11 +239,43 @@ const AdminProduct = () => {
       title: "Price",
       dataIndex: "price",
       sorter: (a, b) => a.price - b.price,
+      filters: [
+        {
+          text: '>= 50',
+          value: '>=',
+        },
+        {
+          text: '<= 50',
+          value: '<=',
+        }
+      ],
+      onFilter: (value, record) => {
+        if (value === '>=') {
+          return record.price >= 50
+        }
+        return record.price <= 50
+      },
     },
     {
       title: "Rating",
       dataIndex: "rating",
       sorter: (a, b) => a.rating - b.rating,
+      filters: [
+        {
+          text: '>= 3',
+          value: '>=',
+        },
+        {
+          text: '<= 3',
+          value: '<=',
+        }
+      ],
+      onFilter: (value, record) => {
+        if (value === '>=') {
+          return record.rating >= 3
+        }
+        return record.rating <= 3
+      },
     },
     {
       title: "Type",
