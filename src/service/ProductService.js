@@ -10,7 +10,7 @@ export const createProduct = async (data) => {
     return res.data
 }
 export const getDetailsProduct = async (id) => {
-    const res = await axios.get(`http://localhost:3000/api/product/get-details/${id}`)
+    const res = await axiosJWT.get(`http://localhost:3000/api/product/get-details/${id}`)
     return res.data
 }
 export const updateProduct = async (id, access_token, data) => {

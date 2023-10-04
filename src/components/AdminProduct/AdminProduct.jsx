@@ -444,6 +444,7 @@ const AdminProduct = () => {
       />
       {/* tao sp */}
       <ModalComponent
+      forceRender
         title="Tạo sản phẩm"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -761,6 +762,7 @@ const AdminProduct = () => {
       </DrawerComponent>
       {/* xoa sp */}
       <ModalComponent
+      forceRender
         title="Xóa sản phẩm"
         open={isModalOpenDelete}
         onCancel={handleCancelDelete}
