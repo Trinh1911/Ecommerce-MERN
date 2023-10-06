@@ -52,7 +52,12 @@ const AdminUser = () => {
     const res = UserService.deletedUser(id, token);
     return res;
   });
-
+  // deleted many
+  const mutationDeletedMany = useMutationHooks((data) => {
+    const { token, ...ids } = data;
+    const res = UserService.deleteManyUser(ids, token);
+    return res;
+  });
   // lien ket voi api get all product
   const fetchUserAll = async () => {
     const res = await UserService.getAllUser();
@@ -77,11 +82,11 @@ const AdminUser = () => {
   }, [form, stateUserDetail]);
 
   useEffect(() => {
-    if (rowSelected) {
+    if (rowSelected && isOpenDrawer) {
       setIsLoadingUpdate(true);
       fetchGetDetailsUser(rowSelected);
     }
-  }, [rowSelected]);
+  }, [rowSelected, isOpenDrawer]);
   // khi click vao lan dau tien se goi api lan dau
   const handleDetailsProduct = () => {
     setIsOpenDrawer(true);
@@ -98,7 +103,12 @@ const AdminUser = () => {
     isError: isErrorDeleted,
     isSuccess: isSuccessDeleted,
   } = mutationDeleted;
-
+  const {
+    data: dataDeletedMany,
+    isLoading: isLoadingDeletedMany,
+    isError: isErrorDeletedMany,
+    isSuccess: isSuccessDeletedMany,
+  } = mutationDeletedMany;
   const queryUser = useQuery({
     queryKey: ["user"],
     queryFn: fetchUserAll,
@@ -263,6 +273,14 @@ const AdminUser = () => {
       Message.error();
     }
   }, [isSuccessDeleted]);
+  // delete many
+  useEffect(() => {
+    if (isSuccessDeletedMany && dataDeletedMany?.status === "OK") {
+      Message.success();
+    } else if (isErrorDeletedMany) {
+      Message.error();
+    }
+  }, [isSuccessDeletedMany]);
   // set product vao gia tri ban dau khi update da thanh cong
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
@@ -324,7 +342,20 @@ const AdminUser = () => {
       }
     );
   };
-
+ // delete many
+ const handleDeletedManyUser = (ids) => {
+  mutationDeletedMany.mutate(
+    {
+      ids: ids,
+      token: user?.access_token,
+    },
+    {
+      onSettled: () => {
+        queryUser.refetch();
+      },
+    }
+  );
+};
   // khi click vao finish thi gia tri nhap vao se duoc luu vao mutation
   const onUpdateUser = () => {
     mutationUpdate.mutate(
@@ -343,6 +374,7 @@ const AdminUser = () => {
       <TableComponent
         columns={columns}
         isLoading={isLoadingUser}
+        handleDeletedMany={handleDeletedManyUser}
         data={dataTable}
         onRow={(record, rowIndex) => {
           return {

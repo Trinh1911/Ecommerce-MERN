@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Checkbox, Divider, Form,Space  } from "antd";
+import { Checkbox, Divider, Form, Space } from "antd";
 import { Button } from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import TableComponent from "../TableComponent/TableComponent";
@@ -26,7 +26,7 @@ const AdminProduct = () => {
   const user = useSelector((state) => state.user);
   // filter
   const searchInput = useRef(null);
-  const [searchText, setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("");
   // product
   const [product, setProduct] = useState({
     name: "",
@@ -77,18 +77,17 @@ const AdminProduct = () => {
     return res;
   });
   // deleted
-  const mutationDeleted = useMutationHooks(
-    (data) => {
-      const { id,
-        token,
-      } = data
-      const res = ProductService.deletedProduct(
-        id,
-        token)
-      return res
-    },
-  )
-
+  const mutationDeleted = useMutationHooks((data) => {
+    const { id, token } = data;
+    const res = ProductService.deletedProduct(id, token);
+    return res;
+  });
+  // deleted many
+  const mutationDeletedMany = useMutationHooks((data) => {
+    const { token, ...ids } = data;
+    const res = ProductService.deleteManyProduct(ids, token);
+    return res;
+  });
   // lien ket voi api get all product
   const fetchProductAll = async () => {
     const res = await ProductService.getAllProduct();
@@ -116,11 +115,11 @@ const AdminProduct = () => {
   }, [form, productDetails]);
 
   useEffect(() => {
-    if (rowSelected) {
+    if (rowSelected && isOpenDrawer) {
       setIsLoadingUpdate(true);
       fetchGetDetailsProduct(rowSelected);
     }
-  }, [rowSelected]);
+  }, [rowSelected, isOpenDrawer]);
   // khi click vao lan dau tien se goi api lan dau
   const handleDetailsProduct = () => {
     setIsOpenDrawer(true);
@@ -138,7 +137,12 @@ const AdminProduct = () => {
     isError: isErrorDeleted,
     isSuccess: isSuccessDeleted,
   } = mutationDeleted;
-
+  const {
+    data: dataDeletedMany,
+    isLoading: isLoadingDeletedMany,
+    isError: isErrorDeletedMany,
+    isSuccess: isSuccessDeletedMany,
+  } = mutationDeletedMany;
   const queryProduct = useQuery({
     queryKey: ["products"],
     queryFn: fetchProductAll,
@@ -167,10 +171,15 @@ const AdminProduct = () => {
   };
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
   };
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
       <div
         style={{
           padding: 8,
@@ -181,11 +190,13 @@ const AdminProduct = () => {
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
             marginBottom: 8,
-            display: 'block',
+            display: "block",
           }}
         />
         <Space>
@@ -215,7 +226,7 @@ const AdminProduct = () => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? '#1890ff' : undefined,
+          color: filtered ? "#1890ff" : undefined,
         }}
       />
     ),
@@ -225,7 +236,7 @@ const AdminProduct = () => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
       }
-    }
+    },
   });
   const columns = [
     {
@@ -233,7 +244,7 @@ const AdminProduct = () => {
       dataIndex: "name",
       render: (text) => <a>{text}</a>,
       sorter: (a, b) => a.name.length - b.name.length,
-      ...getColumnSearchProps('name')
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Price",
@@ -241,19 +252,19 @@ const AdminProduct = () => {
       sorter: (a, b) => a.price - b.price,
       filters: [
         {
-          text: '>= 50',
-          value: '>=',
+          text: ">= 50",
+          value: ">=",
         },
         {
-          text: '<= 50',
-          value: '<=',
-        }
+          text: "<= 50",
+          value: "<=",
+        },
       ],
       onFilter: (value, record) => {
-        if (value === '>=') {
-          return record.price >= 50
+        if (value === ">=") {
+          return record.price >= 50;
         }
-        return record.price <= 50
+        return record.price <= 50;
       },
     },
     {
@@ -262,19 +273,19 @@ const AdminProduct = () => {
       sorter: (a, b) => a.rating - b.rating,
       filters: [
         {
-          text: '>= 3',
-          value: '>=',
+          text: ">= 3",
+          value: ">=",
         },
         {
-          text: '<= 3',
-          value: '<=',
-        }
+          text: "<= 3",
+          value: "<=",
+        },
       ],
       onFilter: (value, record) => {
-        if (value === '>=') {
-          return record.rating >= 3
+        if (value === ">=") {
+          return record.rating >= 3;
         }
-        return record.rating <= 3
+        return record.rating <= 3;
       },
     },
     {
@@ -319,6 +330,14 @@ const AdminProduct = () => {
       Message.error();
     }
   }, [isSuccessDeleted]);
+  // delete many
+  useEffect(() => {
+    if (isSuccessDeletedMany && dataDeletedMany?.status === "OK") {
+      Message.success();
+    } else if (isErrorDeletedMany) {
+      Message.error();
+    }
+  }, [isSuccessDeletedMany]);
   // set product vao gia tri ban dau khi update da thanh cong
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
@@ -386,15 +405,30 @@ const AdminProduct = () => {
   const handleDeletedProduct = () => {
     mutationDeleted.mutate(
       {
-        id: rowSelected, token : user?.access_token
-      }, {
+        id: rowSelected,
+        token: user?.access_token,
+      },
+      {
         onSettled: () => {
-          queryProduct.refetch()
-        }
+          queryProduct.refetch();
+        },
       }
-    )
+    );
   };
-
+  // delete many
+  const handleDeletedManyProduct = (ids) => {
+    mutationDeletedMany.mutate(
+      {
+        ids: ids,
+        token: user?.access_token,
+      },
+      {
+        onSettled: () => {
+          queryProduct.refetch();
+        },
+      }
+    );
+  };
   // khi click vao finish thi gia tri nhap vao se duoc luu vao mutation
   const onFinish = () => {
     mutation.mutate(product, {
@@ -433,6 +467,7 @@ const AdminProduct = () => {
       <TableComponent
         columns={columns}
         isLoading={isLoadingProducts}
+        handleDeletedMany={handleDeletedManyProduct}
         data={dataTable}
         onRow={(record, rowIndex) => {
           return {
@@ -444,7 +479,7 @@ const AdminProduct = () => {
       />
       {/* tao sp */}
       <ModalComponent
-      forceRender
+        forceRender
         title="Tạo sản phẩm"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -762,7 +797,7 @@ const AdminProduct = () => {
       </DrawerComponent>
       {/* xoa sp */}
       <ModalComponent
-      forceRender
+        forceRender
         title="Xóa sản phẩm"
         open={isModalOpenDelete}
         onCancel={handleCancelDelete}

@@ -14,7 +14,7 @@ const Search = (props) => {
           borderRight: "0",
           borderTopRightRadius: "0",
           borderBottomRightRadius: "0",
-          backgroundColor: "#fff"
+          backgroundColor: "#fff",
         }}
       />
       <ButtonComponent
@@ -22,8 +22,7 @@ const Search = (props) => {
         textButton={textButton}
         icon={<SearchOutlined />}
         style={{ borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}
-      >
-      </ButtonComponent>
+      ></ButtonComponent>
     </div>
   );
 };
