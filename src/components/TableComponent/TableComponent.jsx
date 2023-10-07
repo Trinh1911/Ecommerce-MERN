@@ -11,7 +11,7 @@ const TableComponent = (props) => {
     isLoading = false,
     handleDeletedMany,
   } = props;
-  // lấy mảng mới không có action để tạo ra file exl
+  // lấy mảng mới không có action để tạo ra file xls
   const newColumnExport = useMemo(() => {
     const arr = columns?.filter((col) => col.dataIndex !== 'action')
     return arr
