@@ -209,52 +209,49 @@ const AdminUser = () => {
     },
   });
 
-  const columns = [
+const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      render: (text) => <a>{text}</a>,
+      title: 'Name',
+      dataIndex: 'name',
       sorter: (a, b) => a.name.length - b.name.length,
-      ...getColumnSearchProps("name"),
+      ...getColumnSearchProps('name')
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      render: (text) => <a>{text}</a>,
+      title: 'Email',
+      dataIndex: 'email',
       sorter: (a, b) => a.email.length - b.email.length,
-      ...getColumnSearchProps("email"),
+      ...getColumnSearchProps('email')
     },
     {
-      title: "IsAdmin",
-      dataIndex: "isAdmin",
+      title: 'Address',
+      dataIndex: 'address',
+      sorter: (a, b) => a.address.length - b.address.length,
+      ...getColumnSearchProps('address')
+    },
+    {
+      title: 'Admin',
+      dataIndex: 'isAdmin',
       filters: [
         {
-          text: "True",
+          text: 'True',
           value: true,
         },
         {
-          text: "False",
+          text: 'False',
           value: false,
-        },
+        }
       ],
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
+      title: 'Phone',
+      dataIndex: 'phone',
       sorter: (a, b) => a.phone - b.phone,
-      ...getColumnSearchProps("phone"),
+      ...getColumnSearchProps('phone')
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      render: (text) => <a>{text}</a>,
-      sorter: (a, b) => a.address.length - b.address.length,
-      ...getColumnSearchProps("address"),
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-      render: renderAction,
+      title: 'Action',
+      dataIndex: 'action',
+      render: renderAction
     },
   ];
   const dataTable =
