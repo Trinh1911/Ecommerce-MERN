@@ -25,18 +25,20 @@ const AdminUser = () => {
   // filter
   const searchInput = useRef(null);
   const [searchText, setSearchText] = useState("");
-  // product
+  // user
   const [stateUser, setStateUser] = useState({
     name: "",
     email: "",
     phone: "",
     isAdmin: false,
   });
-  // product update
+  // user update
   const [stateUserDetail, setUserDetail] = useState({
     name: "",
     email: "",
     phone: "",
+    avatar: "",
+    address:"",
     isAdmin: false,
   });
   const [form] = Form.useForm();
@@ -71,6 +73,8 @@ const AdminUser = () => {
         name: res?.data?.name,
         email: res?.data?.email,
         phone: res?.data?.phone,
+        address: res?.data.address,
+        avatar: res?.data.avatar,
         isAdmin: res?.data?.isAdmin,
       });
     }
@@ -241,6 +245,13 @@ const AdminUser = () => {
       ...getColumnSearchProps("phone"),
     },
     {
+      title: "Address",
+      dataIndex: "address",
+      render: (text) => <a>{text}</a>,
+      sorter: (a, b) => a.address.length - b.address.length,
+      ...getColumnSearchProps("address"),
+    },
+    {
       title: "Action",
       dataIndex: "action",
       render: renderAction,
@@ -288,6 +299,7 @@ const AdminUser = () => {
       name: "",
       email: "",
       phone: "",
+      address: "",
       isAdmin: false,
     });
     form.resetFields();
@@ -296,26 +308,10 @@ const AdminUser = () => {
     setIsModalOpenDelete(false);
   };
   // lay gia tri cua nguoi dung nhap vao
-  const handleOnchange = (e) => {
-    setStateUser({
-      ...stateUser,
-      [e.target.name]: e.target.value,
-    });
-  };
   const handleOnchangeDetails = (e) => {
     setUserDetail({
       ...stateUserDetail,
       [e.target.name]: e.target.value,
-    });
-  };
-  const handleOnchangeAvatar = async ({ fileList }) => {
-    const file = fileList[0];
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setStateUser({
-      ...stateUser,
-      image: file.preview,
     });
   };
   const handleOnchangeAvatarDetails = async ({ fileList }) => {
@@ -325,7 +321,7 @@ const AdminUser = () => {
     }
     setUserDetail({
       ...stateUserDetail,
-      image: file.preview,
+      avatar: file.preview,
     });
   };
   // delete
@@ -456,11 +452,27 @@ const AdminUser = () => {
                 name="phone"
               />
             </Form.Item>
-            {/* <Form.Item
-              label="Image"
-              name="image"
+            <Form.Item
+              label="Address"
+              name="address"
               rules={[
-                { required: true, message: "Please input your count image!" },
+                {
+                  required: true,
+                  message: "Please input your address!",
+                },
+              ]}
+            >
+              <InputComponent
+                value={stateUserDetail.address}
+                onChange={handleOnchangeDetails}
+                name="address"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Avatar"
+              name="avat"
+              rules={[
+                { required: true, message: "Please input your count avat!" },
               ]}
             >
               <WrapperUploadFile
@@ -468,9 +480,9 @@ const AdminUser = () => {
                 maxCount={1}
               >
                 <Button>Select File</Button>
-                {stateUserDetail?.image && (
+                {stateUserDetail?.avatar && (
                   <img
-                    src={stateUserDetail?.image}
+                    src={stateUserDetail?.avatar}
                     style={{
                       height: "60px",
                       width: "60px",
@@ -482,7 +494,7 @@ const AdminUser = () => {
                   />
                 )}
               </WrapperUploadFile>
-            </Form.Item> */}
+            </Form.Item>
             <Form.Item
               wrapperCol={{
                 offset: 20,
