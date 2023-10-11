@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import { ButtonMore, WrapperTypeProduct } from "./styles";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
@@ -9,12 +9,35 @@ import slider2 from "../../assets/images/slider2.webp";
 import slider3 from "../../assets/images/slider3.webp";
 import { Col, Row } from "antd";
 import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import Loading from "../../components/LoadingComponent/Loading";
+import { useDebounce } from "../../hooks/useDebounce";
 const HomePage = () => {
+  // fillter
+  const SearchProduct = useSelector((state) => state?.product?.search)
+  const searchDebounce = useDebounce(SearchProduct, 1000)
+  const refSearch = useRef()
+  const [stateProduct, setStateProduct] = useState([])
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false)
+  // lay product
   const arr = ["Laptop", "TV", "Mobile"];
-  const fetchProductAll = async () => {
-    const res = await ProductService.getAllProduct();
+  const fetchProductAll = async (search) => {
+    const res = await ProductService.getAllProduct(search); 
+    if(search?.length > 0 || refSearch.current) {
+      setStateProduct(res?.data)
+  }else {
     return res;
+  }
   };
+  useEffect(() =>{
+    if(refSearch.current) {
+      setIsLoadingSearch(true)
+      fetchProductAll(searchDebounce)
+    }
+    refSearch.current = true
+    setIsLoadingSearch(false)
+  }, [searchDebounce])
+ 
   const { isLoading, data: products } = useQuery(
     ["products"],
     fetchProductAll,
@@ -23,9 +46,13 @@ const HomePage = () => {
       retryDelay: 1000,
     }
   );
-  console.log("products: ", products);
+   useEffect(() =>{
+    if(products?.data?.length > 0) {
+      setStateProduct(products?.data)
+    }
+  }, [products])
   return (
-    <>
+    <Loading isLoading={isLoading || isLoadingSearch}>
       <div style={{ padding: " 0 120px" }}>
         <WrapperTypeProduct>
           {arr.map((item) => {
@@ -52,7 +79,7 @@ const HomePage = () => {
                 lg: 32,
               }}
             >
-              {products?.data?.map((product) => {
+              {stateProduct?.map((product) => {
                 return (
                   <Col className="gutter-row" span={4}>
                     <div>
@@ -103,7 +130,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-    </>
+    </Loading>
   );
 };
 

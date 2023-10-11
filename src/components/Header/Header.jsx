@@ -18,11 +18,13 @@ import { useNavigate } from "react-router-dom";
 import { resetUser } from "../../redux/slides/userSlide";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../LoadingComponent/Loading";
-const onSearch = (value) => console.log(value);
+import { searchProduct } from "../../redux/slides/ProductSlice";
+
 const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+  const [search, setSearch] = useState("")
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -62,6 +64,10 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
       <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
     </div>
   );
+  const onSearch = (e) => {
+    setSearch(e.target.value);
+    dispatch(searchProduct(e.target.value));
+  }
   return (
     <div>
       <Wrapper
@@ -83,7 +89,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               placeholder="input search text"
               size="default"
               textButton="Search"
-              onSearch={onSearch}
+              onChange={onSearch}
               enterButton
             />
           </Col>

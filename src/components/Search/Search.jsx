@@ -16,6 +16,7 @@ const Search = (props) => {
           borderBottomRightRadius: "0",
           backgroundColor: "#fff",
         }}
+        {...props}
       />
       <ButtonComponent
         size={size}
