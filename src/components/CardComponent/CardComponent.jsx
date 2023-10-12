@@ -16,7 +16,7 @@ const CardComponent = (props) => {
       cover={
         <img
           alt="example"
-          src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          src={image}
           style={{
             width: "200px",
             height: "200px",
@@ -49,8 +49,8 @@ const CardComponent = (props) => {
         <span> | Đã bán {selled || 1000}+</span>
       </SaleText>
       <PriceText>
-        <span style={{ marginRight: "8px" }}>{price}</span>
-        <DiscountText> {discount || 5} %</DiscountText>
+        <span style={{ marginRight: "8px" }}>{price.toLocaleString()}</span>
+        <DiscountText> - {discount || 5} %</DiscountText>
       </PriceText>
     </Card>
   );

@@ -14,43 +14,27 @@ import Loading from "../../components/LoadingComponent/Loading";
 import { useDebounce } from "../../hooks/useDebounce";
 const HomePage = () => {
   // fillter
-  const SearchProduct = useSelector((state) => state?.product?.search)
-  const searchDebounce = useDebounce(SearchProduct, 1000)
-  const refSearch = useRef()
-  const [stateProduct, setStateProduct] = useState([])
-  const [isLoadingSearch, setIsLoadingSearch] = useState(false)
+  const SearchProduct = useSelector((state) => state?.product?.search);
+  const searchDebounce = useDebounce(SearchProduct, 1000);
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+  const [limit, setLimit] = useState(6);
   // lay product
   const arr = ["Laptop", "TV", "Mobile"];
-  const fetchProductAll = async (search) => {
-    const res = await ProductService.getAllProduct(search); 
-    if(search?.length > 0 || refSearch.current) {
-      setStateProduct(res?.data)
-  }else {
+  const fetchProductAll = async (context) => {
+    const limit = context?.queryKey && context?.queryKey[1];
+    const search = context?.queryKey && context?.queryKey[2];
+    const res = await ProductService.getAllProduct(search, limit);
     return res;
-  }
   };
-  useEffect(() =>{
-    if(refSearch.current) {
-      setIsLoadingSearch(true)
-      fetchProductAll(searchDebounce)
-    }
-    refSearch.current = true
-    setIsLoadingSearch(false)
-  }, [searchDebounce])
- 
-  const { isLoading, data: products } = useQuery(
-    ["products"],
-    fetchProductAll,
-    {
-      retry: 3,
-      retryDelay: 1000,
-    }
-  );
-   useEffect(() =>{
-    if(products?.data?.length > 0) {
-      setStateProduct(products?.data)
-    }
-  }, [products])
+  const {
+    isLoading,
+    data: products,
+    isPreviousData,
+  } = useQuery(["products", limit, searchDebounce], fetchProductAll, {
+    retry: 3,
+    retryDelay: 1000,
+    keepPreviousData: true,
+  });
   return (
     <Loading isLoading={isLoading || isLoadingSearch}>
       <div style={{ padding: " 0 120px" }}>
@@ -79,7 +63,7 @@ const HomePage = () => {
                 lg: 32,
               }}
             >
-              {stateProduct?.map((product) => {
+              {products?.data?.map((product) => {
                 return (
                   <Col className="gutter-row" span={4}>
                     <div>
@@ -115,7 +99,7 @@ const HomePage = () => {
             }}
           >
             <ButtonMore
-              textButton="xem them"
+              textButton={isPreviousData ? 'Load more' : "xem them"}
               type="outline"
               style={{
                 display: "block",
@@ -124,8 +108,15 @@ const HomePage = () => {
                 margin: "0 auto",
                 borderRadius: "4px",
                 border: "1px solid rgb(11, 116, 229)",
-                color: "rgb(11, 116, 229)",
+                color: `${
+                  products?.total === products?.data?.length
+                    ? "#ccc"
+                    : "rgb(11, 116, 229)"
+                }`,
               }}
+              styleTextButton={{fontWeight: 500, color: products?.total === products?.data?.length && "#fff" }}
+              disabled={products?.total === products?.data?.length || products?.totalPage === 1}
+              onClick={() => setLimit((prev) => prev + 6)}
             />
           </div>
         </div>
