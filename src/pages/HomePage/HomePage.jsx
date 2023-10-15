@@ -85,12 +85,6 @@ const HomePage = () => {
                 );
               })}
             </Row>
-            {/* <CardComponent />
-            <CardComponent />
-            <CardComponent />
-            <CardComponent />
-            <CardComponent />
-            <CardComponent /> */}
           </div>
           <div
             style={{

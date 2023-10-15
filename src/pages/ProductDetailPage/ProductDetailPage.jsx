@@ -1,6 +1,9 @@
 import React from "react";
 import ProductDetailComponents from "../../components/ProductDetailComponents/ProductDetailComponents.jsx";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 const ProductDetailPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -9,8 +12,18 @@ const ProductDetailPage = () => {
         height: "1000px",
       }}
     >
-      <div>Trang chu</div>
-      <ProductDetailComponents />
+      <div>
+        <span
+        style={{cursor: "pointer", fontWeight: "bold"}}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Trang chủ
+        </span>
+        - chi tiết sản phẩm
+      </div>
+      <ProductDetailComponents idProduct={id} />
     </div>
   );
 };

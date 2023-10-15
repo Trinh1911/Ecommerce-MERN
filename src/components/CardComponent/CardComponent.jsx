@@ -4,11 +4,17 @@ import React from "react";
 import { StarFilled } from "@ant-design/icons";
 import { DiscountText, NameProduct, PriceText, SaleText } from "./styles";
 import logoSales from "../../assets/images/logoSales.png";
+import { useNavigate } from "react-router-dom";
 const CardComponent = (props) => {
   const { countInStock, description, image, name, price, rating, type, discount, selled, id } = props
+  const navigate = useNavigate()
+  const handleDetailProduct = (id) => {
+    navigate(`/product-detail/${id}`)
+  }
   return (
     <Card
       hoverable
+      onClick={()=>handleDetailProduct(id)}
       style={{
         width: "200px",
         position: "relative",
