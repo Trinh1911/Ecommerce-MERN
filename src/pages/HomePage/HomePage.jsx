@@ -18,14 +18,22 @@ const HomePage = () => {
   const searchDebounce = useDebounce(SearchProduct, 1000);
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
   const [limit, setLimit] = useState(6);
-  // lay product
-  const arr = ["Laptop", "TV", "Mobile"];
+  const [typeProduct, setTypeProduct] = useState([])
+  // lọc product
   const fetchProductAll = async (context) => {
     const limit = context?.queryKey && context?.queryKey[1];
     const search = context?.queryKey && context?.queryKey[2];
     const res = await ProductService.getAllProduct(search, limit);
     return res;
   };
+  // get type product
+  const fetchTypeProduct = async () => {
+    const res = await ProductService.getAllTypeProduct();
+    if(res?.status === 'OK') {
+      setTypeProduct(res?.data)
+    }
+  };
+  // loc product
   const {
     isLoading,
     data: products,
@@ -35,11 +43,15 @@ const HomePage = () => {
     retryDelay: 1000,
     keepPreviousData: true,
   });
+  // get type product
+  useEffect(()=> {
+    fetchTypeProduct()
+  }, [])
   return (
     <Loading isLoading={isLoading || isLoadingSearch}>
       <div style={{ padding: " 0 120px" }}>
         <WrapperTypeProduct>
-          {arr.map((item) => {
+          {typeProduct.map((item) => {
             return <TypeProduct key={item} name={item} />;
           })}
         </WrapperTypeProduct>
@@ -93,7 +105,7 @@ const HomePage = () => {
             }}
           >
             <ButtonMore
-              textButton={isPreviousData ? 'Load more' : "xem them"}
+              textButton={isPreviousData ? "Load more" : "xem them"}
               type="outline"
               style={{
                 display: "block",
@@ -108,8 +120,14 @@ const HomePage = () => {
                     : "rgb(11, 116, 229)"
                 }`,
               }}
-              styleTextButton={{fontWeight: 500, color: products?.total === products?.data?.length && "#fff" }}
-              disabled={products?.total === products?.data?.length || products?.totalPage === 1}
+              styleTextButton={{
+                fontWeight: 500,
+                color: products?.total === products?.data?.length && "#fff",
+              }}
+              disabled={
+                products?.total === products?.data?.length ||
+                products?.totalPage === 1
+              }
               onClick={() => setLimit((prev) => prev + 6)}
             />
           </div>
