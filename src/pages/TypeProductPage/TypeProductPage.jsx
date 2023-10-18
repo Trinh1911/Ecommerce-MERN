@@ -6,26 +6,47 @@ import { useLocation } from "react-router-dom";
 import * as ProductService from "../../service/ProductService";
 import { useEffect } from "react";
 import Loading from "../../components/LoadingComponent/Loading";
+import { useSelector } from "react-redux";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const TypeProductPage = () => {
+  // state search
+  const SearchProduct = useSelector((state) => state?.product?.search);
+  // thời gian chờ
+  const searchDebounce = useDebounce(SearchProduct, 500);
   const { state } = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState([]);
-  const fetchProductType = async (type) => {
-    const res = await ProductService.getAllType(type);
+  const [panigate, setPanigate] = useState({
+    page: 0,
+    limit: 10,
+    total: 1,
+  })
+  // panigate
+  const fetchProductType = async (type, page, limit) => {
+    setIsLoading(true)
+    const res = await ProductService.getAllType(type, page, limit);
     if (res?.status == "OK") {
+      setIsLoading(false)
       setProduct(res?.data);
+      setPanigate({...panigate, total: res?.totalPages})
     } else {
       setIsLoading(true)
     }
     console.log("res", res);
   };
-  console.log("product", product);
   useEffect(() => {
-    fetchProductType(state);
-    setIsLoading(false)
-  }, [state]);
-  const onChange = () => {};
+    if(state) {
+      fetchProductType(state, panigate.page, panigate.limit);
+    }
+  }, [state, panigate.page, panigate.limit]);
+  // search
+
+  console.log('isLoading', isLoading)
+  const onChange = (current, pageSize) => {
+    console.log({current, pageSize})
+    setPanigate({...panigate, page: current - 1, limit: pageSize})
+  };
   return (
     <Loading isLoading={isLoading}>
       <div
@@ -67,7 +88,13 @@ const TypeProductPage = () => {
               }}
             >
               <Row gutter={[10, 10]}>
-                {product?.map((data) => {
+                {product?.filter((pro)=> {
+                  if(searchDebounce === '') {
+                    return pro
+                  } else if (pro?.name?.toLowerCase()?.includes(searchDebounce?.toLowerCase())) {
+                    return pro
+                  }
+                }).map((data) => {
                   return (
                     <Col className="gutter-row" span={2 / 4}>
                       <div>
@@ -89,8 +116,8 @@ const TypeProductPage = () => {
   
                 <Col span={20}>
                   <Pagination
-                    defaultCurrent={2}
-                    total={100}
+                    defaultCurrent={panigate?.page + 1}
+                    total={panigate?.total}
                     onChange={onChange}
                     style={{ textAlign: "center", marginTop: "10px" }}
                   />

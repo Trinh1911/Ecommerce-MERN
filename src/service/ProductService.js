@@ -10,9 +10,9 @@ export const getAllProduct = async (search, limit) => {
     }
     return res.data
 }
-export const getAllType = async (type) => {
+export const getAllType = async (type,  page, limit) => {
     if (type) {
-        const res = await axios.get(`http://localhost:3000/api/product/all-product?filter=type&filter=${type}`)
+        const res = await axios.get(`http://localhost:3000/api/product/all-product?filter=type&filter=${type}&limit=${limit}&page=${page}`)
         return res.data
     }
 }
