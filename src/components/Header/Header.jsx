@@ -144,7 +144,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
           </Loading>
           {/*  */}
           {!isHiddenCart && (
-            <MenuItems style={{ marginLeft: "24px" }}>
+            <MenuItems style={{ marginLeft: "24px", cursor: 'pointer' }} onClick={()=> navigate('/order')}>
               <Badge count={4} size="small">
                 <ShoppingCartOutlined
                   style={{

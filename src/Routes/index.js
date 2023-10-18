@@ -1,5 +1,5 @@
 import HomePage from "../pages/HomePage/HomePage"
-import OderPage from "../pages/OderPage/OderPage"
+import OrderPage from "../pages/OrderPage/OrderPage"
 import ProductPage from "../pages/ProductPage/ProductPage"
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage"
 import TypeProductPage from "../pages/TypeProductPage/TypeProductPage"
@@ -16,7 +16,7 @@ export const routes = [
     },
     {
         path: '/order',
-        page: OderPage,
+        page: OrderPage,
         isShowheader: true,
     },
     {
@@ -25,7 +25,7 @@ export const routes = [
         isShowheader: true,
     },
     {
-        path: '/:type',
+        path: '/product/:type',
         page: TypeProductPage,
         isShowheader: true,
     },
