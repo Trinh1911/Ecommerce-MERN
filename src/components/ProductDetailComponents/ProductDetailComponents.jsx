@@ -17,15 +17,18 @@ import {
 } from "./styles.js";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 const ProductDetailComponents = ({ idProduct }) => {
   const [quantity, setQuantity] = useState(1)
+  const navigate = useNavigate()
+  // dùng để lưu địa chỉ khi đăng nhập không mất địa chỉ sản phẩm
+  const location = useLocation()
   const user = useSelector((state) => state.user)
   const onChange = (value) => {
     setQuantity(Number(value))
   };
   const fetchGetDetailsProduct = async (context) => {
     const id = context?.queryKey && context?.queryKey[1];
-    console.log("id", id);
     const res = await ProductService.getDetailsProduct(id);
     return res.data;
   };
@@ -43,7 +46,12 @@ const ProductDetailComponents = ({ idProduct }) => {
       setQuantity(quantity - 1)
     }
   }
-  console.log("productDetails", productDetails);
+  // xử lí sự kiện ấn chọn mua sản phẩm
+  const handleAddOrderProduct = () => {
+    if(!user?.id) {
+      navigate('/sign-in', {state: location?.pathname})
+    }
+  }
   return (
     <Loading isLoading={isLoading}>
       <div style={{ backgroundColor: "#fff" }}>
@@ -193,6 +201,7 @@ const ProductDetailComponents = ({ idProduct }) => {
             </Quanlity>
             <ButtonComponent
               textButton={"chon mua"}
+              onClick={handleAddOrderProduct}
               style={{
                 marginTop: "16px",
                 backgroundColor: "rgb(255, 57, 69)",

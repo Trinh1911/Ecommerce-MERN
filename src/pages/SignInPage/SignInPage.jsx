@@ -5,7 +5,7 @@ import FormComponent from "../../components/FormComponent/FormComponent";
 import { Image, message } from "antd";
 import logoSignIn from "../../assets/images/logoSignIn.png";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as UserService from "../../service/UserService";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
@@ -19,6 +19,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation()
   // gọi api login và truyền vào data
   const mutation = useMutationHooks((data) => UserService.UserLogin(data));
   // lấy các giữ liệu từ mutation
@@ -49,7 +50,11 @@ const SignInPage = () => {
    */
   useEffect(() => {
     if (isSuccess) {
-      navigate("/");
+      if(location?.state) {
+        navigate(location?.state);
+      } else {
+        navigate("/");
+      }
       localStorage.setItem("access_token", JSON.stringify(data?.access_token))
       localStorage.setItem("refresh_token", JSON.stringify(data?.refresh_token))
       if (data?.access_token) {
