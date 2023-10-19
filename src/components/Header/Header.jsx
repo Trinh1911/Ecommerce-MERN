@@ -27,6 +27,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const [search, setSearch] = useState("")
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
   const handleNavigateLogin = () => {
     navigate("/sign-in");
@@ -145,7 +146,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
           {/*  */}
           {!isHiddenCart && (
             <MenuItems style={{ marginLeft: "24px", cursor: 'pointer' }} onClick={()=> navigate('/order')}>
-              <Badge count={4} size="small">
+              <Badge count={order?.orderItems?.length} size="small">
                 <ShoppingCartOutlined
                   style={{
                     fontSize: "24px",

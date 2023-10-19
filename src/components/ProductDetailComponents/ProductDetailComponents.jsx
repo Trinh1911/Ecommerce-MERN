@@ -16,16 +16,18 @@ import {
   WrapperInputNumber,
 } from "./styles.js";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { addOrderProduct } from "../../redux/slides/OrderSlice";
 const ProductDetailComponents = ({ idProduct }) => {
-  const [quantity, setQuantity] = useState(1)
-  const navigate = useNavigate()
+  const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // dùng để lưu địa chỉ khi đăng nhập không mất địa chỉ sản phẩm
-  const location = useLocation()
-  const user = useSelector((state) => state.user)
+  const location = useLocation();
+  const user = useSelector((state) => state.user);
   const onChange = (value) => {
-    setQuantity(Number(value))
+    setQuantity(Number(value));
   };
   const fetchGetDetailsProduct = async (context) => {
     const id = context?.queryKey && context?.queryKey[1];
@@ -40,18 +42,32 @@ const ProductDetailComponents = ({ idProduct }) => {
     }
   );
   const hanleChangeCount = (type) => {
-    if(type === 'increase') {
-      setQuantity(quantity + 1)
-    } else if(type === 'decrease') { 
-      setQuantity(quantity - 1)
+    if (type === "increase") {
+      setQuantity(quantity + 1);
+    } else if (type === "decrease") {
+      setQuantity(quantity - 1);
     }
-  }
+  };
   // xử lí sự kiện ấn chọn mua sản phẩm
   const handleAddOrderProduct = () => {
-    if(!user?.id) {
-      navigate('/sign-in', {state: location?.pathname})
+    if (!user?.id) {
+      navigate("/sign-in", { state: location?.pathname });
+    } else {
+      dispatch(
+        addOrderProduct({
+          orderItem: {
+            name: productDetails?.name,
+            amount: quantity,
+            image: productDetails?.image,
+            price: productDetails?.price,
+            product: productDetails?._id,
+            // discount: productDetails?.discount,
+            // countInstock: productDetails?.countInStock,
+          },
+        })
+      );
     }
-  }
+  };
   return (
     <Loading isLoading={isLoading}>
       <div style={{ backgroundColor: "#fff" }}>
@@ -143,7 +159,11 @@ const ProductDetailComponents = ({ idProduct }) => {
             <div style={{ padding: "16px 28px 16px 0px" }}>
               <NameProduct>{productDetails?.name}</NameProduct>
               <div>
-              <Rate allowHalf value={productDetails?.rating} defaultValue={productDetails?.rating}/>
+                <Rate
+                  allowHalf
+                  value={productDetails?.rating}
+                  defaultValue={productDetails?.rating}
+                />
                 <span> | Đã bán {productDetails?.selled}</span>
               </div>
             </div>
@@ -152,9 +172,7 @@ const ProductDetailComponents = ({ idProduct }) => {
             </Price>
             <ExportGoods>
               <span>Giao den </span>
-              <span className="address">
-              {user?.address}
-              </span>
+              <span className="address">{user?.address}</span>
               "-"
               <span className="change-address">Doi dia chi</span>
             </ExportGoods>
@@ -171,9 +189,9 @@ const ProductDetailComponents = ({ idProduct }) => {
                   style={{
                     border: "1px solid rgb(236, 236, 236)",
                     backgroundColor: "#fff",
-                    cursor:'pointer',
+                    cursor: "pointer",
                   }}
-                  onClick={() =>hanleChangeCount('increase')}
+                  onClick={() => hanleChangeCount("increase")}
                 >
                   <PlusOutlined
                     style={{ color: "#e2e2e2", fontSize: "20px" }}
@@ -191,7 +209,7 @@ const ProductDetailComponents = ({ idProduct }) => {
                     backgroundColor: "#fff",
                     border: "1px solid rgb(236, 236, 236)",
                   }}
-                  onClick={() =>hanleChangeCount('decrease')}
+                  onClick={() => hanleChangeCount("decrease")}
                 >
                   <MinusOutlined
                     style={{ color: "#e2e2e2", fontSize: "20px" }}

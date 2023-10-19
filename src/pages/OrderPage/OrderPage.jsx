@@ -20,7 +20,7 @@ const OrderPage = () => {
       setListChecked([...listChecked, e.target.value])
     }
   };
-
+  console.log('order', order)
   const handleChangeCount = (type, idProduct) => {
     // if(type === 'increase') {
     //   dispatch(increaseAmount({idProduct}))
@@ -75,7 +75,7 @@ const OrderPage = () => {
                   <WrapperItemOrder>
                 <div style={{width: '390px', display: 'flex', alignItems: 'center', gap: 4}}> 
                   <Checkbox onChange={onChange} value={order?.product} checked={listChecked.includes(order?.product)}></Checkbox>
-                  {/* <img src={order?.image} style={{width: '77px', height: '79px', objectFit: 'cover'}}/> */}
+                  <img src={order?.image} style={{width: '77px', height: '79px', objectFit: 'cover'}}/>
                   <div style={{
                     width: 260,
                     overflow: 'hidden',
