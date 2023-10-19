@@ -6,7 +6,7 @@ import { DeleteOutlined, MinusOutlined, PlusOutlined} from '@ant-design/icons'
 import { WrapperInputNumber, WrapperQualityProduct } from '../../components/ProductDetailComponents/styles';
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
 import { useDispatch, useSelector } from 'react-redux';
-// import { decreaseAmount, increaseAmount, removeAllOrderProduct, removeOrderProduct } from '../../redux/slides/orderSlide';
+import { decreaseAmount, increaseAmount, removeOrderProduct} from '../../redux/slides/OrderSlice';
 
 const OrderPage = () => {
   const order = useSelector((state) => state.order)
@@ -18,19 +18,18 @@ const OrderPage = () => {
       setListChecked(newListChecked)
     }else {
       setListChecked([...listChecked, e.target.value])
-    }
+    } 
   };
-  console.log('order', order)
   const handleChangeCount = (type, idProduct) => {
-    // if(type === 'increase') {
-    //   dispatch(increaseAmount({idProduct}))
-    // }else {
-    //   dispatch(decreaseAmount({idProduct}))
-    // }
+    if(type === 'increase') {
+      dispatch(increaseAmount({idProduct}))
+    }else {
+      dispatch(decreaseAmount({idProduct}))
+    }
   }
 
   const handleDeleteOrder = (idProduct) => {
-    // dispatch(removeOrderProduct({idProduct}))
+    dispatch(removeOrderProduct({idProduct}))
   }
 
   const handleOnchangeCheckAll = (e) => {
