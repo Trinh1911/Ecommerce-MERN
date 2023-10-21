@@ -37,6 +37,7 @@ const AdminProduct = () => {
     rating: "",
     image: "",
     type: "",
+    discount: "",
     countInStock: "",
     newType: "",
   });
@@ -46,6 +47,7 @@ const AdminProduct = () => {
     price: "",
     description: "",
     rating: "",
+    discount: "",
     image: "",
     type: "",
     countInStock: "",
@@ -56,6 +58,7 @@ const AdminProduct = () => {
     const {
       name,
       price,
+      discount,
       description,
       rating,
       image,
@@ -65,6 +68,7 @@ const AdminProduct = () => {
     const res = ProductService.createProduct({
       name,
       price,
+      discount,
       description,
       rating,
       image,
@@ -108,6 +112,7 @@ const AdminProduct = () => {
       setProductDetails({
         name: res?.data?.name,
         price: res?.data?.price,
+        discount: res?.data?.discount,
         description: res?.data?.description,
         rating: res?.data?.rating,
         image: res?.data?.image,
@@ -634,6 +639,22 @@ const AdminProduct = () => {
               />
             </Form.Item>
             <Form.Item
+              label="Discount"
+              name="discount"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your discount!",
+                },
+              ]}
+            >
+              <InputComponent
+                value={product.discount}
+                onChange={handleOnchange}
+                name="discount"
+              />
+            </Form.Item>
+            <Form.Item
               label="Description"
               name="description"
               rules={[
@@ -788,6 +809,22 @@ const AdminProduct = () => {
                 value={productDetails.price}
                 onChange={handleOnchangeDetails}
                 name="price"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Discount"
+              name="discount"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your price!",
+                },
+              ]}
+            >
+              <InputComponent
+                value={productDetails.discount}
+                onChange={handleOnchangeDetails}
+                name="discount"
               />
             </Form.Item>
             <Form.Item

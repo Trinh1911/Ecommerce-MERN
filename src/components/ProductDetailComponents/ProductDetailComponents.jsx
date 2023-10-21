@@ -4,6 +4,7 @@ import { PlusOutlined, MinusOutlined, StarFilled } from "@ant-design/icons";
 import detailsMain from "../../assets/images/detailsMain.jpg";
 import productsSmaill from "../../assets/images/productsSmaill.jpg";
 import * as ProductService from "../../service/ProductService";
+import { convertPrice } from "../../untils";
 import Loading from "../LoadingComponent/Loading";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import {
@@ -168,7 +169,7 @@ const ProductDetailComponents = ({ idProduct }) => {
               </div>
             </div>
             <Price>
-              <CurrentPrice>{productDetails?.price} ₫</CurrentPrice>
+              <CurrentPrice>{convertPrice(productDetails?.price)}</CurrentPrice>
             </Price>
             <ExportGoods>
               <span>Giao den </span>
