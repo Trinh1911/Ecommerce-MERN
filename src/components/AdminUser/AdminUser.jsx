@@ -359,7 +359,6 @@ const columns = [
         },
       }
     );
-    console.log("nhan duoc");
   };
   return (
     <>

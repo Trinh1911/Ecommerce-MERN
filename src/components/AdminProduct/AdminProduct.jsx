@@ -473,7 +473,6 @@ const AdminProduct = () => {
         },
       }
     );
-    console.log("nhan duoc");
   };
   // select
   const handleChangeSelect = (value) => {
