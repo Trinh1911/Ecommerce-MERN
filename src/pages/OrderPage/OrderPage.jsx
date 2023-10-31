@@ -32,6 +32,7 @@ import { useEffect } from "react";
 import Loading from "../../components/LoadingComponent/Loading";
 import InputComponent from "../../components/InputComponent/InputComponent";
 import { updateUser } from "../../redux/slides/userSlide";
+import { useNavigate } from "react-router-dom";
 
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
@@ -45,6 +46,7 @@ const OrderPage = () => {
   });
   const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
   const dispatch = useDispatch();
+  const navigate =  useNavigate()
   const [form] = Form.useForm();
   const onChange = (e) => {
     if (listChecked.includes(e.target.value)) {
@@ -89,7 +91,9 @@ const OrderPage = () => {
       Message.error('Vui lòng chọn sản phẩm');
     }else if (!user?.phone || !user?.address || !user.name || !user?.city) {
       setIsOpenModalUpdateInfo(true);
-    } 
+    } else {
+      navigate('/payment')
+    }
   };
   const handleCancleUpdate = () => {
     setStateUserDetail({
@@ -102,6 +106,9 @@ const OrderPage = () => {
     form.resetFields();
     setIsOpenModalUpdateInfo(false);
   };
+  const handleChangeAddress = () => {
+    setIsOpenModalUpdateInfo(true);
+  }
   // lay gia tri cua nguoi dung nhap vao
   const handleOnchangeDetails = (e) => {
     setStateUserDetail({
@@ -119,7 +126,7 @@ const OrderPage = () => {
         ...stateUserDetail,
       }, {
         onSuccess: ()=> {
-          // dispatch(updateUser({name, address, city, phone}))
+          dispatch(updateUser({name, address, city, phone}))
           setIsOpenModalUpdateInfo(false)
         }
       });
@@ -140,16 +147,18 @@ const OrderPage = () => {
     dispatch(selectedOrder({ listChecked }));
   }, [listChecked]);
   useEffect(()=> {
+    form.setFieldValue(stateUserDetail)
+  }, [form, stateUserDetail])
+  useEffect(()=> {
     if(isOpenModalUpdateInfo) {
       setStateUserDetail({
-        ...stateUserDetail,
         city: user?.city,
         name: user?.name,
         address: user?.address,
         phone: user?.phone
       })
     }
-  })
+  }, [isOpenModalUpdateInfo])
   const priceMemo = useMemo(() => {
     const result = order?.orderItemsSelected?.reduce((total, cur) => {
       return total + cur.price * cur.amount;
@@ -302,6 +311,13 @@ const OrderPage = () => {
           </WrapperLeft>
           <WrapperRight>
             <div style={{ width: "100%" }}>
+            <WrapperInfo>
+                <div>
+                  <span>Địa chỉ: </span>
+                  <span style={{fontWeight: 'bold'}}>{ `${user?.address} , ${user?.city}`} </span>
+                  <span onClick={handleChangeAddress} style={{color: '#9255FD', cursor:'pointer'}}> Thay đổi</span>
+                </div>
+              </WrapperInfo>
               <WrapperInfo>
                 <div
                   style={{

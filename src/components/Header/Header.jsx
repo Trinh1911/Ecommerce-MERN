@@ -24,7 +24,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const order = useSelector((state) => state.order);
@@ -68,7 +68,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const onSearch = (e) => {
     setSearch(e.target.value);
     dispatch(searchProduct(e.target.value));
-  }
+  };
   return (
     <div>
       <Wrapper
@@ -145,7 +145,10 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
           </Loading>
           {/*  */}
           {!isHiddenCart && (
-            <MenuItems style={{ marginLeft: "24px", cursor: 'pointer' }} onClick={()=> navigate('/order')}>
+            <MenuItems
+              style={{ marginLeft: "24px", cursor: "pointer" }}
+              onClick={() => navigate("/order")}
+            >
               <Badge count={order?.orderItems?.length} size="small">
                 <ShoppingCartOutlined
                   style={{

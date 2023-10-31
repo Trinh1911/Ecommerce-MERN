@@ -62,7 +62,7 @@ const AdminUser = () => {
   });
   // lien ket voi api get all product
   const fetchUserAll = async () => {
-    const res = await UserService.getAllUser();
+    const res = await UserService.getAllUser(user?.access_token);
     return res;
   };
   // update product
