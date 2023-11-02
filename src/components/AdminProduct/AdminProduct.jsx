@@ -169,11 +169,11 @@ const AdminProduct = () => {
     return (
       <div>
         <DeleteOutlined
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", padding: "10px" }}
           onClick={() => setIsModalOpenDelete(true)}
         />
         <EditOutlined
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", padding: "10px" }}
           onClick={handleDetailsProduct}
         />
       </div>

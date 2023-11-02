@@ -1,13 +1,27 @@
+import { Card } from "antd";
 import styles from "styled-components";
 export const NameProduct = styles.div`
+    height: 24px;
     font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 17px 0;
     color: rgb(56, 56, 61);
-    font-weight: 400;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+`
+export const CardProduct = styles(Card)`
+    width: 200px;
+    position: relative;
+    margin-top: 15px;
+    & .ant-card-body {
+        padding: 10px;
+    }
 `
 export const SaleText = styles.div`
-    font-size: 11px;
+    font-size: 13px;
     color: rgb(128, 128, 137);
     display: flex;
     align-items: center;

@@ -7,7 +7,7 @@ const ButtonComponent = ({ size, bordered, style, textButton,disabled, ...rests 
       <WrapButton
         size={size}
         style={{...style,
-          backgroundColor: disabled ? "#ccc" : style.backgroundColor
+          background: disabled ? "#ccc" : style.background
         }}
         {...rests}
       >

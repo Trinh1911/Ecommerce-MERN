@@ -6,6 +6,7 @@ import { Image, message } from "antd";
 import logoSignIn from "../../assets/images/logoSignIn.png";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import background from "../../assets/images/product/background.webp";
 import * as UserService from "../../service/UserService";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
@@ -74,24 +75,20 @@ const SignInPage = () => {
   };
   return (
     <div
-      style={{
-        position: "fixed",
-        top: "0",
-        left: "0",
-        right: "0",
-        bottom: "0",
-        backgroundColor: "rgba(0, 0, 0, 0.53)",
-        zIndex: "10",
-      }}
+    style={{ position: "relative", zIndex: "1" }}
     >
+      <Image src={background} preview={false} />
       <div
         style={{
           display: "flex",
+          position: "absolute",
           width: "800px",
           height: "528px",
           borderRadius: "20px",
-          backgroundColor: "#fff",
-          margin: "80px auto",
+          top: "70px",
+          right: "28%",
+          boxShadow:
+            "rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px",
         }}
       >
         <WrapperLeft>
@@ -103,14 +100,14 @@ const SignInPage = () => {
                 fontWeight: "500",
               }}
             >
-              xin chao
+              Xin Chào
             </h4>
             <p style={{ margin: "0px", fontSize: "15px" }}>
-              Dang nhap hoac Tao tai khoan
+              Đăng nhập hoặc tạo tài khoản
             </p>
           </div>
           <FormComponent
-            placeholder="abc.email.com"
+            placeholder="Mời bạn nhập gmail "
             style={{ marginBottom: "15px" }}
             value={email}
             onChange={handleOnChangeEmail}
@@ -142,10 +139,10 @@ const SignInPage = () => {
             <ButtonComponent
               disabled={!email.length || !password.length}
               onClick={showresult}
-              textButton={"tiep tuc"}
+              textButton={"Tiếp Tục"}
               style={{
                 margin: "26px 0px 10px",
-                backgroundColor: "rgb(255, 57, 69)",
+                background:'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',
                 borderRadius: "4px",
                 color: "#fff",
                 minWidth: "190px",
@@ -165,7 +162,7 @@ const SignInPage = () => {
               cursor: "pointer",
             }}
           >
-            quen mat khau ?
+            Bạn quên mật khẩu ?
           </p>
           <p
             style={{
@@ -174,7 +171,7 @@ const SignInPage = () => {
               margin: "10px 0 0",
             }}
           >
-            chua co tai khoan ?
+            Bạn chưa có tài khoản ?
             <span
               style={{
                 color: "rgb(120, 120, 120)",
@@ -183,22 +180,10 @@ const SignInPage = () => {
               }}
               onClick={handleNavigateSignUp}
             >
-              tao tai khoan
+              Mời Bạn tạo tài khoản
             </span>
           </p>
         </WrapperLeft>
-        <WrapperRight>
-          <Image
-            src={logoSignIn}
-            preview={false}
-            width="203px"
-            height="203px"
-          />
-          <div className="content">
-            <h4>mua sam tai tiki</h4>
-            <span>sieu uu dai moi ngay</span>
-          </div>
-        </WrapperRight>
       </div>
     </div>
   );

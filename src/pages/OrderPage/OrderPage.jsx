@@ -379,8 +379,8 @@ const OrderPage = () => {
               size={40}
               style={{
                 margin: "26px 0px 10px",
-                backgroundColor: "rgb(255, 57, 69)",
-                borderRadius: "4px",
+    background: 'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',
+    borderRadius: "4px",
                 height: "48px",
                 width: "320px",
                 border: "none",

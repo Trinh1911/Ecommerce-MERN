@@ -6,11 +6,13 @@ import ButtonComponent from "../ButtonComponent/ButtonComponent";
 const Search = (props) => {
   const { size, placeholder, textButton } = props;
   return (
-    <div style={{ display: "flex", width: "90%" }}>
+    <div style={{ display: "flex", width: "400px" }}>
       <InputComponent
         size={size}
         placeholder={placeholder}
         style={{
+          padding: "9px 86px 10px 29px",
+          borderRadius: "43px",
           borderRight: "0",
           borderTopRightRadius: "0",
           borderBottomRightRadius: "0",
@@ -22,7 +24,13 @@ const Search = (props) => {
         size={size}
         textButton={textButton}
         icon={<SearchOutlined />}
-        style={{ borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}
+        style={{
+          height: "43px",
+          width: "50px",
+          borderRadius: "43px",
+          borderTopLeftRadius: "0",
+          borderBottomLeftRadius: "0",
+        }}
       ></ButtonComponent>
     </div>
   );

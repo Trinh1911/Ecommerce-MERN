@@ -1,5 +1,6 @@
 import { Modal } from "antd";
 import React from "react";
+import { WrapperModal } from "./styles";
 
 const ModalComponent = ({
   title = "Modal",
@@ -8,9 +9,9 @@ const ModalComponent = ({
   ...rests
 }) => {
   return (
-    <Modal title={title} open={isOpen} {...rests}>
+    <WrapperModal title={title} open={isOpen} {...rests}>
       {children}
-    </Modal>
+    </WrapperModal>
   );
 };
 

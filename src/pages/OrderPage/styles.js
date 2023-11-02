@@ -57,7 +57,7 @@ export const WrapperCountOrder  = styles.div`
 `
 
 export const WrapperRight = styles.div`
-  width: 320px;
+  width: 372px;
   margin-left: 20px;
   display: flex ;
   flex-direction: column; 
@@ -78,6 +78,7 @@ export const WrapperTotal = styles.div`
   display: flex;
    align-items: flex-start; 
    justify-content: space-between;
+   width: 100%;
     padding: 17px 20px;
     background: #fff ;
     border-bottom-right-radius: 6px;

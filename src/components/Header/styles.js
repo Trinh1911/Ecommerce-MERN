@@ -2,12 +2,12 @@ import { Row } from "antd";
 import styles from "styled-components";
 export const Wrapper = styles(Row)`
     display: flex;
-    align-items: center;
-    padding: 10px 120px;
-    background-color: rgb(26, 148, 255);
+    max-width: 1440px;
+    height: 90px;
+    margin: 0 auto;
 `
 export const LogoHeader = styles(Row)`
-    font-size: 18px;
+    font-size: 25px;
     color: #fff;
     font-weight: bold;
     text-align: left;

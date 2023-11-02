@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Col, Popover } from "antd";
+import { Badge, Col, Image, Popover } from "antd";
 import {
   ContentPopover,
   LogoHeader,
@@ -70,11 +70,11 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     dispatch(searchProduct(e.target.value));
   };
   return (
-    <div>
+    <div style={{background: 'linear-gradient(180deg, #252324 0%, #403C3D 100%)'}}>
       <Wrapper
         style={{ justifyContent: isHiddenSearch ? "space-between" : "unset" }}
       >
-        <Col span={5}>
+        <Col span={5} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <LogoHeader onClick={handleNavigateHome}>KT</LogoHeader>
         </Col>
         {!isHiddenSearch && (
@@ -89,7 +89,6 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             <Search
               placeholder="input search text"
               size="default"
-              textButton="Search"
               onChange={onSearch}
               enterButton
             />
@@ -111,7 +110,8 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                   <Popover content={content} trigger="click">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       {user?.avatar ? (
-                        <img
+                        <Image
+                        preview={false}
                           src={user?.avatar}
                           style={{
                             height: "30px",

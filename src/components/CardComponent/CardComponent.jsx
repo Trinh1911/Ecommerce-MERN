@@ -2,8 +2,9 @@ import { Card, Image } from "antd";
 import Meta from "antd/es/card/Meta";
 import React from "react";
 import { StarFilled } from "@ant-design/icons";
-import { DiscountText, NameProduct, PriceText, SaleText } from "./styles";
+import { DiscountText, ImageCard, NameProduct, PriceText, SaleText, CardProduct } from "./styles";
 import logoSales from "../../assets/images/logoSales.png";
+import sale from "../../assets/images/sale.png";
 import { useNavigate } from "react-router-dom";
 import { convertPrice } from "../../untils";
 const CardComponent = (props) => {
@@ -13,12 +14,13 @@ const CardComponent = (props) => {
     navigate(`/product-detail/${id}`)
   }
   return (
-    <Card
+    <CardProduct
       hoverable
       onClick={()=>handleDetailProduct(id)}
       style={{
         width: "200px",
         position: "relative",
+        
       }}
       cover={
         <img
@@ -31,17 +33,16 @@ const CardComponent = (props) => {
         />
       }
     >
-      <Image
-        src={logoSales}
-        style={{
-          position: "absolute",
-          width: "72px",
-          height: "20px",
-          zIndex: "2",
-          bottom: "8px",
-          left: "-6px",
-        }}
-      />
+      <div style={{position: 'relative', left: '-10px', margin: "10px 0"}}>
+        <Image
+          src={sale}
+          style={{
+            width: "100px",
+            height: "23px"
+          }}
+        />
+        <span style={{position: "absolute", color: "#fff",fontSize: '15px', fontStyle: 'italic',fontWeight: '700',left: '20px',zIndex:'10'}}>Bán chạy</span>
+      </div>
       <NameProduct>{name}</NameProduct>
       <SaleText>
         <span style={{ marginRight: "4px" }}>
@@ -59,7 +60,7 @@ const CardComponent = (props) => {
         <span style={{ marginRight: "8px" }}>{convertPrice(price)}</span>
         <DiscountText> - {discount || 5} %</DiscountText>
       </PriceText>
-    </Card>
+    </CardProduct>
   );
 };
 

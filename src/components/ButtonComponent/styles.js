@@ -5,4 +5,8 @@ export const WrapButton = styles(Button)`
         background-color: #ffffff;
         border-color: #d9d9d9;
     }
+    .ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+        color: #4096ff;
+        border-color: #FD7E14;
+    }
 `
