@@ -71,7 +71,6 @@ export const orderSlice = createSlice({
                 }
             })
             state.orderItemsSelected = orderSelected
-            console.log('selected', state, action)
         },
     },
 })

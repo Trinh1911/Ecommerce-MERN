@@ -79,8 +79,6 @@ export const WrapperInfo = styles.div`
 
   border-top-left-radius: 6px;
 
-  width: 100%
-
 `
 
 

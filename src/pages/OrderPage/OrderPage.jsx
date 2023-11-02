@@ -37,6 +37,8 @@ import { useNavigate } from "react-router-dom";
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
+
+  console.log(order);
   const [listChecked, setListChecked] = useState([]);
   const [stateUserDetail, setStateUserDetail] = useState({
     name: "",
@@ -46,7 +48,7 @@ const OrderPage = () => {
   });
   const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
   const dispatch = useDispatch();
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const onChange = (e) => {
     if (listChecked.includes(e.target.value)) {
@@ -87,12 +89,12 @@ const OrderPage = () => {
     }
   };
   const handleAddCard = () => {
-     if (!order?.orderItemsSelected?.length) {
-      Message.error('Vui lòng chọn sản phẩm');
-    }else if (!user?.phone || !user?.address || !user.name || !user?.city) {
+    if (!order?.orderItemsSelected?.length) {
+      Message.error("Vui lòng chọn sản phẩm");
+    } else if (!user?.phone || !user?.address || !user.name || !user?.city) {
       setIsOpenModalUpdateInfo(true);
     } else {
-      navigate('/payment')
+      navigate("/payment");
     }
   };
   const handleCancleUpdate = () => {
@@ -108,7 +110,7 @@ const OrderPage = () => {
   };
   const handleChangeAddress = () => {
     setIsOpenModalUpdateInfo(true);
-  }
+  };
   // lay gia tri cua nguoi dung nhap vao
   const handleOnchangeDetails = (e) => {
     setStateUserDetail({
@@ -120,16 +122,19 @@ const OrderPage = () => {
   const handleUpdateInforUser = () => {
     const { name, address, city, phone } = stateUserDetail;
     if (name && address && city && phone) {
-      mutationUpdate.mutate({
-        id: user?.id,
-        token: user?.access_token,
-        ...stateUserDetail,
-      }, {
-        onSuccess: ()=> {
-          dispatch(updateUser({name, address, city, phone}))
-          setIsOpenModalUpdateInfo(false)
+      mutationUpdate.mutate(
+        {
+          id: user?.id,
+          token: user?.access_token,
+          ...stateUserDetail,
+        },
+        {
+          onSuccess: () => {
+            dispatch(updateUser({ name, address, city, phone }));
+            setIsOpenModalUpdateInfo(false);
+          },
         }
-      });
+      );
     }
   };
   // gia tri duoc dua vao mutation update product
@@ -139,32 +144,31 @@ const OrderPage = () => {
     return res;
   });
   // mutation
-  const {
-    data,
-    isLoading,
-  } = mutationUpdate;
+  const { data, isLoading } = mutationUpdate;
   useEffect(() => {
     dispatch(selectedOrder({ listChecked }));
   }, [listChecked]);
-  useEffect(()=> {
-    form.setFieldValue(stateUserDetail)
-  }, [form, stateUserDetail])
-  useEffect(()=> {
-    if(isOpenModalUpdateInfo) {
+  useEffect(() => {
+    form.setFieldValue(stateUserDetail);
+  }, [form, stateUserDetail]);
+  useEffect(() => {
+    if (isOpenModalUpdateInfo) {
       setStateUserDetail({
         city: user?.city,
         name: user?.name,
         address: user?.address,
-        phone: user?.phone
-      })
+        phone: user?.phone,
+      });
     }
-  }, [isOpenModalUpdateInfo])
+  }, [isOpenModalUpdateInfo]);
   const priceMemo = useMemo(() => {
     const result = order?.orderItemsSelected?.reduce((total, cur) => {
       return total + cur.price * cur.amount;
     }, 0);
+    console.log(result);
     return result;
   }, [order]);
+
   const DeliveryPriceMemo = useMemo(() => {
     if (priceMemo > 100000 || priceMemo === 0) {
       return 0;
@@ -311,11 +315,19 @@ const OrderPage = () => {
           </WrapperLeft>
           <WrapperRight>
             <div style={{ width: "100%" }}>
-            <WrapperInfo>
+              <WrapperInfo>
                 <div>
                   <span>Địa chỉ: </span>
-                  <span style={{fontWeight: 'bold'}}>{ `${user?.address} , ${user?.city}`} </span>
-                  <span onClick={handleChangeAddress} style={{color: '#9255FD', cursor:'pointer'}}> Thay đổi</span>
+                  <span style={{ fontWeight: "bold" }}>
+                    {`${user?.address} , ${user?.city}`}{" "}
+                  </span>
+                  <span
+                    onClick={handleChangeAddress}
+                    style={{ color: "#9255FD", cursor: "pointer" }}
+                  >
+                    {" "}
+                    Thay đổi
+                  </span>
                 </div>
               </WrapperInfo>
               <WrapperInfo>
@@ -379,8 +391,8 @@ const OrderPage = () => {
               size={40}
               style={{
                 margin: "26px 0px 10px",
-    background: 'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',
-    borderRadius: "4px",
+                background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
+                borderRadius: "4px",
                 height: "48px",
                 width: "320px",
                 border: "none",

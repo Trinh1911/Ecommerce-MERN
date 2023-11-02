@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import TableComponent from "../TableComponent/TableComponent";
 import { WrapperHeader, WrapperUploadFile } from "./styles";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, FilterFilled } from "@ant-design/icons";
 import { getBase64, renderOptions } from "../../untils";
 import InputComponent from "../InputComponent/InputComponent";
 import useMutationHooks from "../../hooks/UseMutationHook";
@@ -243,6 +243,7 @@ const AdminProduct = () => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
+          fontSize: '20px',
           color: filtered ? "#1890ff" : undefined,
         }}
       />
