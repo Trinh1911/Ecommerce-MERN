@@ -9,6 +9,7 @@ import {
   WrapperTotal,
 } from "./styles";
 import * as UserService from "../../service/UserService";
+import * as OrderService from "../../service/OrderService";
 import * as Message from "../../components/Message/Message";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import ModalComponent from "../../components/ModalComponent/ModalComponent";
@@ -54,6 +55,31 @@ const PaymentPage = () => {
       navigate("/payment");
     }
   };
+  const handleAddOrder = () => {
+    if (
+      user?.access_token &&
+      order?.orderItemsSelected &&
+      user?.name &&
+      user?.phone &&
+      user?.city &&
+      priceMemo &&
+      user?.id
+    ) {
+      mutationAddOrder.mutate({
+        token: user?.access_token,
+        orderItems: order?.orderItemsSelected,
+        fullName: user?.name,
+        address: user?.address,
+        phone: user?.phone,
+        city: user?.city,
+        paymentMethod: payment,
+        itemsPrice: priceMemo,
+        shippingPrice: DeliveryPriceMemo,
+        totalPrice: TotalPriceMemo,
+        user: user?.id
+      });
+    }
+  };
   const handleChangeAddress = () => {
     setIsOpenModalUpdateInfo(true);
   };
@@ -70,11 +96,22 @@ const PaymentPage = () => {
     const res = UserService.updateUser(id, { ...rests }, token);
     return res;
   });
+  // gia tri duoc dua vao mutation add order
+  const mutationAddOrder = useMutationHooks((data) => {
+    const { token, ...rests } = data;
+    const res = OrderService.CreateOrder({ ...rests }, token);
+    return res;
+  });
   // mutation
   const { data, isLoading } = mutationUpdate;
+  const { data: dataAdd,isLoading: isLoadingAddOrder, isError, isSuccess } = mutationAddOrder;
   useEffect(() => {
-    //dispatch(selectedOrder({ listChecked }));
-  }, [listChecked]);
+    if (isSuccess && dataAdd?.status === "OK") {
+      Message.success('Đặt hàng thành công');
+    } else if (isError) {
+      Message.error();
+    }
+  }, [isSuccess]);
   useEffect(() => {
     form.setFieldValue(stateUserDetail);
   }, [form, stateUserDetail]);
@@ -96,9 +133,9 @@ const PaymentPage = () => {
   }, [order]);
   const DeliveryPriceMemo = useMemo(() => {
     if (priceMemo > 100000 || priceMemo === 0) {
-      return 0;
+      return 5000;
     } else {
-      return 10000;
+      return 20000;
     }
   }, [order]);
   const TotalPriceMemo = useMemo(() => {
@@ -106,126 +143,128 @@ const PaymentPage = () => {
   }, [priceMemo, DeliveryPriceMemo]);
   return (
     <div style={{ background: "#f5f5fa", with: "100%", height: "100vh" }}>
-      <div style={{ height: "100%", width: "1270px", margin: "0 auto" }}>
-        <h3>Giỏ hàng</h3>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <WrapperLeft>
-            <WrapperInfo>
-              <div>
-                <Lable>Chọn phương thức giao hàng</Lable>
-                <WrapperRadio onChange={handleDilivery} value={delivery}>
-                  <Radio value="fast">
-                    <span style={{ color: "#ea8500", fontWeight: "bold" }}>
-                      FAST
-                    </span>
-                    Giao hàng tiết kiệm
-                  </Radio>
-                  <Radio value="gojek">
-                    <span style={{ color: "#ea8500", fontWeight: "bold" }}>
-                      GO_JEK
-                    </span>
-                    Giao hàng tiết kiệm
-                  </Radio>
-                </WrapperRadio>
-              </div>
-            </WrapperInfo>
-            <WrapperInfo>
-              <div>
-                <Lable>Chọn phương thức thanh toán</Lable>
-                <WrapperRadio onChange={handlePayment} value={payment}>
-                  <Radio value="later_money">
-                    Thanh toán tiền mặt khi nhận hàng
-                  </Radio>
-                </WrapperRadio>
-              </div>
-            </WrapperInfo>
-          </WrapperLeft>
-          <WrapperRight>
-            <div style={{ width: "100%" }}>
+      <Loading isLoading={isLoadingAddOrder}>
+        <div style={{ height: "100%", width: "1270px", margin: "0 auto" }}>
+          <h3>Giỏ hàng</h3>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <WrapperLeft>
               <WrapperInfo>
                 <div>
-                  <span>Địa chỉ: </span>
-                  <span style={{ fontWeight: "bold" }}>
-                    {`${user?.address} , ${user?.city}`}
-                  </span>
+                  <Lable>Chọn phương thức giao hàng</Lable>
+                  <WrapperRadio onChange={handleDilivery} value={delivery}>
+                    <Radio value="fast">
+                      <span style={{ color: "#ea8500", fontWeight: "bold" }}>
+                        FAST
+                      </span>
+                      Giao hàng tiết kiệm
+                    </Radio>
+                    <Radio value="gojek">
+                      <span style={{ color: "#ea8500", fontWeight: "bold" }}>
+                        GO_JEK
+                      </span>
+                      Giao hàng tiết kiệm
+                    </Radio>
+                  </WrapperRadio>
                 </div>
               </WrapperInfo>
               <WrapperInfo>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>Tạm tính</span>
-                  <span
-                    style={{
-                      color: "#000",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {convertPrice(priceMemo)}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>Phí giao hàng</span>
-                  <span
-                    style={{
-                      color: "#000",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {convertPrice(DeliveryPriceMemo)}
-                  </span>
+                <div>
+                  <Lable>Chọn phương thức thanh toán</Lable>
+                  <WrapperRadio onChange={handlePayment} value={payment}>
+                    <Radio value="later_money">
+                      Thanh toán tiền mặt khi nhận hàng
+                    </Radio>
+                  </WrapperRadio>
                 </div>
               </WrapperInfo>
-              <WrapperTotal>
-                <span>Tổng tiền</span>
-                <span style={{ display: "flex", flexDirection: "column" }}>
-                  <span
+            </WrapperLeft>
+            <WrapperRight>
+              <div style={{ width: "100%" }}>
+                <WrapperInfo>
+                  <div>
+                    <span>Địa chỉ: </span>
+                    <span style={{ fontWeight: "bold" }}>
+                      {`${user?.address} , ${user?.city}`}
+                    </span>
+                  </div>
+                </WrapperInfo>
+                <WrapperInfo>
+                  <div
                     style={{
-                      color: "rgb(254, 56, 52)",
-                      fontSize: "24px",
-                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
                   >
-                    {convertPrice(TotalPriceMemo)}
+                    <span>Tạm tính</span>
+                    <span
+                      style={{
+                        color: "#000",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {convertPrice(priceMemo)}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>Phí giao hàng</span>
+                    <span
+                      style={{
+                        color: "#000",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {convertPrice(DeliveryPriceMemo)}
+                    </span>
+                  </div>
+                </WrapperInfo>
+                <WrapperTotal>
+                  <span>Tổng tiền</span>
+                  <span style={{ display: "flex", flexDirection: "column" }}>
+                    <span
+                      style={{
+                        color: "rgb(254, 56, 52)",
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {convertPrice(TotalPriceMemo)}
+                    </span>
+                    <span style={{ color: "#000", fontSize: "11px" }}>
+                      (Đã bao gồm VAT nếu có)
+                    </span>
                   </span>
-                  <span style={{ color: "#000", fontSize: "11px" }}>
-                    (Đã bao gồm VAT nếu có)
-                  </span>
-                </span>
-              </WrapperTotal>
-            </div>
-            <ButtonComponent
-              onClick={() => handleAddCard()}
-              size={40}
-              style={{
-                margin: "26px 0px 10px",
-                background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
-                borderRadius: "4px",
-                height: "48px",
-                width: "320px",
-                border: "none",
-                borderRadius: "4px",
-                color: "#fff",
-                fontSize: "15px",
-                fontWeight: "700",
-              }}
-              textButton={"Mua hàng"}
-            ></ButtonComponent>
-          </WrapperRight>
+                </WrapperTotal>
+              </div>
+              <ButtonComponent
+                onClick={() => handleAddOrder()}
+                size={40}
+                style={{
+                  margin: "26px 0px 10px",
+                  background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
+                  borderRadius: "4px",
+                  height: "48px",
+                  width: "320px",
+                  border: "none",
+                  borderRadius: "4px",
+                  color: "#fff",
+                  fontSize: "15px",
+                  fontWeight: "700",
+                }}
+                textButton={"Đặt hàng "}
+              ></ButtonComponent>
+            </WrapperRight>
+          </div>
         </div>
-      </div>
+      </Loading>
     </div>
   );
 };
