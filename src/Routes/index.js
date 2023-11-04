@@ -1,5 +1,6 @@
 import HomePage from "../pages/HomePage/HomePage"
 import OrderPage from "../pages/OrderPage/OrderPage"
+import MyOrderPage from "../pages/MyOrderPage/MyOrderPage"
 import ProductPage from "../pages/ProductPage/ProductPage"
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage"
 import TypeProductPage from "../pages/TypeProductPage/TypeProductPage"
@@ -19,6 +20,11 @@ export const routes = [
     {
         path: '/order',
         page: OrderPage,
+        isShowheader: true,
+    },
+    {
+        path: '/my-order',
+        page: MyOrderPage,
         isShowheader: true,
     },
     {

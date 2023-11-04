@@ -37,7 +37,7 @@ export const userSlide = createSlice({
             state.id = '';
             state.city = '';
             state.access_token = '';
-            state.access_token = false;
+            state.isAdmin = false;
         },
     },
 })

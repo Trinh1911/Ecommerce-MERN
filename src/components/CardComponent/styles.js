@@ -16,6 +16,8 @@ export const CardProduct = styles(Card)`
     width: 200px;
     position: relative;
     margin-top: 15px;
+    background-color:${props => props.disabled ? "#ccc": "#fff"};
+    cursor:${props => props.disabled ? "not-allowed": "pointer"};
     & .ant-card-body {
         padding: 10px;
     }

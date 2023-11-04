@@ -38,7 +38,7 @@ export const ButtonMore = styles(ButtonComponent)`
             font-weight: 600;
         }
     }
-    cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointers'}
+    cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointers'};
     span {
         font-weight: 500;
     }

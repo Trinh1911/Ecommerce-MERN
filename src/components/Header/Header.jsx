@@ -25,6 +25,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
   const [search, setSearch] = useState("");
+  const [isOpenPopOver, setIsOpenPopOver] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const order = useSelector((state) => state.order);
@@ -35,18 +36,28 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const handleNavigateHome = () => {
     navigate("/");
   };
-  const handleNavigateProfileUser = () => {
-    navigate("/profile-user");
-  };
-  const handleNavigateAdmin = () => {
-    navigate("/admin");
-  };
   const handleLogout = async () => {
     setLoading(true);
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoading(false);
   };
+  const handleClickNavigate = (type) => {
+    if(type === 'profile') {
+      navigate('/profile-user')
+    }else if(type === 'admin') {
+      navigate('/system/admin')
+    }else if(type === 'my-order') {
+      navigate('/my-order',{ state : {
+          id: user?.id,
+          token : user?.access_token
+        }
+      })
+    }else {
+      handleLogout()
+    }
+    setIsOpenPopOver(false)
+  }
   // cập nhật tên người dùng khi có sự cập nhật từ trang thông tin người dùng
   useEffect(() => {
     setUserName(user?.name);
@@ -54,27 +65,37 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   }, [user?.name, user?.avatar]);
   const content = (
     <div>
+      <ContentPopover onClick={() => handleClickNavigate('profile')}>Thông tin người dùng</ContentPopover>
       {user?.isAdmin && (
-        <ContentPopover onClick={handleNavigateAdmin}>
-          Quản lí hệ thống
-        </ContentPopover>
+
+        <ContentPopover onClick={() => handleClickNavigate('admin')}>Quản lí hệ thống</ContentPopover>
       )}
-      <ContentPopover onClick={handleNavigateProfileUser}>
-        Thông tin người dùng
-      </ContentPopover>
-      <ContentPopover onClick={handleLogout}>Đăng xuất</ContentPopover>
+      <ContentPopover onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</ContentPopover>
+      <ContentPopover onClick={() => handleClickNavigate()}>Đăng xuất</ContentPopover>
     </div>
   );
+  
   const onSearch = (e) => {
     setSearch(e.target.value);
     dispatch(searchProduct(e.target.value));
   };
   return (
-    <div style={{background: 'linear-gradient(180deg, #252324 0%, #403C3D 100%)'}}>
+    <div
+      style={{
+        background: "linear-gradient(180deg, #252324 0%, #403C3D 100%)",
+      }}
+    >
       <Wrapper
         style={{ justifyContent: isHiddenSearch ? "space-between" : "unset" }}
       >
-        <Col span={5} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Col
+          span={5}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <LogoHeader onClick={handleNavigateHome}>KT</LogoHeader>
         </Col>
         {!isHiddenSearch && (
@@ -107,11 +128,11 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             <MenuItems>
               {user?.access_token ? (
                 <>
-                  <Popover content={content} trigger="click">
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                  <Popover content={content} trigger="click" open={isOpenPopOver}>
+                    <div style={{ display: "flex", alignItems: "center" }} onClick={()=> setIsOpenPopOver(!isOpenPopOver)}>
                       {user?.avatar ? (
                         <Image
-                        preview={false}
+                          preview={false}
                           src={user?.avatar}
                           style={{
                             height: "30px",

@@ -61,7 +61,7 @@ const PaymentPage = () => {
         itemsPrice: priceMemo,
         shippingPrice: DeliveryPriceMemo,
         totalPrice: TotalPriceMemo,
-        user: user?.id
+        user: user?.id,
       });
     }
   };
@@ -75,31 +75,37 @@ const PaymentPage = () => {
   // gia tri duoc dua vao mutation add order
   const mutationAddOrder = useMutationHooks((data) => {
     const { token, ...rests } = data;
+    console.log("...rests", data);
     const res = OrderService.CreateOrder({ ...rests }, token);
     return res;
   });
   // mutation
-  const { data: dataAdd,isLoading: isLoadingAddOrder, isError, isSuccess } = mutationAddOrder;
+  const {
+    data: dataAdd,
+    isLoading: isLoadingAddOrder,
+    isError,
+    isSuccess,
+  } = mutationAddOrder;
   useEffect(() => {
     if (isSuccess && dataAdd?.status === "OK") {
       // nếu thành công thì xóa các sản phẩm trong giỏ hàng
-      const arrayOrdered = []
+      const arrayOrdered = [];
       // đẩy các sản phẩm đã chọn vào 1 mảng rỗng
-      order?.orderItemsSelected?.forEach(element => {
-        arrayOrdered.push(element.product)
+      order?.orderItemsSelected?.forEach((element) => {
+        arrayOrdered.push(element.product);
       });
       // gọi đến hành động xóa các sản phẩm và truyền tham số mảng chứa các sản phẩm cho hành động
-      dispatch(removeAllOrderProduct({listChecked: arrayOrdered}))
-      Message.success('Đặt hàng thành công');
+      dispatch(removeAllOrderProduct({ listChecked: arrayOrdered }));
+      Message.success("Đặt hàng thành công");
       // truyền đi 1 state có chứa các thông tin
-      navigate('/orderSuccess', {
+      navigate("/orderSuccess", {
         state: {
           delivery,
           payment,
           orders: order?.orderItemsSelected,
           totalPrice: TotalPriceMemo,
-        }
-      })
+        },
+      });
     } else if (isError) {
       Message.error();
     }
@@ -241,7 +247,8 @@ const PaymentPage = () => {
                 size={40}
                 style={{
                   margin: "26px 0px 10px",
-                  background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
+                  background:
+                    "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
                   borderRadius: "4px",
                   height: "48px",
                   width: "320px",
