@@ -15,12 +15,6 @@ import useMutationHooks from "../../hooks/UseMutationHook";
 import ModalComponent from "../../components/ModalComponent/ModalComponent";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  decreaseAmount,
-  increaseAmount,
-  removeAllOrderProduct,
-  removeOrderProduct,
-} from "../../redux/slides/OrderSlice";
 import { convertPrice } from "../../untils";
 import { useMemo } from "react";
 import { useEffect } from "react";
@@ -28,11 +22,11 @@ import Loading from "../../components/LoadingComponent/Loading";
 import InputComponent from "../../components/InputComponent/InputComponent";
 import { updateUser } from "../../redux/slides/userSlide";
 import { useNavigate } from "react-router-dom";
+import { removeAllOrderProduct } from "../../redux/slides/OrderSlice";
 
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
-  console.log(order);
   const [listChecked, setListChecked] = useState([]);
   const [stateUserDetail, setStateUserDetail] = useState({
     name: "",
@@ -46,15 +40,6 @@ const PaymentPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const handleAddCard = () => {
-    if (!order?.orderItemsSelected?.length) {
-      Message.error("Vui lòng chọn sản phẩm");
-    } else if (!user?.phone || !user?.address || !user.name || !user?.city) {
-      setIsOpenModalUpdateInfo(true);
-    } else {
-      navigate("/payment");
-    }
-  };
   const handleAddOrder = () => {
     if (
       user?.access_token &&
@@ -80,9 +65,6 @@ const PaymentPage = () => {
       });
     }
   };
-  const handleChangeAddress = () => {
-    setIsOpenModalUpdateInfo(true);
-  };
   // payment
   const handlePayment = (e) => {
     setPayment(e.target.value);
@@ -90,12 +72,6 @@ const PaymentPage = () => {
   const handleDilivery = (e) => {
     setDelivery(e.target.value);
   };
-  // gia tri duoc dua vao mutation update product
-  const mutationUpdate = useMutationHooks((data) => {
-    const { id, token, ...rests } = data;
-    const res = UserService.updateUser(id, { ...rests }, token);
-    return res;
-  });
   // gia tri duoc dua vao mutation add order
   const mutationAddOrder = useMutationHooks((data) => {
     const { token, ...rests } = data;
@@ -103,15 +79,31 @@ const PaymentPage = () => {
     return res;
   });
   // mutation
-  const { data, isLoading } = mutationUpdate;
   const { data: dataAdd,isLoading: isLoadingAddOrder, isError, isSuccess } = mutationAddOrder;
   useEffect(() => {
     if (isSuccess && dataAdd?.status === "OK") {
+      // nếu thành công thì xóa các sản phẩm trong giỏ hàng
+      const arrayOrdered = []
+      // đẩy các sản phẩm đã chọn vào 1 mảng rỗng
+      order?.orderItemsSelected?.forEach(element => {
+        arrayOrdered.push(element.product)
+      });
+      // gọi đến hành động xóa các sản phẩm và truyền tham số mảng chứa các sản phẩm cho hành động
+      dispatch(removeAllOrderProduct({listChecked: arrayOrdered}))
       Message.success('Đặt hàng thành công');
+      // truyền đi 1 state có chứa các thông tin
+      navigate('/orderSuccess', {
+        state: {
+          delivery,
+          payment,
+          orders: order?.orderItemsSelected,
+          totalPrice: TotalPriceMemo,
+        }
+      })
     } else if (isError) {
       Message.error();
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
   useEffect(() => {
     form.setFieldValue(stateUserDetail);
   }, [form, stateUserDetail]);

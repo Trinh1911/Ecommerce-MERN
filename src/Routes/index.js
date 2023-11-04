@@ -8,6 +8,7 @@ import SignInPage from "../pages/SignInPage/SignInPage"
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import PaymentPage from "../pages/PaymentPage/PaymentPage"
+import OrderSuccess from "../pages/OrderSuccess/OrderSuccess"
 import AdminPage from "../pages/AdminPage/AdminPage"
 export const routes = [
     {
@@ -53,6 +54,11 @@ export const routes = [
     {
         path: '/payment',
         page: PaymentPage,
+        isShowheader: true,
+    },
+    {
+        path: '/orderSuccess',
+        page: OrderSuccess,
         isShowheader: true,
     },
     {

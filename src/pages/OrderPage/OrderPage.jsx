@@ -33,6 +33,7 @@ import Loading from "../../components/LoadingComponent/Loading";
 import InputComponent from "../../components/InputComponent/InputComponent";
 import { updateUser } from "../../redux/slides/userSlide";
 import { useNavigate } from "react-router-dom";
+import Step from "../../components/Step/Step";
 
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
@@ -170,21 +171,40 @@ const OrderPage = () => {
   }, [order]);
 
   const DeliveryPriceMemo = useMemo(() => {
-    if (priceMemo > 100000 || priceMemo === 0) {
+    if (priceMemo >= 200000 || priceMemo < 500000) {
+      return 10000;
+    } else if ((priceMemo === 0 && order?.orderItemsSelected?.length === 0) || priceMemo >=500000)  {
       return 0;
     } else {
-      return 10000;
+      return 20000
     }
   }, [order]);
   const TotalPriceMemo = useMemo(() => {
     return Number(priceMemo) + Number(DeliveryPriceMemo);
   }, [priceMemo, DeliveryPriceMemo]);
+  const itemsDelivery = [
+    {
+      title: '20.000 VND',
+      description: 'Dưới 200.000 VND',
+    },
+    {
+      title: '10.000 VND',
+      description: 'Từ 200.000 VND đến dưới 500.000 VND',
+    },
+    {
+      title: 'Free ship',
+      description : 'Trên 500.000 VND',
+    },
+  ]
   return (
     <div style={{ background: "#f5f5fa", with: "100%", height: "100vh" }}>
       <div style={{ height: "100%", width: "1270px", margin: "0 auto" }}>
         <h3>Giỏ hàng</h3>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <WrapperLeft>
+            <div style={{backgroundColor: "#fff", padding:'16px'}}>
+              <Step items={itemsDelivery} current={DeliveryPriceMemo === 10000 ? 2 : DeliveryPriceMemo === 20000 ? 1: order.orderItemsSelected.length === 0 ? 0:  3}/>
+            </div>
             <WrapperStyleHeader>
               <span style={{ display: "inline-block", width: "390px" }}>
                 <Checkbox
