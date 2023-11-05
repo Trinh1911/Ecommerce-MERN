@@ -1,5 +1,5 @@
-import { Checkbox } from "antd";
 import styles  from "styled-components";
+
 export const WrapperStyleHeader = styles.div`
   background: rgb(255, 255, 255);
   padding: 9px 16px;
@@ -26,12 +26,36 @@ export const WrapperStyleHeaderDilivery = styles.div`
   margin-bottom: 4px;
 `
 
+export const WrapperContainer = styles.div`
+  width: 100%;
+  background-color: #f5f5fa;
+`
+
 export const WrapperLeft = styles.div`
   width: 910px;
 `
 
 export const WrapperListOrder = styles.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+`
+export const WrapperFooterItem = styles.div`
+  display: flex;
+  flex-direction : column;
+  gap: 10px;
+  border-top: 1px solid rgb(235, 235, 240);
+  width: 100%;
+  align-items:flex-end;
+  padding-top: 10px;
+`
 
+export const WrapperHeaderItem = styles.div`
+  display: flex;
+  align-items:flex-start;
+  height: 90px;
+  width: 100%;
 `
 
 export const WrapperItemOrder = styles.div`
@@ -40,57 +64,20 @@ export const WrapperItemOrder = styles.div`
   padding: 9px 16px;
   background: #fff;
   margin-top: 12px;
-`
-
-export const WrapperPriceDiscount = styles.span`
-  color: #999;
-  font-size: 12px;
-  text-decoration: line-through;
-  margin-left: 4px;
-`
-export const WrapperCountOrder  = styles.div`
-  display: flex;
-  align-items: center;
-  width: 84px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`
-
-export const WrapperRight = styles.div`
-  width: 372px;
-  margin-left: 20px;
-  display: flex ;
-  flex-direction: column; 
-  gap: 10px; 
-  align-items: center
-`
-
-export const WrapperInfo = styles.div`
-  padding: 17px 20px;
-  border-bottom: 1px solid #f5f5f5;
+  flex-direction: column;
+  width: 950px;
+  margin: 0 auto;
   background: #fff;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  width: 100%
+  border-radius: 6px;
+  box-shadow: 0 12px 12px #ccc;
 `
 
-export const WrapperTotal = styles.div`
-  display: flex;
-   align-items: flex-start; 
-   justify-content: space-between;
-   width: 100%;
-    padding: 17px 20px;
-    background: #fff ;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-`
-
-export const CustomCheckbox = styles(Checkbox)`
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #9255FD;
-    border-color: #9255FD;
-  }
-  .ant-checkbox:hover .ant-checkbox-inner {
-    border-color: #9255FD;
-  }
+export const WrapperStatus = styles.div`
+  display:flex;
+  align-item:flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(235, 235, 240);
+  flex-direction:column;
 `
