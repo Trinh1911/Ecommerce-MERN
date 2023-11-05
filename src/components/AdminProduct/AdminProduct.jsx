@@ -29,8 +29,7 @@ const AdminProduct = () => {
   // filter
   const searchInput = useRef(null);
   const [searchText, setSearchText] = useState("");
-  // product
-  const [product, setProduct] = useState({
+  const initialValue = () => ({
     name: "",
     price: "",
     description: "",
@@ -40,18 +39,11 @@ const AdminProduct = () => {
     discount: "",
     countInStock: "",
     newType: "",
-  });
+  })
+  // product
+  const [product, setProduct] = useState(initialValue());
   // product update
-  const [productDetails, setProductDetails] = useState({
-    name: "",
-    price: "",
-    description: "",
-    rating: "",
-    discount: "",
-    image: "",
-    type: "",
-    countInStock: "",
-  });
+  const [productDetails, setProductDetails] = useState(initialValue());
   const [form] = Form.useForm();
   // gia tri duoc dua vao mutation
   const mutation = useMutationHooks((data) => {
@@ -124,9 +116,13 @@ const AdminProduct = () => {
   };
 
   useEffect(() => {
-    form.setFieldsValue(productDetails);
-  }, [form, productDetails]);
-
+    if(!isModalOpen) {
+      form.setFieldsValue(productDetails);
+    } else {
+      form.setFieldsValue(initialValue());
+    }
+  }, [form, productDetails, isModalOpen]);
+  console.log('isModalOpen', isModalOpen);
   useEffect(() => {
     if (rowSelected && isOpenDrawer) {
       setIsLoadingUpdate(true);

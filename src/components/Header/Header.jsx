@@ -46,7 +46,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     if(type === 'profile') {
       navigate('/profile-user')
     }else if(type === 'admin') {
-      navigate('/system/admin')
+      navigate('/admin')
     }else if(type === 'my-order') {
       navigate('/my-order',{ state : {
           id: user?.id,

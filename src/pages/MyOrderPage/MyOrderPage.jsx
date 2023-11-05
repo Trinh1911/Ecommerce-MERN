@@ -6,15 +6,16 @@ import { useSelector } from 'react-redux';
 import { convertPrice } from '../../untils';
 import { WrapperItemOrder, WrapperListOrder, WrapperHeaderItem, WrapperFooterItem, WrapperContainer, WrapperStatus } from './styles';
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
+import { useLocation, useParams } from 'react-router-dom';
 
 const MyOrderPage = () => {
   const user = useSelector((state) => state.user)
+  const location = useLocation()
+  console.log('location', location)
   const fetchMyOrder = async () => {
-    if(user?.id && user?.access_token) {
       const res = await OrderService.getOrderByUserId(user?.id, user?.access_token)
       return res.data
     }
-  }
 
   const queryOrder = useQuery({ queryKey: ['orders'], queryFn: fetchMyOrder }, {
     // nếu có id và access_token của người dùng thì mới được phép gọi tới fetchMyOrder
