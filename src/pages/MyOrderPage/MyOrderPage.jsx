@@ -14,6 +14,8 @@ import {
 } from "./styles";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useLocation, useNavigate } from "react-router-dom";
+import * as Message from "../../components/Message/Message";
+import useMutationHooks from "../../hooks/UseMutationHook";
 
 const MyOrderPage = () => {
   const location = useLocation();
@@ -43,6 +45,32 @@ const MyOrderPage = () => {
       }
     });
   }
+  const mutationCancel = useMutationHooks((data) => {
+    const { id, token } = data;
+    const res = OrderService.cancelOrder(id, token)
+    return res;
+  });
+  const handleCancelOrder = (id) => {
+    mutationCancel.mutate({id, token: state?.token},  {
+      onSuccess: () => {
+        queryOrder.refetch()
+      }
+    })
+  }
+  const {
+    data: dataCancel,
+    isLoading: isLoadingCancel,
+    isError: isErrorCancel,
+    isSuccess: isSuccessCancel,
+  } = mutationCancel;
+  useEffect(() => {
+    if(isSuccessCancel && dataCancel?.status === 'OK' ) {
+      Message.success()
+    } else if (isErrorCancel) {
+      Message.error()
+    }
+  }, [isSuccessCancel,isErrorCancel ])
+  
   const renderProduct = (data) => {
     return data?.map((order) => {
       return (
@@ -78,7 +106,7 @@ const MyOrderPage = () => {
     });
   };
   return (
-    <Loading isLoading={isLoading}>
+    <Loading isLoading={isLoading || isLoadingCancel}>
       <WrapperContainer>
         <div style={{ height: "100%", width: "1270px", margin: "0 auto" }}>
           <h4>Đơn hàng của tôi</h4>
@@ -125,7 +153,7 @@ const MyOrderPage = () => {
                       </div>
                       <div style={{ display: "flex", gap: "10px" }}>
                         <ButtonComponent
-                          // onClick={() => handleAddCard()}
+                          onClick={() => handleCancelOrder(order?._id)}
                           size={40}
                           style={{
                             height: "36px",
