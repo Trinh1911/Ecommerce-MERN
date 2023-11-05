@@ -22,6 +22,7 @@ import Loading from "../../components/LoadingComponent/Loading";
 const DetailsOrderPage = () => {
   const params = useParams();
   const location = useLocation();
+  console.log('location', location)
   const { state } = location;
   const { id } = params;
   const fetchDetailsOrder = async () => {
@@ -35,6 +36,7 @@ const DetailsOrderPage = () => {
     }
   );
   const { isLoading, data } = queryOrder;
+  console.log('data: ' , data)
   const priceMemo = useMemo(() => {
     const result = data?.orderItems?.reduce((total, cur) => {
       return total + cur.price * cur.amount;
@@ -43,7 +45,7 @@ const DetailsOrderPage = () => {
   }, [data]);
   return (
     <Loading isLoading={isLoading}>
-      <div style={{ width: "100%", height: "100vh", background: "#f5f5fa" }}>
+      <div style={{ width: "100%", background: "#f5f5fa" }}>
         <div style={{ width: "1270px", margin: "0 auto" }}>
           <h4>Chi tiết đơn hàng</h4>
 
@@ -81,7 +83,7 @@ const DetailsOrderPage = () => {
               <WrapperLabel>Hình thức thanh toán</WrapperLabel>
               <WrapperContentInfo>
                 <div className="payment-info">
-                  {orderContant[data?.paymentMethod]}
+                  {orderContant.payment[data?.paymentMethod]}
                 </div>
                 <div className="status-payment">
                   {data?.isPaid ? "Đã thanh toán" : "Chưa thanh toán"}

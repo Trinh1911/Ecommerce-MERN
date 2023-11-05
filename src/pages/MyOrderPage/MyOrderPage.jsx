@@ -13,16 +13,17 @@ import {
   WrapperStatus,
 } from "./styles";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MyOrderPage = () => {
   const location = useLocation();
   const { state } = location;
   console.log("location", location);
+  const navigate = useNavigate();
   const fetchMyOrder = async () => {
     const res = await OrderService.getOrderByUserId(
       state?.id,
-      state?.access_token
+      state?.token
     );
     return res.data;
   };
@@ -30,12 +31,18 @@ const MyOrderPage = () => {
   const queryOrder = useQuery(
     { queryKey: ["orders"], queryFn: fetchMyOrder },
     {
-      // nếu có id và access_token của người dùng thì mới được phép gọi tới fetchMyOrder
-      enabled: state?.id && state?.access_token,
+      // nếu có id và token của người dùng thì mới được phép gọi tới fetchMyOrder
+      enabled: state?.id && state?.token,
     }
   );
   const { isLoading, data } = queryOrder;
-  console.log("data", data);
+  const handleDetailsOrder =(id) => {
+    navigate(`/details-order/${id}`, {
+      state: {
+        token: state?.token
+      }
+    });
+  }
   const renderProduct = (data) => {
     return data?.map((order) => {
       return (
@@ -132,7 +139,7 @@ const MyOrderPage = () => {
                           }}
                         ></ButtonComponent>
                         <ButtonComponent
-                          // onClick={() => handleDetailsOrder()}
+                          onClick={() => handleDetailsOrder(order?._id)}
                           size={40}
                           style={{
                             height: "36px",

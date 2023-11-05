@@ -29,7 +29,7 @@ export const routes = [
         isShowheader: true,
     },
     {
-        path: '/details-order',
+        path: '/details-order/:id',
         page: DetailsOrderPage,
         isShowheader: true,
     },
