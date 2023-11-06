@@ -61,11 +61,15 @@ const OrderPage = () => {
       setListChecked([...listChecked, e.target.value]);
     }
   };
-  const handleChangeCount = (type, idProduct) => {
+  const handleChangeCount = (type, idProduct, limit) => {
     if (type === "increase") {
-      dispatch(increaseAmount({ idProduct }));
+      if (!limit) {
+        dispatch(increaseAmount({ idProduct }));
+      }
     } else {
-      dispatch(decreaseAmount({ idProduct }));
+      if(!limit) {
+        dispatch(decreaseAmount({ idProduct }));
+      }
     }
   };
 
@@ -171,14 +175,14 @@ const OrderPage = () => {
   }, [order]);
 
   const DeliveryPriceMemo = useMemo(() => {
-    if (priceMemo >= 200000 || priceMemo < 500000) {
-      return 10000;
-    } else if ((priceMemo === 0 && order?.orderItemsSelected?.length === 0) || priceMemo >=500000)  {
-      return 0;
+    if ((priceMemo === 0 && order?.orderItemsSelected?.length === 0) || priceMemo >= 2000000) {
+      return 0
+    } else if (priceMemo < 500000) {
+      return 30000
     } else {
-      return 20000
+      return 15000
     }
-  }, [order]);
+  }, [order])
   const TotalPriceMemo = useMemo(() => {
     return Number(priceMemo) + Number(DeliveryPriceMemo);
   }, [priceMemo, DeliveryPriceMemo]);
@@ -287,7 +291,7 @@ const OrderPage = () => {
                             cursor: "pointer",
                           }}
                           onClick={() =>
-                            handleChangeCount("decrease", order?.product)
+                            handleChangeCount("decrease", order?.product, order?.amount === 1)
                           }
                         >
                           <MinusOutlined
@@ -298,6 +302,7 @@ const OrderPage = () => {
                           defaultValue={order?.amount}
                           value={order?.amount}
                           size="small"
+                          min={1} max={order?.countInstock}
                         />
                         <button
                           style={{
@@ -306,7 +311,7 @@ const OrderPage = () => {
                             cursor: "pointer",
                           }}
                           onClick={() =>
-                            handleChangeCount("increase", order?.product)
+                            handleChangeCount("increase", order?.product, order?.amount === order?.countInstock)
                           }
                         >
                           <PlusOutlined

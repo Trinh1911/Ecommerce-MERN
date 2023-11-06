@@ -137,7 +137,7 @@ const DetailsOrderPage = () => {
                   <WrapperItem>{convertPrice(order?.price)}</WrapperItem>
                   <WrapperItem>{order?.amount}</WrapperItem>
                   <WrapperItem>
-                    {order?.discount ? convertPrice(order?.discount) : "0 VND"}
+                    {`${(order?.discount)} %`}
                   </WrapperItem>
                 </WrapperProduct>
               );

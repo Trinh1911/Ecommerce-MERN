@@ -130,12 +130,14 @@ const PaymentPage = () => {
     return result;
   }, [order]);
   const DeliveryPriceMemo = useMemo(() => {
-    if (priceMemo > 100000 || priceMemo === 0) {
-      return 5000;
+    if ((priceMemo === 0 && order?.orderItemsSelected?.length === 0) || priceMemo >= 2000000) {
+      return 0
+    } else if (priceMemo < 500000) {
+      return 30000
     } else {
-      return 20000;
+      return 15000
     }
-  }, [order]);
+  }, [order])
   const TotalPriceMemo = useMemo(() => {
     return Number(priceMemo) + Number(DeliveryPriceMemo);
   }, [priceMemo, DeliveryPriceMemo]);
