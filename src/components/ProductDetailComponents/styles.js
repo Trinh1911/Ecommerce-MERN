@@ -45,7 +45,8 @@ export const ExportGoods = styles.div`
     }
 `
 export const Quanlity = styles.div`
-    
+    display: flex;
+    align-items: center;
 `
 export const WrapperInputNumber = styles(InputNumber)`
     &.ant-input-number.ant-input-number-sm {

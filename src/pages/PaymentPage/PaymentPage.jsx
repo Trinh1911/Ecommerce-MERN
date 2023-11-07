@@ -27,7 +27,6 @@ import { removeAllOrderProduct } from "../../redux/slides/OrderSlice";
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
-  const [listChecked, setListChecked] = useState([]);
   const [sdkReady, setSdkReady] = useState(false);
   const [stateUserDetail, setStateUserDetail] = useState({
     name: "",
@@ -292,17 +291,6 @@ const PaymentPage = () => {
                 }}>
                   <PayPalButton
                   amount='0.01'
-                  // onSuccess={(details, data) => {
-                  //   alert("Transaction completed by " + details.payer.name.given_name);
-          
-                  //   // OPTIONAL: Call your server to save the transaction
-                  //   return fetch("/paypal-transaction-complete", {
-                  //     method: "post",
-                  //     body: JSON.stringify({
-                  //       orderID: data.orderID
-                  //     })
-                  //   });
-                  // }}
                   onSuccess={onSuccessPayment}
                   onError={() => {
                     alert("Error")
