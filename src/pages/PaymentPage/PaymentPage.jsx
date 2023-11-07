@@ -1,4 +1,5 @@
-import { Checkbox, Form, Radio } from "antd";
+import { Form, Radio } from "antd";
+import { PayPalButton } from "react-paypal-button-v2";
 import React, { useState } from "react";
 import {
   Lable,
@@ -9,6 +10,7 @@ import {
   WrapperTotal,
 } from "./styles";
 import * as UserService from "../../service/UserService";
+import * as PaymentService from "../../service/PaymentService";
 import * as OrderService from "../../service/OrderService";
 import * as Message from "../../components/Message/Message";
 import useMutationHooks from "../../hooks/UseMutationHook";
@@ -19,8 +21,6 @@ import { convertPrice } from "../../untils";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import Loading from "../../components/LoadingComponent/Loading";
-import InputComponent from "../../components/InputComponent/InputComponent";
-import { updateUser } from "../../redux/slides/userSlide";
 import { useNavigate } from "react-router-dom";
 import { removeAllOrderProduct } from "../../redux/slides/OrderSlice";
 
@@ -28,6 +28,7 @@ const PaymentPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
   const [listChecked, setListChecked] = useState([]);
+  const [sdkReady, setSdkReady] = useState(false);
   const [stateUserDetail, setStateUserDetail] = useState({
     name: "",
     phone: "",
@@ -141,6 +142,43 @@ const PaymentPage = () => {
   const TotalPriceMemo = useMemo(() => {
     return Number(priceMemo) + Number(DeliveryPriceMemo);
   }, [priceMemo, DeliveryPriceMemo]);
+  // paypal
+  const addPaypalScript = async () => {
+    const { data } = await PaymentService.getConfig()
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
+    script.async = true;
+    script.onload = () => {
+      setSdkReady(true)
+    }
+    document.body.appendChild(script)
+  }
+
+  useEffect(() => {
+    if(!window.paypal) {
+      addPaypalScript()
+    }else {
+      setSdkReady(true)
+    }
+  }, [])
+  const onSuccessPayment = (details, data) => {
+    mutationAddOrder.mutate({
+      token: user?.access_token,
+      orderItems: order?.orderItemsSelected,
+      fullName: user?.name,
+      address: user?.address,
+      phone: user?.phone,
+      city: user?.city,
+      paymentMethod: payment,
+      itemsPrice: priceMemo,
+      shippingPrice: DeliveryPriceMemo,
+      totalPrice: TotalPriceMemo,
+      user: user?.id,
+      isPaid: true,
+      paidAt: details.update_time
+    });
+  }
   return (
     <div style={{ background: "#f5f5fa", with: "100%", height: "100vh" }}>
       <Loading isLoading={isLoadingAddOrder}>
@@ -173,6 +211,9 @@ const PaymentPage = () => {
                   <WrapperRadio onChange={handlePayment} value={payment}>
                     <Radio value="later_money">
                       Thanh toán tiền mặt khi nhận hàng
+                    </Radio>
+                    <Radio value="paypal">
+                      Thanh toán tiền bằng Paypal
                     </Radio>
                   </WrapperRadio>
                 </div>
@@ -244,24 +285,50 @@ const PaymentPage = () => {
                   </span>
                 </WrapperTotal>
               </div>
-              <ButtonComponent
-                onClick={() => handleAddOrder()}
-                size={40}
-                style={{
-                  margin: "26px 0px 10px",
-                  background:
-                    "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
-                  borderRadius: "4px",
+              {payment === 'paypal' && sdkReady ? (
+                <div style={{
                   height: "48px",
-                  width: "320px",
-                  border: "none",
-                  borderRadius: "4px",
-                  color: "#fff",
-                  fontSize: "15px",
-                  fontWeight: "700",
-                }}
-                textButton={"Đặt hàng "}
-              ></ButtonComponent>
+                    width: "320px"
+                }}>
+                  <PayPalButton
+                  amount='0.01'
+                  // onSuccess={(details, data) => {
+                  //   alert("Transaction completed by " + details.payer.name.given_name);
+          
+                  //   // OPTIONAL: Call your server to save the transaction
+                  //   return fetch("/paypal-transaction-complete", {
+                  //     method: "post",
+                  //     body: JSON.stringify({
+                  //       orderID: data.orderID
+                  //     })
+                  //   });
+                  // }}
+                  onSuccess={onSuccessPayment}
+                  onError={() => {
+                    alert("Error")
+                  }}
+                />
+                </div>
+              ) : (
+                <ButtonComponent
+                  onClick={() => handleAddOrder()}
+                  size={40}
+                  style={{
+                    margin: "26px 0px 10px",
+                    background:
+                      "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
+                    borderRadius: "4px",
+                    height: "48px",
+                    width: "320px",
+                    border: "none",
+                    borderRadius: "4px",
+                    color: "#fff",
+                    fontSize: "15px",
+                    fontWeight: "700",
+                  }}
+                  textButton={"Đặt hàng "}
+                ></ButtonComponent>
+              )}
             </WrapperRight>
           </div>
         </div>
