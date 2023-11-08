@@ -34,8 +34,7 @@ const CardComponent = (props) => {
   return (
     <CardProduct
       hoverable
-      onClick={() => countInStock !== 0 && handleDetailProduct(id)}
-      disable={countInStock === 0}
+      onClick={() => handleDetailProduct(id)}
       style={{
         width: "200px",
         position: "relative",

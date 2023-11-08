@@ -26,6 +26,8 @@ import {
   decreaseAmount,
   increaseAmount,
 } from "../../redux/slides/OrderSlice";
+import LikeButtonComponent from "../LikeButtonComponent/LikeButtonComponent.jsx";
+import CommentComponent from "../CommentComponent/CommentComponent.jsx";
 const ProductDetailComponents = ({ idProduct }) => {
   const [quantity, setQuantity] = useState(1);
   const [errorLimitOrder, setErrorLimitOrder] = useState(false);
@@ -70,6 +72,9 @@ const ProductDetailComponents = ({ idProduct }) => {
         }
     }
 }
+useEffect(()=> {
+  
+}, [])
   // xử lí sự kiện ấn chọn mua sản phẩm
   const handleAddOrderProduct = () => {
     if (!user?.id) {
@@ -101,9 +106,9 @@ const ProductDetailComponents = ({ idProduct }) => {
     if (order?.isSuccessOrder) {
       Message.success("Đã thêm vào giỏ hàng");
     }
-    return () => {
-      dispatch(resetOrder());
-    };
+    // return () => {
+    //   dispatch(resetOrder());
+    // };
   }, [order?.isSuccessOrder]);
   console.log("order", order);
 
@@ -214,6 +219,7 @@ const ProductDetailComponents = ({ idProduct }) => {
               <span className="address"> {user?.address}</span>" - "
               <span className="change-address"> Đổi Địa chỉ</span>
             </ExportGoods>
+            <LikeButtonComponent dataHref={'https://developers.facebook.com/docs/plugins/'}/>
             <Quanlity>
               <div> Số Lượng </div>
               <div
@@ -261,7 +267,7 @@ const ProductDetailComponents = ({ idProduct }) => {
                 </button>
               </div>
             </Quanlity>
-            {/* {errorLimitOrder && <div style={{color: 'red'}}>Sản phẩm đã hết hàng</div>} */}
+            {errorLimitOrder && <div style={{color: 'red'}}>Sản phẩm đã hết hàng</div>}
             <ButtonComponent
               textButton={"Chọn Mua"}
               onClick={handleAddOrderProduct}
@@ -279,6 +285,7 @@ const ProductDetailComponents = ({ idProduct }) => {
               }}
             ></ButtonComponent>
           </Col>
+          <CommentComponent dataHref={'https://developers.facebook.com/docs/plugins/comments#configurator'} width="1270px"/>
         </Row>
       </div>
     </Loading>

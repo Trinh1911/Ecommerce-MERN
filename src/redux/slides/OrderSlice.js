@@ -76,9 +76,9 @@ export const orderSlice = createSlice({
             })
             state.orderItemsSelected = orderSelected
         },
-        resetOrder: (state) => {
-            state.isSuccessOrder = false
-        }
+        // resetOrder: (state) => {
+        //     state.isSuccessOrder = false
+        // }
     },
 })
 
