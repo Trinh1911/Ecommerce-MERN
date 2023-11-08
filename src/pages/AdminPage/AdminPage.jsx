@@ -19,7 +19,6 @@ const AdminPage = () => {
   const rootSubmenuKeys = ["user", "product"];
   const handleClick = ({ key }) => {
     setKeySelected(key);
-    console.log("key", key);
   };
   const renderPage = (key) => {
     switch (key) {
@@ -31,7 +30,6 @@ const AdminPage = () => {
         return <></>;
     }
   };
-  console.log("keySelected", keySelected);
   return (
     <>
       <Header isHiddenSearch isHiddenCart />

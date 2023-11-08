@@ -122,7 +122,6 @@ const AdminProduct = () => {
       form.setFieldsValue(initialValue());
     }
   }, [form, productDetails, isModalOpen]);
-  console.log('isModalOpen', isModalOpen);
   useEffect(() => {
     if (rowSelected && isOpenDrawer) {
       setIsLoadingUpdate(true);

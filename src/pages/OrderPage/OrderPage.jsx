@@ -39,7 +39,6 @@ const OrderPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
 
-  console.log(order);
   const [listChecked, setListChecked] = useState([]);
   const [stateUserDetail, setStateUserDetail] = useState({
     name: "",
@@ -170,7 +169,6 @@ const OrderPage = () => {
     const result = order?.orderItemsSelected?.reduce((total, cur) => {
       return total + cur.price * cur.amount;
     }, 0);
-    console.log(result);
     return result;
   }, [order]);
 
@@ -426,7 +424,7 @@ const OrderPage = () => {
                 fontSize: "15px",
                 fontWeight: "700",
               }}
-              textButton={"Mua hàng"}
+              textbutton={"Mua hàng"}
             ></ButtonComponent>
           </WrapperRight>
         </div>

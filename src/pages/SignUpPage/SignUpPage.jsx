@@ -33,7 +33,6 @@ const SignUpPage = () => {
   };
   const showresult = () => {
     mutation.mutate({ email, password, confirmPassword });
-    console.log("value: ", email, password, confirmPassword);
   };
   useEffect(() => {
     if (isSuccess) {
@@ -129,7 +128,7 @@ const SignUpPage = () => {
                 !email.length || !password.length || !confirmPassword.length
               }
               onClick={showresult}
-              textButton={"Tiếp Tục"}
+              textbutton={"Tiếp Tục"}
               style={{
                 margin: "26px 0px 10px",
                 background:'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',

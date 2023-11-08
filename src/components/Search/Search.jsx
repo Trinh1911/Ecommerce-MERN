@@ -4,7 +4,7 @@ import InputComponent from "../InputComponent/InputComponent";
 import { Button } from "antd";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 const Search = (props) => {
-  const { size, placeholder, textButton } = props;
+  const { size, placeholder, textbutton } = props;
   return (
     <div style={{ display: "flex", width: "400px" }}>
       <InputComponent
@@ -22,7 +22,7 @@ const Search = (props) => {
       />
       <ButtonComponent
         size={size}
-        textButton={textButton}
+        textbutton={textbutton}
         icon={<SearchOutlined />}
         style={{
           height: "43px",

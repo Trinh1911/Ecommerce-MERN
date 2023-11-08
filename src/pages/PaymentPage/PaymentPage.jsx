@@ -75,7 +75,6 @@ const PaymentPage = () => {
   // gia tri duoc dua vao mutation add order
   const mutationAddOrder = useMutationHooks((data) => {
     const { token, ...rests } = data;
-    console.log("...rests", data);
     const res = OrderService.CreateOrder({ ...rests }, token);
     return res;
   });
@@ -130,37 +129,40 @@ const PaymentPage = () => {
     return result;
   }, [order]);
   const DeliveryPriceMemo = useMemo(() => {
-    if ((priceMemo === 0 && order?.orderItemsSelected?.length === 0) || priceMemo >= 2000000) {
-      return 0
+    if (
+      (priceMemo === 0 && order?.orderItemsSelected?.length === 0) ||
+      priceMemo >= 2000000
+    ) {
+      return 0;
     } else if (priceMemo < 500000) {
-      return 30000
+      return 30000;
     } else {
-      return 15000
+      return 15000;
     }
-  }, [order])
+  }, [order]);
   const TotalPriceMemo = useMemo(() => {
     return Number(priceMemo) + Number(DeliveryPriceMemo);
   }, [priceMemo, DeliveryPriceMemo]);
   // paypal
   const addPaypalScript = async () => {
-    const { data } = await PaymentService.getConfig()
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
+    const { data } = await PaymentService.getConfig();
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
     script.async = true;
     script.onload = () => {
-      setSdkReady(true)
-    }
-    document.body.appendChild(script)
-  }
+      setSdkReady(true);
+    };
+    document.body.appendChild(script);
+  };
 
   useEffect(() => {
-    if(!window.paypal) {
-      addPaypalScript()
-    }else {
-      setSdkReady(true)
+    if (!window.paypal) {
+      addPaypalScript();
+    } else {
+      setSdkReady(true);
     }
-  }, [])
+  }, []);
   const onSuccessPayment = (details, data) => {
     mutationAddOrder.mutate({
       token: user?.access_token,
@@ -175,9 +177,9 @@ const PaymentPage = () => {
       totalPrice: TotalPriceMemo,
       user: user?.id,
       isPaid: true,
-      paidAt: details.update_time
+      paidAt: details.update_time,
     });
-  }
+  };
   return (
     <div style={{ background: "#f5f5fa", with: "100%", height: "100vh" }}>
       <Loading isLoading={isLoadingAddOrder}>
@@ -211,9 +213,7 @@ const PaymentPage = () => {
                     <Radio value="later_money">
                       Thanh toán tiền mặt khi nhận hàng
                     </Radio>
-                    <Radio value="paypal">
-                      Thanh toán tiền bằng Paypal
-                    </Radio>
+                    <Radio value="paypal">Thanh toán tiền bằng Paypal</Radio>
                   </WrapperRadio>
                 </div>
               </WrapperInfo>
@@ -284,18 +284,20 @@ const PaymentPage = () => {
                   </span>
                 </WrapperTotal>
               </div>
-              {payment === 'paypal' && sdkReady ? (
-                <div style={{
-                  height: "48px",
-                    width: "320px"
-                }}>
-                  <PayPalButton
-                  amount='0.01'
-                  onSuccess={onSuccessPayment}
-                  onError={() => {
-                    alert("Error")
+              {payment === "paypal" && sdkReady ? (
+                <div
+                  style={{
+                    height: "48px",
+                    width: "320px",
                   }}
-                />
+                >
+                  <PayPalButton
+                    amount={Math.round(TotalPriceMemo / 30000)}
+                    onSuccess={onSuccessPayment}
+                    onError={() => {
+                      alert("Error");
+                    }}
+                  />
                 </div>
               ) : (
                 <ButtonComponent
@@ -314,7 +316,7 @@ const PaymentPage = () => {
                     fontSize: "15px",
                     fontWeight: "700",
                   }}
-                  textButton={"Đặt hàng "}
+                  textbutton={"Đặt hàng "}
                 ></ButtonComponent>
               )}
             </WrapperRight>

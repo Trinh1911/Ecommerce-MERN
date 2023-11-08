@@ -110,7 +110,6 @@ useEffect(()=> {
     //   dispatch(resetOrder());
     // };
   }, [order?.isSuccessOrder]);
-  console.log("order", order);
 
   return (
     <Loading isLoading={isLoading}>
@@ -269,7 +268,7 @@ useEffect(()=> {
             </Quanlity>
             {errorLimitOrder && <div style={{color: 'red'}}>Sản phẩm đã hết hàng</div>}
             <ButtonComponent
-              textButton={"Chọn Mua"}
+              textbutton={"Chọn Mua"}
               onClick={handleAddOrderProduct}
               style={{
                 marginTop: "16px",

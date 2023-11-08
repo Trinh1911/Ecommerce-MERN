@@ -33,7 +33,6 @@ const TypeProductPage = () => {
     } else {
       setIsLoading(true)
     }
-    console.log("res", res);
   };
   useEffect(() => {
     if(state) {
@@ -42,9 +41,7 @@ const TypeProductPage = () => {
   }, [state, panigate.page, panigate.limit]);
   // search
 
-  console.log('isLoading', isLoading)
   const onChange = (current, pageSize) => {
-    console.log({current, pageSize})
     setPanigate({...panigate, page: current - 1, limit: pageSize})
   };
   return (

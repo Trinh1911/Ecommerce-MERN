@@ -153,7 +153,7 @@ const HomePage = () => {
               }}
             >
               <ButtonMore
-                textButton={isPreviousData ? "Load more" : "Xem Thêm"}
+                textbutton={isPreviousData ? "Load more" : "Xem Thêm"}
                 type="outline"
                 style={{
                   display: "block",
@@ -245,7 +245,7 @@ const HomePage = () => {
               }}
             >
               <ButtonMore
-                textButton={isPreviousData ? "Load more" : "Xem Thêm"}
+                textbutton={isPreviousData ? "Load more" : "Xem Thêm"}
                 type="outline"
                 style={{
                   display: "block",

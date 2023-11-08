@@ -20,7 +20,6 @@ import useMutationHooks from "../../hooks/UseMutationHook";
 const MyOrderPage = () => {
   const location = useLocation();
   const { state } = location;
-  console.log("location", location);
   const navigate = useNavigate();
   const fetchMyOrder = async () => {
     const res = await OrderService.getOrderByUserId(
@@ -57,7 +56,6 @@ const MyOrderPage = () => {
       }
     })
   }
-  console.log('data', data)
   const {
     data: dataCancel,
     isLoading: isLoadingCancel,
@@ -75,7 +73,7 @@ const MyOrderPage = () => {
   const renderProduct = (data) => {
     return data?.map((order) => {
       return (
-        <WrapperHeaderItem>
+        <WrapperHeaderItem key={order?.name}>
           <img
             src={order?.image}
             style={{

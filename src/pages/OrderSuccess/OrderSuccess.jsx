@@ -10,7 +10,6 @@ import { convertPrice } from '../../untils';
 const OrderSuccess = () => {
   const location = useLocation()
   const {state} = location
-  console.log('state: ', state)
   return (
     <div style={{background: '#f5f5fa', with: '100%', height: '100vh'}}>
       <Loading isLoading={false}>

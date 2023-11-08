@@ -25,7 +25,6 @@ const SignInPage = () => {
   const mutation = useMutationHooks((data) => UserService.UserLogin(data));
   // lấy các giữ liệu từ mutation
   const { data, isLoading, isError, isSuccess } = mutation;
-  console.log("mutation", mutation);
   const handleNavigateSignUp = () => {
     navigate("/sign-up");
   };
@@ -41,7 +40,6 @@ const SignInPage = () => {
       email,
       password,
     });
-    console.log("value: ", email, password);
   };
   /* 
     bước 1: click => hàm showresult được thực hiện, thì email, password sẽ được render lại
@@ -139,7 +137,7 @@ const SignInPage = () => {
             <ButtonComponent
               disabled={!email.length || !password.length}
               onClick={showresult}
-              textButton={"Tiếp Tục"}
+              textbutton={"Tiếp Tục"}
               style={{
                 margin: "26px 0px 10px",
                 background:'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',
