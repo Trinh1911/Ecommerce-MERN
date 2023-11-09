@@ -1,5 +1,11 @@
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import styles from "styled-components";
+import { Row } from "antd";
+export const WrapperCard = styles(Row)`
+    &.ant-row {
+    padding: 0px 21px; 
+}
+`
 export const WrapperTypeProduct = styles.div`
     display: flex;
     align-items: center;

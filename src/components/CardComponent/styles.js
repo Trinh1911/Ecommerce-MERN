@@ -13,7 +13,7 @@ export const NameProduct = styles.div`
     overflow: hidden;
 `
 export const CardProduct = styles(Card)`
-    width: 200px;
+    width: 230px;
     position: relative;
     margin-top: 15px;
     background-color:${props => props.disabled ? "#ccc": "#fff"};

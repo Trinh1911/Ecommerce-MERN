@@ -106,9 +106,6 @@ useEffect(()=> {
     if (order?.isSuccessOrder) {
       Message.success("Đã thêm vào giỏ hàng");
     }
-    // return () => {
-    //   dispatch(resetOrder());
-    // };
   }, [order?.isSuccessOrder]);
 
   return (

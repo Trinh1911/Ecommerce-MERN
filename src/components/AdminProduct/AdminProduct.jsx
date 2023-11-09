@@ -636,12 +636,12 @@ const AdminProduct = () => {
             <Form.Item
               label="Discount"
               name="discount"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your discount!",
-                },
-              ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your discount!",
+              //   },
+              // ]}
             >
               <InputComponent
                 value={product.discount}
@@ -809,12 +809,12 @@ const AdminProduct = () => {
             <Form.Item
               label="Discount"
               name="discount"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your price!",
-                },
-              ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your price!",
+              //   },
+              // ]}
             >
               <InputComponent
                 value={productDetails.discount}

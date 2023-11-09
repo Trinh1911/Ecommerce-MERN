@@ -8,13 +8,20 @@ import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PersistGate } from 'redux-persist/integration/react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ConfigProvider } from 'antd';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient()
 root.render(
   <QueryClientProvider client={queryClient}>
-    <Provider store={store}>
+    <Provider store={store} >
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <ConfigProvider theme={{
+          token: {
+            fontFamily: "Kanit"
+          }
+        }}>
+          <App />
+        </ConfigProvider>
       </PersistGate>
     </Provider>
     <ReactQueryDevtools initialIsOpen={false} />

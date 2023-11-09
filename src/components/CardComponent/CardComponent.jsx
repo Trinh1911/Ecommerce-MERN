@@ -36,7 +36,7 @@ const CardComponent = (props) => {
       hoverable
       onClick={() => handleDetailProduct(id)}
       style={{
-        width: "200px",
+        width: "220px",
         position: "relative",
       }}
       cover={
@@ -44,34 +44,35 @@ const CardComponent = (props) => {
           alt="example"
           src={image}
           style={{
-            width: "200px",
+            width: "230px",
             height: "200px",
           }}
         />
       }
     >
-      <div style={{ position: "relative", left: "-10px", margin: "10px 0" }}>
+      {discount && (<div style={{ position: "relative", left: "-20px",bottom: '209px', margin: "10px 0" }}>
         <Image
           src={sale}
           style={{
-            width: "100px",
-            height: "23px",
+            width: "84px",
+            height: "22px",
           }}
         />
         <span
           style={{
             position: "absolute",
             color: "#fff",
-            fontSize: "15px",
+            fontSize: "12px",
             fontStyle: "italic",
             fontWeight: "700",
-            left: "20px",
+            left: "22px",
+            top: "2px",
             zIndex: "10",
           }}
         >
           Bán chạy
         </span>
-      </div>
+      </div>)}
       <NameProduct>{name}</NameProduct>
       <SaleText>
         <span style={{ marginRight: "4px" }}>

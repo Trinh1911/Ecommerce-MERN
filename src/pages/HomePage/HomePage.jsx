@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
-import { ButtonMore, InputInfo, WrapperInfo, WrapperTypeProduct } from "./styles";
+import { ButtonMore, InputInfo, WrapperCard, WrapperInfo, WrapperTypeProduct } from "./styles";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import * as ProductService from "../../service/ProductService";
@@ -207,17 +207,17 @@ const HomePage = () => {
                 marginTop: "20px",
               }}
             >
-              <Row
+              <WrapperCard
                 gutter={{
                   xs: 8,
-                  sm: 16,
-                  md: 24,
+                  sm: 8,
+                  md: 8,
                   lg: 32,
                 }}
               >
                 {products?.data?.map((product) => {
                   return (
-                    <Col className="gutter-row" span={4}>
+                    <Col className="gutter-row" span={2 / 4}>
                       <div>
                         <CardComponent
                           key={product._id}
@@ -236,7 +236,7 @@ const HomePage = () => {
                     </Col>
                   );
                 })}
-              </Row>
+              </WrapperCard>
             </div>
             <div
               style={{

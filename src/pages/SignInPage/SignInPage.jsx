@@ -10,7 +10,9 @@ import background from "../../assets/images/product/background.webp";
 import * as UserService from "../../service/UserService";
 import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
+import * as Message from "../../components/Message/Message";
 import { updateUser } from "../../redux/slides/userSlide";
+import OrderPage from "../OrderPage/OrderPage.jsx";
 // lay du lieu tu api
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
@@ -20,7 +22,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
   // gọi api login và truyền vào data
   const mutation = useMutationHooks((data) => UserService.UserLogin(data));
   // lấy các giữ liệu từ mutation
@@ -47,34 +49,32 @@ const SignInPage = () => {
     bước 3: theo useEffect thì khi thành công access_token và refresh_token sẽ được lưu vào localStorage, sau đó ... lấy id và access_token
     Vì: ta phải lấy được dữ liệu của người đăng nhập để lưu vào kho từ đó sử dụng ở components khác
    */
-  useEffect(() => {
-    if (isSuccess) {
-      if(location?.state) {
-        navigate(location?.state);
-      } else {
-        navigate("/");
-      }
-      localStorage.setItem("access_token", JSON.stringify(data?.access_token))
-      localStorage.setItem("refresh_token", JSON.stringify(data?.refresh_token))
-      if (data?.access_token) {
-        // sử dụng thư viện jwt_decode để giải mã payload của access_token
-        const decoded = jwt_decode(data?.access_token);
-        if (decoded?.id) {
-          // thông qua hàm để lấy dữ liệu người dùng từ api
-          handleGetDetailsUser(decoded?.id, data?.access_token);
+    useEffect(() => {
+      if (isSuccess) {
+        if(location?.state) {
+          navigate(location?.state);
+        } else {
+          navigate("/");
+        }
+        localStorage.setItem("access_token", JSON.stringify(data?.access_token))
+        localStorage.setItem("refresh_token", JSON.stringify(data?.refresh_token))
+        if (data?.access_token) {
+          // sử dụng thư viện jwt_decode để giải mã payload của access_token
+          const decoded = jwt_decode(data?.access_token);
+          if (decoded?.id) {
+            // thông qua hàm để lấy dữ liệu người dùng từ api
+            handleGetDetailsUser(decoded?.id, data?.access_token);
+          }
         }
       }
-    }
-  }, [isSuccess]);
+    }, [isSuccess]);
   const handleGetDetailsUser = async (id, token) => {
     // lay duoc du lieu tu backend
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
   return (
-    <div
-    style={{ position: "relative", zIndex: "1" }}
-    >
+    <div style={{ position: "relative", zIndex: "1" }}>
       <Image src={background} preview={false} />
       <div
         style={{
@@ -140,7 +140,7 @@ const SignInPage = () => {
               textbutton={"Tiếp Tục"}
               style={{
                 margin: "26px 0px 10px",
-                background:'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',
+                background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
                 borderRadius: "4px",
                 color: "#fff",
                 minWidth: "190px",

@@ -5,7 +5,7 @@ export const WrapperLeft = styles.div`
     flex: 1;
     padding: 40px 45px 24px;
     background: rgb(255, 255, 255);
-    border-radius: 20px 0px 0px 20px;
+    border-radius: 20px;
     
 `
 export const WrapperRight = styles.div`
