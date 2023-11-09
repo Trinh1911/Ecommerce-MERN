@@ -35,13 +35,14 @@ const SignUpPage = () => {
     mutation.mutate({ email, password, confirmPassword });
   };
   useEffect(() => {
-    if (isSuccess) {
+    if (data?.status === "SUCCESS") {
       Message.success();
       handleNavigateSignIn();
-    } else if (isError) {
-      Message.error();
+    } else if (data?.status === "ERR") {
+      Message.error("Tài khoản này đã được đăng ký!");
     }
-  }, [isError, isSuccess]);
+  }, [data?.status]);
+  console.log("data", data);
   return (
     <div style={{ position: "relative", zIndex: "1" }}>
       <Image src={background} preview={false} />
@@ -131,7 +132,7 @@ const SignUpPage = () => {
               textbutton={"Tiếp Tục"}
               style={{
                 margin: "26px 0px 10px",
-                background:'linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)',
+                background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
                 borderRadius: "4px",
                 color: "#fff",
                 minWidth: "190px",

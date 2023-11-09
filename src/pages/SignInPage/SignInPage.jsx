@@ -50,7 +50,7 @@ const SignInPage = () => {
     Vì: ta phải lấy được dữ liệu của người đăng nhập để lưu vào kho từ đó sử dụng ở components khác
    */
     useEffect(() => {
-      if (isSuccess) {
+      if (data?.status === "SUCCESS") {
         if(location?.state) {
           navigate(location?.state);
         } else {
@@ -66,8 +66,10 @@ const SignInPage = () => {
             handleGetDetailsUser(decoded?.id, data?.access_token);
           }
         }
+      } else if (data?.status === "ERR") {
+      Message.error("Tài khoản không tồn tại! vui lòng nhập lại");
       }
-    }, [isSuccess]);
+    }, [data?.status]);
   const handleGetDetailsUser = async (id, token) => {
     // lay duoc du lieu tu backend
     const res = await UserService.getDetailsUser(id, token);
