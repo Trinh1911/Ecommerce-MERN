@@ -1,3 +1,4 @@
+import Header from "../../components/Header/Header";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import styles from "styled-components";
 import { Row } from "antd";

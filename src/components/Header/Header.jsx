@@ -82,7 +82,8 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   return (
     <div
       style={{
-        background: "#fff"
+        background: "#fff",
+        borderBottom: " 1px solid #ff761c",
       }}
     >
       <Wrapper

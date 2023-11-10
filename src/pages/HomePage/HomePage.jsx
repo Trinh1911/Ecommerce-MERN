@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import Loading from "../../components/LoadingComponent/Loading";
 import { useDebounce } from "../../hooks/useDebounce";
 import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
 const HomePage = () => {
   // fillter
   const SearchProduct = useSelector((state) => state?.product?.search);
@@ -66,7 +67,7 @@ const HomePage = () => {
         style={{
           padding: " 0 120px",
           backgroundColor: "#fff",
-          borderBottom: " 1px solid #ff761c",
+          // borderBottom: " 1px solid #ff761c",
           marginBottom: "10px",
         }}
       >
