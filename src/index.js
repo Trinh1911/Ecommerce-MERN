@@ -17,7 +17,7 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <ConfigProvider theme={{
           token: {
-            fontFamily: "Kanit"
+            fontFamily: "TTCommonsPro,sans-serif"
           }
         }}>
           <App />

@@ -82,7 +82,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   return (
     <div
       style={{
-        background: "linear-gradient(180deg, #252324 0%, #403C3D 100%)",
+        background: "#fff"
       }}
     >
       <Wrapper
@@ -157,7 +157,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               ) : (
                 <div onClick={handleNavigateLogin} style={{ display: "flex" }}>
                   <SmileOutlined
-                    style={{ fontSize: "24px", marginRight: "4px" }}
+                    style={{ fontSize: "24px", marginRight: "4px", color: "rgba(0,0,0,.88)" }}
                   />
                   <TextHeader>Tài Khoản</TextHeader>
                 </div>
@@ -175,7 +175,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                   style={{
                     fontSize: "24px",
                     marginRight: "4px",
-                    color: "#fff",
+                    color: "rgba(0,0,0,.88)",
                   }}
                 />
               </Badge>

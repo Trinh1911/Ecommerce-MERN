@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
-import { ButtonMore, InputInfo, WrapperCard, WrapperInfo, WrapperTypeProduct } from "./styles";
+import {
+  ButtonMore,
+  InputInfo,
+  WrapperCard,
+  WrapperInfo,
+  WrapperTypeProduct,
+} from "./styles";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import * as ProductService from "../../service/ProductService";
 import CountDown from "../../components/Coutdown/Coutdown";
-import slider1 from "../../assets/images/slider1.png";
-import slider2 from "../../assets/images/slider2.png";
-import slider3 from "../../assets/images/slider3.png";
+import slider3 from "../../assets/images/slider/slider-4.webp";
+import slider2 from "../../assets/images/slider/slider-3.webp";
+import slider1 from "../../assets/images/slider/slider-2.webp";
 import CSKH from "../../assets/images/CSKH.png";
 import Cisco from "../../assets/images/brand/Logo Cisco.png";
 import Aruba from "../../assets/images/brand/Logo aruba.png";
@@ -59,7 +65,9 @@ const HomePage = () => {
       <div
         style={{
           padding: " 0 120px",
-          backgroundColor: "rgba(254, 234, 223, 0.7)",
+          backgroundColor: "#fff",
+          borderBottom: " 1px solid #ff761c",
+          marginBottom: "10px",
         }}
       >
         <WrapperTypeProduct>
@@ -68,14 +76,8 @@ const HomePage = () => {
           })}
         </WrapperTypeProduct>
       </div>
-      <div
-        className="body"
-        style={{ width: "100%", backgroundColor: "#fff" }}
-      >
-        <div
-          id="container"
-          style={{ width: "1270px", margin: "0 auto" }}
-        >
+      <div className="body" style={{ width: "100%", backgroundColor: "#fff" }}>
+        <div id="container" style={{ width: "1270px", margin: "0 auto" }}>
           <SliderComponent arraySlider={[slider1, slider2, slider3]} />
           {/* thuong hieu */}
           <Row
@@ -96,15 +98,15 @@ const HomePage = () => {
             </Col>
           </Row>
           {/* san pham ban chay */}
-          <div>
+          <div style={{ marginTop: "40px" }}>
             <div
               style={{
                 fontSize: "30px",
-                fontWeight: "800",
+                fontWeight: "500",
                 lineHeight: "50px",
                 marginLeft: "8px",
                 marginTop: "8px",
-                borderBottom: "2px solid #FD7E14",
+                borderBottom: "1px solid #ff761c",
                 padding: "10px 0",
               }}
             >
@@ -125,23 +127,25 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    <Col className="gutter-row" span={4}>
-                      <div>
-                        <CardComponent
-                          key={product._id}
-                          countInStock={product.countInStock}
-                          description={product.description}
-                          image={product.image}
-                          name={product.name}
-                          price={product.price}
-                          rating={product.rating}
-                          type={product.type}
-                          selled={product.selled}
-                          discount={product.discount}
-                          id={product._id}
-                        />
-                      </div>
-                    </Col>
+                    product?.selled >= 10 && (
+                      <Col className="gutter-row" span={2 / 4}>
+                        <div>
+                          <CardComponent
+                            key={product._id}
+                            countInStock={product.countInStock}
+                            description={product.description}
+                            image={product.image}
+                            name={product.name}
+                            price={product.price}
+                            rating={product.rating}
+                            type={product.type}
+                            selled={product.selled}
+                            discount={product.discount}
+                            id={product._id}
+                          />
+                        </div>
+                      </Col>
+                    )
                   );
                 })}
               </Row>
@@ -185,13 +189,13 @@ const HomePage = () => {
             </div>
           </div>
           {/* san pham giam gia */}
-          <div style={{ margin: "20px 0" }}>
+          <div style={{ margin: "40px 0" }}>
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 fontSize: "30px",
-                fontWeight: "800",
+                fontWeight: "500",
                 lineHeight: "50px",
                 marginLeft: "8px",
                 marginTop: "8px",
@@ -217,23 +221,25 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    <Col className="gutter-row" span={2 / 4}>
-                      <div>
-                        <CardComponent
-                          key={product._id}
-                          countInStock={product.countInStock}
-                          description={product.description}
-                          image={product.image}
-                          name={product.name}
-                          price={product.price}
-                          rating={product.rating}
-                          type={product.type}
-                          selled={product.selled}
-                          discount={product.discount}
-                          id={product._id}
-                        />
-                      </div>
-                    </Col>
+                    product?.discount && (
+                      <Col className="gutter-row" span={2 / 4}>
+                        <div>
+                          <CardComponent
+                            key={product._id}
+                            countInStock={product.countInStock}
+                            description={product.description}
+                            image={product.image}
+                            name={product.name}
+                            price={product.price}
+                            rating={product.rating}
+                            type={product.type}
+                            selled={product.selled}
+                            discount={product.discount}
+                            id={product._id}
+                          />
+                        </div>
+                      </Col>
+                    )
                   );
                 })}
               </WrapperCard>
@@ -277,7 +283,7 @@ const HomePage = () => {
             </div>
           </div>
           {/* contact */}
-          <div style={{position: 'relative',zIndex: '1'}}>
+          {/* <div style={{position: 'relative',zIndex: '1'}}>
             <Image src={CSKH} preview={false} style={{height: '404px'}}/>
             <div style={{display: 'flex'}}>
               <div style={{position: 'absolute', top: '53px', left: '80px'}}>
@@ -322,10 +328,35 @@ const HomePage = () => {
                 </WrapperInfo>
               </div>
             </div>
+          </div> */}
+          <div style={{ marginTop: "40px" }}>
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "500",
+                lineHeight: "50px",
+                marginLeft: "8px",
+                marginTop: "8px",
+                borderBottom: "1px solid #ff761c",
+                padding: "10px 0",
+              }}
+            >
+              Địa Chỉ Công Ty
+            </div>
+            <div style={{textAlign: "center"}}>
+              <iframe
+                style={{ borderRadius: "20px", marginTop: "20px" }}
+                src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d23651.30408792001!2d106.62409558413344!3d10.868459536359174!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1690950899112!5m2!1svi!2s"
+                allowfullscreen=""
+                loading="lazy"
+                width="800"
+                height="450"
+              ></iframe>
+            </div>
           </div>
         </div>
         {/* footer */}
-        <Footer/>
+        <Footer />
       </div>
     </Loading>
   );

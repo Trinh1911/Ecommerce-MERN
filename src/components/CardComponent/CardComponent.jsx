@@ -44,13 +44,13 @@ const CardComponent = (props) => {
           alt="example"
           src={image}
           style={{
-            width: "230px",
+            width: "220px",
             height: "200px",
           }}
         />
       }
     >
-      {discount && (<div style={{ position: "relative", left: "-20px",bottom: '209px', margin: "10px 0" }}>
+      {selled >= 10 && (<div style={{ position: "absolute", left: "-20px",top: '0', margin: "10px 0" }}>
         <Image
           src={sale}
           style={{
@@ -88,7 +88,7 @@ const CardComponent = (props) => {
       </SaleText>
       <PriceText>
         <span style={{ marginRight: "8px" }}>{convertPrice(price)}</span>
-        <DiscountText> - {discount || 5} %</DiscountText>
+        {discount && (<DiscountText> - {discount}  %</DiscountText>)}
       </PriceText>
     </CardProduct>
   );

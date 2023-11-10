@@ -12,7 +12,7 @@ export const WrapperTypeProduct = styles.div`
     justify-content: space-around;
     gap: 12px;
     height: 32px;
-    padding: 19px 100px 18px 90px;
+    padding: 19px 100px 5px 90px;
 `
 export const WrapperInfo = styles.div`
     margin: 0 63px 10px 30px;

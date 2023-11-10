@@ -4,7 +4,7 @@ import { FacebookFilled, GithubFilled, MailFilled, PhoneFilled, FlagFilled } fro
 import { FooterItem, FooterList } from './styles';
 const Footer = () => {
     return (
-        <div style={{ background: '#fff', padding: '20px 120px',boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'}}>
+        <div style={{ background: '#f7f7f7', padding: '20px 120px',boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)', borderTop: "1px solid #ff761c", marginTop: "20px"}}>
             <Row
                 gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
                 style={{ marginTop: "30px" }}

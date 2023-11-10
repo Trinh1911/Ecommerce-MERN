@@ -8,7 +8,7 @@ export const Wrapper = styles(Row)`
 `
 export const LogoHeader = styles(Row)`
     font-size: 25px;
-    color: #fff;
+    color: rgba(0,0,0,.88);
     font-weight: bold;
     text-align: left;
 `
@@ -16,7 +16,7 @@ export const TextHeader = styles(Row)`
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
-    color: #fff;
+    color: rgba(0,0,0,.88);
 `
 export const MenuItems = styles(Row)`
     position: relative;

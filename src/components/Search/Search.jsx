@@ -17,6 +17,7 @@ const Search = (props) => {
           borderTopRightRadius: "0",
           borderBottomRightRadius: "0",
           backgroundColor: "#fff",
+          boxShadow: " 0 0 5pt 0.5pt #D3D3D3"
         }}
         {...props}
       />

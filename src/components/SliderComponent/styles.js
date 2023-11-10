@@ -1,22 +1,25 @@
 import styles from "styled-components";
 import Slider from "react-slick";
 export const WrapSlider = styles(Slider)`
+& div {
+    display: flex !important;
+}
 & .slick-arrow.slick-prev {
-    left: 12px;
-    top: 50%;
+    left: -60px;
+    top: 52%;
     z-index: 10;
     &::before {
-        font-size: 40px;
-        color: #fff;
+        font-size: 32px;
+        color: #ff761c;
     }
 }
 & .slick-arrow.slick-next {
-    right: 28px;
-    top: 50%;
+    right: -25px;
+    top: 52%;
     z-index: 10;
     &::before {
-        font-size: 40px;
-        color: #fff;
+        font-size: 32px;
+        color: #ff761c;
     }
 }
 & .slick-dots {
@@ -25,14 +28,14 @@ export const WrapSlider = styles(Slider)`
     li {
         button {
             &::before {
-                color: rgb(255, 255, 0.5);
+                color: #ff761c;
             }
         }
     }
     li.active {
         button {
             &::before {
-                color: #fff;
+                color: #ff761c;
             }
         }
     } 
