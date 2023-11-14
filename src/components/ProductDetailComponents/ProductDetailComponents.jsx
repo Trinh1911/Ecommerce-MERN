@@ -53,28 +53,31 @@ const ProductDetailComponents = ({ idProduct }) => {
     }
   );
   useEffect(() => {
-    const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
-    if ((orderRedux?.amount + quantity) <= orderRedux?.countInstock || (!orderRedux && productDetails?.countInStock > 0)) {
+    const orderRedux = order?.orderItems?.find(
+      (item) => item.product === productDetails?._id
+    );
+    if (
+      orderRedux?.amount + quantity <= orderRedux?.countInstock ||
+      (!orderRedux && productDetails?.countInStock > 0)
+    ) {
       setErrorLimitOrder(false);
-    } else if(productDetails?.countInStock === 0){
+    } else if (productDetails?.countInStock === 0) {
       setErrorLimitOrder(true);
     }
-  }, [quantity])
-  
+  }, [quantity]);
+
   const hanleChangeCount = (type, limited) => {
-    if(type === 'increase') {
-        if(!limited) {
-            setQuantity(quantity + 1)
-        }
-    }else {
-        if(!limited) {
-            setQuantity(quantity - 1)
-        }
+    if (type === "increase") {
+      if (!limited) {
+        setQuantity(quantity + 1);
+      }
+    } else {
+      if (!limited) {
+        setQuantity(quantity - 1);
+      }
     }
-}
-useEffect(()=> {
-  
-}, [])
+  };
+  useEffect(() => {}, []);
   // xử lí sự kiện ấn chọn mua sản phẩm
   const handleAddOrderProduct = () => {
     if (!user?.id) {
@@ -83,7 +86,10 @@ useEffect(()=> {
       const orderRedux = order?.orderItems?.find(
         (item) => item.product === productDetails?._id
       );
-      if ((orderRedux?.amount + quantity) <= orderRedux?.countInstock || (!orderRedux && productDetails?.countInStock > 0)) {
+      if (
+        orderRedux?.amount + quantity <= orderRedux?.countInstock ||
+        (!orderRedux && productDetails?.countInStock > 0)
+      ) {
         dispatch(
           addOrderProduct({
             orderItem: {
@@ -111,7 +117,7 @@ useEffect(()=> {
   return (
     <Loading isLoading={isLoading}>
       <div style={{ backgroundColor: "#fff" }}>
-        <Row style={{ padding: "16px 0 16px 16px" }}>
+        <Row style={{ padding: "16px 0 16px 16px" }} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col span={9}>
             <Image
               src={productDetails?.image}
@@ -196,92 +202,97 @@ useEffect(()=> {
             </Row>
           </Col>
           <Col span={15}>
-            <div style={{ padding: "16px 28px 16px 0px" }}>
-              <NameProduct>{productDetails?.name}</NameProduct>
-              <div>
-                <Rate
-                  allowHalf
-                  value={productDetails?.rating}
-                  defaultValue={productDetails?.rating}
-                />
-                <span> | Đã bán {productDetails?.selled}</span>
+            <div style={{margin: "28px 0", padding: "0 30px"}}>
+              <div style={{width: "600px", padding: "16px 28px 16px 0px" }}>
+                <NameProduct>{productDetails?.name}</NameProduct>
               </div>
-            </div>
-            <Price>
-              <CurrentPrice>{convertPrice(productDetails?.price)}</CurrentPrice>
-            </Price>
-            <ExportGoods>
-              <span>Giao đến </span>
-              <span className="address"> {user?.address}</span>" - "
-              <span className="change-address"> Đổi Địa chỉ</span>
-            </ExportGoods>
-            <LikeButtonComponent dataHref={'https://developers.facebook.com/docs/plugins/'}/>
-            <Quanlity>
-              <div> Số Lượng </div>
-              <div
+              <div style={{display: 'flex'}}>
+                <Price>
+                  <CurrentPrice>{convertPrice(productDetails?.price)}</CurrentPrice>
+                </Price>
+                <div style={{margin: "14px 10px"}}>
+                    <Rate
+                      allowHalf
+                      value={productDetails?.rating}
+                      defaultValue={productDetails?.rating}
+                    />
+                    <span> | Đã bán {productDetails?.selled}</span>
+                  </div>
+              </div>
+              {/* <ExportGoods>
+                <span>Giao đến </span>
+                <span className="address"> {user?.address}</span>" - "
+                <span className="change-address"> Đổi Địa chỉ</span>
+              </ExportGoods> */}
+              <Quanlity>
+                <div> Số Lượng </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: "8px",
+                    marginLeft: "20px",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: "#fff",
+                      border: "1px solid rgb(236, 236, 236)",
+                    }}
+                    onClick={() => hanleChangeCount("decrease", quantity === 1)}
+                  >
+                    <MinusOutlined
+                      style={{ color: "#e2e2e2", fontSize: "20px" }}
+                    />
+                  </button>
+                  <WrapperInputNumber
+                    onChange={onChange}
+                    value={quantity}
+                    min={1}
+                    max={productDetails?.countInStock}
+                    size="small"
+                  />
+                  <button
+                    style={{
+                      border: "1px solid rgb(236, 236, 236)",
+                      backgroundColor: "#fff",
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      hanleChangeCount(
+                        "increase",
+                        quantity === productDetails?.countInStock
+                      )
+                    }
+                  >
+                    <PlusOutlined
+                      style={{ color: "#e2e2e2", fontSize: "20px" }}
+                    />
+                  </button>
+                </div>
+              </Quanlity>
+              {errorLimitOrder && (
+                <div style={{ color: "red" }}>Sản phẩm đã hết hàng</div>
+              )}
+              <ButtonComponent
+                textbutton={"Chọn Mua"}
+                onClick={handleAddOrderProduct}
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginTop: "8px",
-                  marginLeft: "20px",
+                  marginTop: "16px",
+                  marginLeft: "16px",
+                  background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
+                  color: "#fff",
+                  minWidth: "190px",
+                  width: "100%",
+                  maxWidth: "300px",
+                  height: "48px",
+                  fontSize: "15px",
+                  lineHeight: "24px",
+                  fontWeight: "500",
                 }}
-              >
-                <button
-                  style={{
-                    backgroundColor: "#fff",
-                    border: "1px solid rgb(236, 236, 236)",
-                  }}
-                  onClick={() => hanleChangeCount("decrease", quantity === 1)}
-                >
-                  <MinusOutlined
-                    style={{ color: "#e2e2e2", fontSize: "20px" }}
-                  />
-                </button>
-                <WrapperInputNumber
-                  onChange={onChange}
-                  value={quantity}
-                  min={1}
-                  max={productDetails?.countInStock}
-                  size="small"
-                />
-                <button
-                  style={{
-                    border: "1px solid rgb(236, 236, 236)",
-                    backgroundColor: "#fff",
-                    cursor: "pointer",
-                  }}
-                  onClick={() =>
-                    hanleChangeCount(
-                      "increase",
-                      quantity === productDetails?.countInStock
-                    )
-                  }
-                >
-                  <PlusOutlined
-                    style={{ color: "#e2e2e2", fontSize: "20px" }}
-                  />
-                </button>
-              </div>
-            </Quanlity>
-            {errorLimitOrder && <div style={{color: 'red'}}>Sản phẩm đã hết hàng</div>}
-            <ButtonComponent
-              textbutton={"Chọn Mua"}
-              onClick={handleAddOrderProduct}
-              style={{
-                marginTop: "16px",
-                background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
-                color: "#fff",
-                minWidth: "190px",
-                width: "100%",
-                maxWidth: "300px",
-                height: "48px",
-                fontSize: "15px",
-                lineHeight: "24px",
-                fontWeight: "500",
-              }}
-            ></ButtonComponent>
+              ></ButtonComponent>
+            </div>
           </Col>
-          <CommentComponent dataHref={'https://developers.facebook.com/docs/plugins/comments#configurator'} width="1270px"/>
         </Row>
       </div>
     </Loading>

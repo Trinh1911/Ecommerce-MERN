@@ -8,20 +8,19 @@ const ProductDetailPage = () => {
     <div
       style={{
         padding: "0 120px",
-        backgroundColor: "#efefef",
         height: "1000px",
       }}
     >
-      <div>
+      <div style={{marginTop: '22px', marginLeft: "54px", fontSize: '16px'}}>
         <span
-        style={{cursor: "pointer", fontWeight: "bold"}}
+        style={{cursor: "pointer", fontWeight: "bold", color: "#FD7E14", marginRight: "5px"}}
           onClick={() => {
             navigate("/");
           }}
         >
-          Trang chủ
+          Trang chủ   
         </span>
-        - chi tiết sản phẩm
+         - chi tiết sản phẩm
       </div>
       <ProductDetailComponents idProduct={id} />
     </div>

@@ -49,7 +49,6 @@ const TypeProductPage = () => {
       <div
         style={{
           padding: " 0 120px",
-          background: "#efefef",
           height: "1000px",
           paddingTop: "40px",
         }}

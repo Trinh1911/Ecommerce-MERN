@@ -12,6 +12,7 @@ import PaymentPage from "../pages/PaymentPage/PaymentPage"
 import OrderSuccess from "../pages/OrderSuccess/OrderSuccess"
 import AdminPage from "../pages/AdminPage/AdminPage"
 import DetailsOrderPage from "../pages/DetailsOrderPage/DetailsOrderPage.jsx"
+import SearchFeed from "../pages/SearchFeed/SearchFeed.jsx"
 export const routes = [
     {
         path: '/',
@@ -36,6 +37,11 @@ export const routes = [
     {
         path: '/product',
         page: ProductPage,
+        isShowheader: true,
+    },
+    {
+        path: '/search/:search',
+        page: SearchFeed,
         isShowheader: true,
     },
     {

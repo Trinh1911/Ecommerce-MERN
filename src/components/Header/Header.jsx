@@ -79,6 +79,12 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     setSearch(e.target.value);
     dispatch(searchProduct(e.target.value));
   };
+  const handleNavigateSearch = (e) => {
+    if(e.key === "Enter") {
+      navigate(`/search/${search}`);
+      setSearch("");
+    }
+  }
   return (
     <div
       style={{
@@ -112,6 +118,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               placeholder="input search text"
               size="default"
               onChange={onSearch}
+              onKeyPress={handleNavigateSearch}
               enterButton
             />
           </Col>

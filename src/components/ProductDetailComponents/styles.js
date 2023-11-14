@@ -1,12 +1,13 @@
 import styles from "styled-components";
 import { InputNumber } from "antd";
 export const NameProduct = styles.h1`
-    margin: 0px 0px 4px;
-    color: rgb(36, 36, 36);
-    font-size: 24px;
-    font-weight: 300;
-    line-height: 32px;
+    margin: 0px 0px 10px;
+    color: rgb(0, 65, 70);
     word-break: break-word;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 56px;
+}
 `
 export const SaleProduct = styles.span`
     font-size: 15px;
@@ -16,7 +17,6 @@ export const SaleProduct = styles.span`
 export const Price = styles.div`
     display: flex;
     border-radius: 4px;
-    background-color: rgb(250, 250, 250);
     padding: 0px 16px 12px;
 `
 export const CurrentPrice = styles.div`
@@ -47,6 +47,7 @@ export const ExportGoods = styles.div`
 export const Quanlity = styles.div`
     display: flex;
     align-items: center;
+    margin-left: 16px;
 `
 export const WrapperInputNumber = styles(InputNumber)`
     &.ant-input-number.ant-input-number-sm {
