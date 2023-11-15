@@ -26,7 +26,6 @@ export const WrapperLabel = styles.label`
 
 export const WrapperInput = styles.div`
     display: flex;
-    align-items: baseline;
     gap: 20px;
 `
 

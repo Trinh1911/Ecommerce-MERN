@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {  Form, Select, Space } from "antd";
+import { Form, Select, Space } from "antd";
 import { Button } from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import TableComponent from "../TableComponent/TableComponent";
@@ -39,7 +39,11 @@ const AdminProduct = () => {
     discount: "",
     countInStock: "",
     newType: "",
-  })
+    dimensions: "",
+    netWork: "",
+    wirelessSecurity: "",
+    powerSupply: "",
+  });
   // product
   const [product, setProduct] = useState(initialValue());
   // product update
@@ -51,6 +55,10 @@ const AdminProduct = () => {
       name,
       price,
       discount,
+      dimensions,
+      netWork,
+      wirelessSecurity,
+      powerSupply,
       description,
       rating,
       image,
@@ -61,6 +69,10 @@ const AdminProduct = () => {
       name,
       price,
       discount,
+      dimensions,
+      netWork,
+      wirelessSecurity,
+      powerSupply,
       description,
       rating,
       image,
@@ -72,6 +84,7 @@ const AdminProduct = () => {
   // gia tri duoc dua vao mutation update product
   const mutationUpdate = useMutationHooks((data) => {
     const { id, token, ...rests } = data;
+
     const res = ProductService.updateProduct(id, token, { ...rests });
     return res;
   });
@@ -99,12 +112,18 @@ const AdminProduct = () => {
   };
   // update product
   const fetchGetDetailsProduct = async (rowSelected) => {
+    console.log("res?.data", rowSelected);
     const res = await ProductService.getDetailsProduct(rowSelected);
+
     if (res?.data) {
       setProductDetails({
         name: res?.data?.name,
         price: res?.data?.price,
         discount: res?.data?.discount,
+        dimensions: res?.data?.dimensions,
+        netWork: res?.data?.netWork,
+        wirelessSecurity: res?.data?.wirelessSecurity,
+        powerSupply: res?.data?.powerSupply,
         description: res?.data?.description,
         rating: res?.data?.rating,
         image: res?.data?.image,
@@ -116,7 +135,7 @@ const AdminProduct = () => {
   };
 
   useEffect(() => {
-    if(!isModalOpen) {
+    if (!isModalOpen) {
       form.setFieldsValue(productDetails);
     } else {
       form.setFieldsValue(initialValue());
@@ -238,7 +257,7 @@ const AdminProduct = () => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          fontSize: '20px',
+          fontSize: "20px",
           color: filtered ? "#1890ff" : undefined,
         }}
       />
@@ -450,15 +469,19 @@ const AdminProduct = () => {
       description: product.description,
       rating: product.rating,
       image: product.image,
-      type: product.type === 'add type' ? product.newType : product.type,
+      type: product.type === "add type" ? product.newType : product.type,
       countInStock: product.countInStock,
-      discount: product.discount
-    }
+      discount: product.discount,
+      dimensions: product.dimensions,
+      netWork: product.netWork,
+      wirelessSecurity: product.wirelessSecurity,
+      powerSupply: product.powerSupply,
+    };
     mutation.mutate(params, {
       onSettled: () => {
-        queryProduct.refetch()
-      }
-    })
+        queryProduct.refetch();
+      },
+    });
   };
   const onUpdateProduct = () => {
     mutationUpdate.mutate(
@@ -472,10 +495,10 @@ const AdminProduct = () => {
   };
   // select
   const handleChangeSelect = (value) => {
-      setProduct({
-        ...product,
-        type: value,
-      });
+    setProduct({
+      ...product,
+      type: value,
+    });
   };
   return (
     <>
@@ -578,11 +601,11 @@ const AdminProduct = () => {
                   },
                 ]}
               >
-                  <InputComponent
-                    value={product.newType}
-                    onChange={handleOnchange}
-                    name="newType"
-                  />
+                <InputComponent
+                  value={product.newType}
+                  onChange={handleOnchange}
+                  name="newType"
+                />
               </Form.Item>
             )}
             <Form.Item
@@ -647,6 +670,70 @@ const AdminProduct = () => {
                 value={product.discount}
                 onChange={handleOnchange}
                 name="discount"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Dimensions"
+              name="dimensions"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your Dimensions",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.dimensions}
+                onChange={handleOnchange}
+                name="dimensions"
+              />
+            </Form.Item>
+            <Form.Item
+              label="NetWork"
+              name="netWork"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your netWork",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.netWork}
+                onChange={handleOnchange}
+                name="netWork"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Wireless Security"
+              name="wirelessSecurity"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your Wireless Security",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.wirelessSecurity}
+                onChange={handleOnchange}
+                name="wirelessSecurity"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Power Supply"
+              name="powerSupply"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your powerSupply",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.powerSupply}
+                onChange={handleOnchange}
+                name="powerSupply"
               />
             </Form.Item>
             <Form.Item
@@ -820,6 +907,70 @@ const AdminProduct = () => {
                 value={productDetails.discount}
                 onChange={handleOnchangeDetails}
                 name="discount"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Dimensions"
+              name="dimensions"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your price!",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={productDetails.dimensions}
+                onChange={handleOnchangeDetails}
+                name="dimensions"
+              />
+            </Form.Item>
+            <Form.Item
+              label="NetWork"
+              name="netWork"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your netWork",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.netWork}
+                onChange={handleOnchangeDetails}
+                name="netWork"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Wireless Security"
+              name="wirelessSecurity"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your Wireless Security",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.wirelessSecurity}
+                onChange={handleOnchangeDetails}
+                name="wirelessSecurity"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Power Supply"
+              name="powerSupply"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please input your powerSupply",
+              //   },
+              // ]}
+            >
+              <InputComponent
+                value={product.powerSupply}
+                onChange={handleOnchangeDetails}
+                name="powerSupply"
               />
             </Form.Item>
             <Form.Item

@@ -28,7 +28,6 @@ export const WrapperStyleHeaderDilivery = styles.div`
 
 export const WrapperContainer = styles.div`
   width: 100%;
-  background-color: #f5f5fa;
 `
 
 export const WrapperLeft = styles.div`
@@ -53,7 +52,7 @@ export const WrapperFooterItem = styles.div`
 
 export const WrapperHeaderItem = styles.div`
   display: flex;
-  align-items:flex-start;
+  align-items: center;
   height: 90px;
   width: 100%;
 `
@@ -69,6 +68,7 @@ export const WrapperItemOrder = styles.div`
   margin: 0 auto;
   background: #fff;
   border-radius: 6px;
+  border: 1px solid #f0ebeb;
   box-shadow: 0 12px 12px #ccc;
 `
 

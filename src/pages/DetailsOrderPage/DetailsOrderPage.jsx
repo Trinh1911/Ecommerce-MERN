@@ -43,7 +43,7 @@ const DetailsOrderPage = () => {
   }, [data]);
   return (
     <Loading isLoading={isLoading}>
-      <div style={{ width: "100%", background: "#f5f5fa" }}>
+      <div style={{ width: "100%"}}>
         <div style={{ width: "1270px", margin: "0 auto" }}>
           <h4>Chi tiết đơn hàng</h4>
 

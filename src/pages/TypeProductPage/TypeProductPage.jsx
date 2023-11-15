@@ -104,6 +104,10 @@ const TypeProductPage = () => {
                           type={data.type}
                           selled={data.selled}
                           discount={data.discount}
+                          dimensions={data.dimensions}
+                          netWork={data.netWork}
+                          wirelessSecurity={data.wirelessSecurity}
+                          powerSupply={data.powerSupply}
                           id={data._id}/>
                       </div>
                     </Col>

@@ -1,21 +1,23 @@
 import { Col, Image, Rate, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { PlusOutlined, MinusOutlined, StarFilled } from "@ant-design/icons";
-import detailsMain from "../../assets/images/detailsMain.jpg";
-import productsSmaill from "../../assets/images/productsSmaill.jpg";
 import * as ProductService from "../../service/ProductService";
 import { convertPrice } from "../../untils";
 import Loading from "../LoadingComponent/Loading";
 import * as Message from "../../components/Message/Message";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import {
-  Address,
   CurrentPrice,
-  ExportGoods,
   NameProduct,
   Price,
   Quanlity,
   WrapperInputNumber,
+  Title,
+  ContentDescription,
+  WrapContent,
+  AttributeItem,
+  TableContent,
+  AttributeValue,
 } from "./styles.js";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +32,8 @@ import LikeButtonComponent from "../LikeButtonComponent/LikeButtonComponent.jsx"
 import CommentComponent from "../CommentComponent/CommentComponent.jsx";
 const ProductDetailComponents = ({ idProduct }) => {
   const [quantity, setQuantity] = useState(1);
+  const [active, setActive] = useState(1);
+  const [alert, setAlert] = useState(false);
   const [errorLimitOrder, setErrorLimitOrder] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -103,21 +107,26 @@ const ProductDetailComponents = ({ idProduct }) => {
             },
           })
         );
+        setAlert(true);
       } else {
         setErrorLimitOrder(true);
+        setAlert(false);
       }
     }
   };
   useEffect(() => {
-    if (order?.isSuccessOrder) {
+    if (alert) {
       Message.success("Đã thêm vào giỏ hàng");
     }
-  }, [order?.isSuccessOrder]);
-
+  }, [alert]);
+  console.log("order?.isSuccessOrder", alert);
   return (
     <Loading isLoading={isLoading}>
       <div style={{ backgroundColor: "#fff" }}>
-        <Row style={{ padding: "16px 0 16px 16px" }} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Row
+          style={{ padding: "16px 0 16px 16px" }}
+          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+        >
           <Col span={9}>
             <Image
               src={productDetails?.image}
@@ -202,22 +211,24 @@ const ProductDetailComponents = ({ idProduct }) => {
             </Row>
           </Col>
           <Col span={15}>
-            <div style={{margin: "28px 0", padding: "0 30px"}}>
-              <div style={{width: "600px", padding: "16px 28px 16px 0px" }}>
+            <div style={{ margin: "28px 0", padding: "0 30px" }}>
+              <div style={{ width: "600px", padding: "16px 28px 16px 0px" }}>
                 <NameProduct>{productDetails?.name}</NameProduct>
               </div>
-              <div style={{display: 'flex'}}>
+              <div style={{ display: "flex" }}>
                 <Price>
-                  <CurrentPrice>{convertPrice(productDetails?.price)}</CurrentPrice>
+                  <CurrentPrice>
+                    {convertPrice(productDetails?.price)}
+                  </CurrentPrice>
                 </Price>
-                <div style={{margin: "14px 10px"}}>
-                    <Rate
-                      allowHalf
-                      value={productDetails?.rating}
-                      defaultValue={productDetails?.rating}
-                    />
-                    <span> | Đã bán {productDetails?.selled}</span>
-                  </div>
+                <div style={{ margin: "14px 10px" }}>
+                  <Rate
+                    allowHalf
+                    value={productDetails?.rating}
+                    defaultValue={productDetails?.rating}
+                  />
+                  <span> | Đã bán {productDetails?.selled}</span>
+                </div>
               </div>
               {/* <ExportGoods>
                 <span>Giao đến </span>
@@ -280,7 +291,8 @@ const ProductDetailComponents = ({ idProduct }) => {
                 style={{
                   marginTop: "16px",
                   marginLeft: "16px",
-                  background: "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
+                  background:
+                    "linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)",
                   color: "#fff",
                   minWidth: "190px",
                   width: "100%",
@@ -291,9 +303,90 @@ const ProductDetailComponents = ({ idProduct }) => {
                   fontWeight: "500",
                 }}
               ></ButtonComponent>
+              <div
+                style={{
+                  width: "168px",
+                  marginLeft: "12px",
+                  marginTop: "20px",
+                  padding: "5px",
+                  borderBottom: "1px solid #000",
+                  fontSize: "17px",
+                }}
+              >
+                Model: UAP-AC-PRO
+              </div>
+              <p
+                style={{
+                  paddingLeft: "16px",
+                  width: "516px",
+                  fontSize: "16px",
+                  whiteSpace: "pre-line",
+                  textAlign: "justify",
+                }}
+              >
+                {productDetails?.description}
+              </p>
             </div>
           </Col>
         </Row>
+        {/* spectification */}
+        <div
+          style={{
+            width: "1300px",
+            height: "56px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "20px",
+            borderRadius: "20px",
+            boxShadow: " 0 0 5pt 0.5pt #D3D3D3",
+          }}
+        >
+          <Title onClick={() => setActive(1)}>Thông tin nổi bật</Title>
+          <Title onClick={() => setActive(2)}>Thông số kỹ thuật</Title>
+        </div>
+        {active === 1 ? (
+          <WrapContent>
+            <ContentDescription>
+              UniFi AP AC PRO (UAP-AC-PRO) là thiết bị phát WiFi trong nhà hoạt
+              động trên 2 băng tần 2.4GHz và 5GHz, chuẩn 802.11ac hỗ trợ tốc độ
+              lên đến 1.75 Gbps. Với kiểu dáng nhỏ gọn và tinh tế, UniFi AP AC
+              PRO được lắp đặt dễ dàng. Phù hợp cho khách sạn, văn phòng, nhà
+              hàng, quán café khu nghỉ dưỡng, ký túc xá hoặc những nơi cần trang
+              bị WiFi. Phần cứng mạnh mẽ, cấu hình đơn giản có thể mở rộng đến
+              hàng ngàn thiết bị mạng UniFi mà vẫn duy trì được một hệ thống
+              mạng hợp nhất nhờ phần mềm quản lý UniFi Controller, nâng cao tính
+              bảo mật cho toàn hệ thống, thêm vào đó là những tính năng nổi bật
+              khác giúp người sử dụng tiết kiệm được thời gian cấu hình, mang
+              đến hiệu quả cao nhất với mức chi phí thấp nhất nên UniFi AP AC
+              PRO cũng là sự lựa chọn thích hợp cho các doanh nghiệp có nhiều
+              chi nhánh, cửa hàng hoặc nhà xưởng.
+            </ContentDescription>
+          </WrapContent>
+        ) : (
+          <TableContent>
+            <tbody>
+              <tr style={{ backgroundColor: "rgba(254, 234, 223, 0.7)" }}>
+                <AttributeItem>Dimensions</AttributeItem>
+                <AttributeValue>{productDetails?.dimensions}</AttributeValue>
+              </tr>
+              <tr>
+                <AttributeItem>Networking Interface</AttributeItem>
+                <AttributeValue>{productDetails?.netWork}</AttributeValue>
+              </tr>
+              <tr style={{ backgroundColor: "rgba(254, 234, 223, 0.7)" }}>
+                <AttributeItem>Wireless Security</AttributeItem>
+                <AttributeValue>
+                  {productDetails?.wirelessSecurity}
+                </AttributeValue>
+              </tr>
+              <tr>
+                <AttributeItem>Power Supply</AttributeItem>
+                <AttributeValue>{productDetails?.powerSupply}</AttributeValue>
+              </tr>
+            </tbody>
+          </TableContent>
+        )}
       </div>
     </Loading>
   );

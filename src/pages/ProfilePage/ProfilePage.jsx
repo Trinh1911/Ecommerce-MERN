@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, Title, WrapperLabel, WrapperInput, WrapperUploadFile } from "./styles";
+import {
+  Container,
+  Title,
+  WrapperLabel,
+  WrapperInput,
+  WrapperUploadFile,
+} from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +15,9 @@ import useMutationHooks from "../../hooks/UseMutationHook";
 import Loading from "../../components/LoadingComponent/Loading";
 import { updateUser } from "../../redux/slides/userSlide";
 import { Button } from "antd/es/radio";
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from "@ant-design/icons";
 import { getBase64 } from "../../untils";
+import { useNavigate } from "react-router-dom";
 const ProfilePage = () => {
   // lay state ben sign in sau do lai lay ra nhap vao
   const user = useSelector((state) => state.user);
@@ -23,15 +30,16 @@ const ProfilePage = () => {
     const { id, access_token, ...rests } = data;
     UserService.updateUser(id, rests, access_token);
   });
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isLoading, isError, isSuccess } = mutation;
   useEffect(() => {
-    setEmail(user?.email)
-    setName(user?.name)
-    setPhone(user?.phone)
-    setAddress(user?.address)
-    setAvatar(user?.avatar)
-}, [user])
+    setEmail(user?.email);
+    setName(user?.name);
+    setPhone(user?.phone);
+    setAddress(user?.address);
+    setAvatar(user?.avatar);
+  }, [user]);
   useEffect(() => {
     if (isSuccess) {
       Message.success();
@@ -42,7 +50,7 @@ const ProfilePage = () => {
   }, [isError, isSuccess]);
   const handleGetDetailsUser = async (id, token) => {
     // lay duoc du lieu tu backend
-    const res = await UserService.getDetailsUser(id, token)
+    const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
   const handleOnChangeEmail = (value) => {
@@ -57,12 +65,12 @@ const ProfilePage = () => {
   const handleOnChangeAddress = (value) => {
     setAddress(value);
   };
-  const handleOnChangeAvatar = async({fileList}) => {
-    const file = fileList[0]
+  const handleOnChangeAvatar = async ({ fileList }) => {
+    const file = fileList[0];
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-    setAvatar(file.preview)
+    setAvatar(file.preview);
   };
   const handleUpdate = () => {
     mutation.mutate({
@@ -75,13 +83,28 @@ const ProfilePage = () => {
     });
   };
   return (
-    <div style={{ height: "1000px", width: "1270px", margin: "0 auto" }}>
-      <Title>Thông tin người dùng</Title>
+    <div style={{ width: "1270px", margin: "0 auto" }}>
+      <div style={{ marginTop: "22px", marginLeft: "54px", fontSize: "16px" }}>
+        <span
+          style={{
+            cursor: "pointer",
+            fontWeight: "bold",
+            color: "#FD7E14",
+            marginRight: "5px",
+          }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Trang chủ
+        </span>
+        - Profile User
+      </div>
       <Container>
         <Loading isLoading={isLoading}>
           {/* name */}
           <WrapperInput>
-            <WrapperLabel htmlFor="name">name</WrapperLabel>
+            <WrapperLabel htmlFor="name">Tên</WrapperLabel>
             <FormComponent
               id="name"
               style={{ marginBottom: "15px", width: "300px" }}
@@ -96,6 +119,7 @@ const ProfilePage = () => {
                 height: "30px",
                 width: "fit-content",
                 borderRadius: "4px",
+                marginTop: "15px",
                 padding: "2px 6px 6px",
                 color: "rgb(26, 148, 255)",
                 fontSize: "14px",
@@ -120,6 +144,7 @@ const ProfilePage = () => {
                 height: "30px",
                 width: "fit-content",
                 borderRadius: "4px",
+                marginTop: "15px",
                 padding: "2px 6px 6px",
                 color: "rgb(26, 148, 255)",
                 fontSize: "14px",
@@ -129,7 +154,7 @@ const ProfilePage = () => {
           </WrapperInput>
           {/* phone */}
           <WrapperInput>
-            <WrapperLabel htmlFor="phone">phone</WrapperLabel>
+            <WrapperLabel htmlFor="phone">Phone</WrapperLabel>
             <FormComponent
               id="phone"
               style={{ marginBottom: "15px", width: "300px" }}
@@ -144,6 +169,7 @@ const ProfilePage = () => {
                 height: "30px",
                 width: "fit-content",
                 borderRadius: "4px",
+                marginTop: "15px",
                 padding: "2px 6px 6px",
                 color: "rgb(26, 148, 255)",
                 fontSize: "14px",
@@ -153,7 +179,7 @@ const ProfilePage = () => {
           </WrapperInput>
           {/* address */}
           <WrapperInput>
-            <WrapperLabel htmlFor="address">Address</WrapperLabel>
+            <WrapperLabel htmlFor="address">Địa chỉ</WrapperLabel>
             <FormComponent
               id="address"
               style={{ marginBottom: "15px", width: "300px" }}
@@ -168,6 +194,7 @@ const ProfilePage = () => {
                 height: "30px",
                 width: "fit-content",
                 borderRadius: "4px",
+                marginTop: "15px",
                 padding: "2px 6px 6px",
                 color: "rgb(26, 148, 255)",
                 fontSize: "14px",
@@ -176,28 +203,23 @@ const ProfilePage = () => {
             ></ButtonComponent>
           </WrapperInput>
           {/* avatar */}
-          <WrapperInput>
+          <WrapperInput style={{alignItems: "flex-end"}}>
             <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
             <WrapperUploadFile onChange={handleOnChangeAvatar} maxCount={1}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </WrapperUploadFile>
-            {
-              avatar && (
-                <img src={avatar} style={{
-                  height: '60px',
-                  width: '60px',
-                  borderRadius: '50%',
-                  objectFit: 'cover'
-                }} alt="avatar"/>
-              )
-            }
-            {/* <FormComponent
-              id="avatar"
-              style={{ marginBottom: "15px", width: "300px" }}
-              value={avatar}
-              onChange={handleOnChangeAvatar}
-              placeholder={"nhap dia chi avatar"}
-            /> */}
+            {avatar && (
+              <img
+                src={avatar}
+                style={{
+                  height: "60px",
+                  width: "60px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+                alt="avatar"
+              />
+            )}
             <ButtonComponent
               onClick={handleUpdate}
               textbutton={"Cập nhật"}
@@ -206,6 +228,7 @@ const ProfilePage = () => {
                 width: "fit-content",
                 borderRadius: "4px",
                 padding: "2px 6px 6px",
+                marginTop: "15px",
                 color: "rgb(26, 148, 255)",
                 fontSize: "14px",
                 fontWeight: "600",

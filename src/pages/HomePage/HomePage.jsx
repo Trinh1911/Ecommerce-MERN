@@ -33,9 +33,10 @@ const HomePage = () => {
   const [typeProduct, setTypeProduct] = useState([]);
   // lọc product
   const fetchProductAll = async (context) => {
+    console.log("context", context?.queryKey && context?.queryKey[1]);
     const limit = context?.queryKey && context?.queryKey[1];
     // const search = context?.queryKey && context?.queryKey[2];
-    const res = await ProductService.getAllProduct( limit);
+    const res = await ProductService.getAllProduct("", Number(limit));
     return res;
   };
   // get type product
@@ -217,24 +218,23 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                      <Col className="gutter-row" span={2 / 4}>
-                        <div>
-                          <CardComponent
-                            key={product._id}
-                            countInStock={product.countInStock}
-                            description={product.description}
-                            image={product.image}
-                            name={product.name}
-                            price={product.price}
-                            rating={product.rating}
-                            type={product.type}
-                            selled={product.selled}
-                            discount={product.discount}
-                            id={product._id}
-                          />
-                        </div>
-                      </Col>
-                    
+                    <Col className="gutter-row" span={2 / 4}>
+                      <div>
+                        <CardComponent
+                          key={product._id}
+                          countInStock={product.countInStock}
+                          description={product.description}
+                          image={product.image}
+                          name={product.name}
+                          price={product.price}
+                          rating={product.rating}
+                          type={product.type}
+                          selled={product.selled}
+                          discount={product.discount}
+                          id={product._id}
+                        />
+                      </div>
+                    </Col>
                   );
                 })}
               </Row>
@@ -324,6 +324,10 @@ const HomePage = () => {
                             type={product.type}
                             selled={product.selled}
                             discount={product.discount}
+                            dimensions={product.dimensions}
+                            netWork={product.netWork}
+                            wirelessSecurity={product.wirelessSecurity}
+                            powerSupply={product.powerSupply}
                             id={product._id}
                           />
                         </div>
@@ -371,53 +375,6 @@ const HomePage = () => {
               />
             </div>
           </div>
-          {/* contact */}
-          {/* <div style={{position: 'relative',zIndex: '1'}}>
-            <Image src={CSKH} preview={false} style={{height: '404px'}}/>
-            <div style={{display: 'flex'}}>
-              <div style={{position: 'absolute', top: '53px', left: '80px'}}>
-                <h3 style={{width: '428px', height: '112px',margin: '0', fontWeight: "800", fontSize: '38px', lineHeight: '50px', color: "#fff"}}>Bạn cần tư vấn ? Chúng tôi hỗ trợ ngay!</h3>
-                <ul style={{padding: '0 10px',listStyle: 'none',fontWeight: '700',fontSize: '22px', lineHeight: '28px',color: "#fff"}}>
-                  <li>
-                    Gọi mua hàng: 0933 769 199
-                  </li>
-                  <li>
-                    Gọi bảo hành: 028 7300 2222
-                  </li>
-                  <li>
-                    Hỗ trợ kỹ thuật: 028 7300 2222
-                    <span style={{marginLeft: '19px'}}>| Ext: 89777 | 8654</span>
-                  </li>
-                </ul>
-              </div>
-              <div style={{position: 'absolute', top: '40px', right: '74px', width: '500px', height: '300px', borderRadius: '20px', background: 'linear-gradient(270.09deg, rgba(255, 255, 255, 0.66) 0.06%, rgba(255, 255, 255, 0.32) 99.91%)'}}>
-                <WrapperInfo>
-                  <InputInfo
-                    type="text"
-                    placeholder="Họ Tên*"
-                  />
-                </WrapperInfo>
-                <WrapperInfo>
-                  <InputInfo
-                    type="text"
-                    placeholder="Email*"
-                  />
-                </WrapperInfo>
-                <WrapperInfo>
-                  <InputInfo
-                    type="text"
-                    placeholder="Số điện thoại*"
-                  />
-                </WrapperInfo>
-                <WrapperInfo>
-                  <InputInfo
-                    type="text"
-                    placeholder="Nhập nội dung cần tư vấn"
-                  />
-                </WrapperInfo>
-              </div>
-            </div>
-          </div> */}
           <div style={{ marginTop: "40px" }}>
             <div
               style={{
@@ -432,7 +389,7 @@ const HomePage = () => {
             >
               Địa Chỉ Công Ty
             </div>
-            <div style={{textAlign: "center"}}>
+            <div style={{ textAlign: "center" }}>
               <iframe
                 style={{ borderRadius: "20px", marginTop: "20px" }}
                 src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d23651.30408792001!2d106.62409558413344!3d10.868459536359174!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1690950899112!5m2!1svi!2s"
