@@ -24,12 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   addOrderProduct,
-  resetOrder,
-  decreaseAmount,
-  increaseAmount,
 } from "../../redux/slides/OrderSlice";
-import LikeButtonComponent from "../LikeButtonComponent/LikeButtonComponent.jsx";
-import CommentComponent from "../CommentComponent/CommentComponent.jsx";
 const ProductDetailComponents = ({ idProduct }) => {
   const [quantity, setQuantity] = useState(1);
   const [active, setActive] = useState(1);
@@ -135,80 +130,6 @@ const ProductDetailComponents = ({ idProduct }) => {
                 width: "444px",
               }}
             />
-            <Row style={{ marginTop: "16px" }}>
-              <Col span={4}>
-                <Image
-                  src={productDetails?.image}
-                  alt="image small"
-                  preview={false}
-                  style={{
-                    width: "64px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Col>
-              <Col span={4}>
-                <Image
-                  src={productDetails?.image}
-                  alt="image small"
-                  preview={false}
-                  style={{
-                    width: "64px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Col>
-              <Col span={4}>
-                <Image
-                  src={productDetails?.image}
-                  alt="image small"
-                  preview={false}
-                  style={{
-                    width: "64px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Col>
-              <Col span={4}>
-                <Image
-                  src={productDetails?.image}
-                  alt="image small"
-                  preview={false}
-                  style={{
-                    width: "64px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Col>
-              <Col span={4}>
-                <Image
-                  src={productDetails?.image}
-                  alt="image small"
-                  preview={false}
-                  style={{
-                    width: "64px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Col>
-              <Col span={4}>
-                <Image
-                  src={productDetails?.image}
-                  alt="image small"
-                  preview={false}
-                  style={{
-                    width: "64px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Col>
-            </Row>
           </Col>
           <Col span={15}>
             <div style={{ margin: "28px 0", padding: "0 30px" }}>
@@ -230,11 +151,6 @@ const ProductDetailComponents = ({ idProduct }) => {
                   <span> | Đã bán {productDetails?.selled}</span>
                 </div>
               </div>
-              {/* <ExportGoods>
-                <span>Giao đến </span>
-                <span className="address"> {user?.address}</span>" - "
-                <span className="change-address"> Đổi Địa chỉ</span>
-              </ExportGoods> */}
               <Quanlity>
                 <div> Số Lượng </div>
                 <div
@@ -348,19 +264,7 @@ const ProductDetailComponents = ({ idProduct }) => {
         {active === 1 ? (
           <WrapContent>
             <ContentDescription>
-              UniFi AP AC PRO (UAP-AC-PRO) là thiết bị phát WiFi trong nhà hoạt
-              động trên 2 băng tần 2.4GHz và 5GHz, chuẩn 802.11ac hỗ trợ tốc độ
-              lên đến 1.75 Gbps. Với kiểu dáng nhỏ gọn và tinh tế, UniFi AP AC
-              PRO được lắp đặt dễ dàng. Phù hợp cho khách sạn, văn phòng, nhà
-              hàng, quán café khu nghỉ dưỡng, ký túc xá hoặc những nơi cần trang
-              bị WiFi. Phần cứng mạnh mẽ, cấu hình đơn giản có thể mở rộng đến
-              hàng ngàn thiết bị mạng UniFi mà vẫn duy trì được một hệ thống
-              mạng hợp nhất nhờ phần mềm quản lý UniFi Controller, nâng cao tính
-              bảo mật cho toàn hệ thống, thêm vào đó là những tính năng nổi bật
-              khác giúp người sử dụng tiết kiệm được thời gian cấu hình, mang
-              đến hiệu quả cao nhất với mức chi phí thấp nhất nên UniFi AP AC
-              PRO cũng là sự lựa chọn thích hợp cho các doanh nghiệp có nhiều
-              chi nhánh, cửa hàng hoặc nhà xưởng.
+              {productDetails?.descriptionType}
             </ContentDescription>
           </WrapContent>
         ) : (

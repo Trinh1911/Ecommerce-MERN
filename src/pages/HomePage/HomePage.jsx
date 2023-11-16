@@ -29,7 +29,7 @@ const HomePage = () => {
   const SearchProduct = useSelector((state) => state?.product?.search);
   const searchDebounce = useDebounce(SearchProduct, 1000);
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(5);
   const [typeProduct, setTypeProduct] = useState([]);
   // lọc product
   const fetchProductAll = async (context) => {
@@ -328,6 +328,7 @@ const HomePage = () => {
                             netWork={product.netWork}
                             wirelessSecurity={product.wirelessSecurity}
                             powerSupply={product.powerSupply}
+                            descriptionType={product.descriptionType}
                             id={product._id}
                           />
                         </div>

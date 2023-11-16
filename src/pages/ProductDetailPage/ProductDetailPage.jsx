@@ -77,6 +77,7 @@ const ProductDetailPage = () => {
                       netWork={product.netWork}
                       wirelessSecurity={product.wirelessSecurity}
                       powerSupply={product.powerSupply}
+                      descriptionType={product.descriptionType}
                       id={product._id}
                     />
                   </div>

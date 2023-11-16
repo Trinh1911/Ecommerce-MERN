@@ -43,6 +43,7 @@ const AdminProduct = () => {
     netWork: "",
     wirelessSecurity: "",
     powerSupply: "",
+    descriptionType: "",
   });
   // product
   const [product, setProduct] = useState(initialValue());
@@ -60,6 +61,7 @@ const AdminProduct = () => {
       wirelessSecurity,
       powerSupply,
       description,
+      descriptionType,
       rating,
       image,
       type,
@@ -74,6 +76,7 @@ const AdminProduct = () => {
       wirelessSecurity,
       powerSupply,
       description,
+      descriptionType,
       rating,
       image,
       type,
@@ -125,6 +128,7 @@ const AdminProduct = () => {
         wirelessSecurity: res?.data?.wirelessSecurity,
         powerSupply: res?.data?.powerSupply,
         description: res?.data?.description,
+        descriptionType: res?.data?.descriptionType,
         rating: res?.data?.rating,
         image: res?.data?.image,
         type: res?.data?.type,
@@ -377,6 +381,7 @@ const AdminProduct = () => {
       name: "",
       price: "",
       description: "",
+      descriptionType: "",
       rating: "",
       image: "",
       type: "",
@@ -390,6 +395,7 @@ const AdminProduct = () => {
       name: "",
       price: "",
       description: "",
+      descriptionType: "",
       rating: "",
       image: "",
       type: "",
@@ -476,6 +482,7 @@ const AdminProduct = () => {
       netWork: product.netWork,
       wirelessSecurity: product.wirelessSecurity,
       powerSupply: product.powerSupply,
+      descriptionType: product.descriptionType,
     };
     mutation.mutate(params, {
       onSettled: () => {
@@ -569,7 +576,6 @@ const AdminProduct = () => {
                 name="name"
               />
             </Form.Item>
-
             <Form.Item
               label="Type"
               name="type"
@@ -750,6 +756,22 @@ const AdminProduct = () => {
                 value={product.description}
                 onChange={handleOnchange}
                 name="description"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Description Type"
+              name="descriptionType"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your  descriptionType!",
+                },
+              ]}
+            >
+              <InputComponent
+                value={product.descriptionType}
+                onChange={handleOnchange}
+                name="descriptionType"
               />
             </Form.Item>
             <Form.Item
@@ -987,6 +1009,22 @@ const AdminProduct = () => {
                 value={productDetails.description}
                 onChange={handleOnchangeDetails}
                 name="description"
+              />
+            </Form.Item>
+            <Form.Item
+              label="DescriptionType"
+              name="descriptionType"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your descriptionType!",
+                },
+              ]}
+            >
+              <InputComponent
+                value={productDetails.descriptionType}
+                onChange={handleOnchangeDetails}
+                name="descriptionType"
               />
             </Form.Item>
             <Form.Item

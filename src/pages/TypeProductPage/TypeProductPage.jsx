@@ -108,6 +108,7 @@ const TypeProductPage = () => {
                           netWork={data.netWork}
                           wirelessSecurity={data.wirelessSecurity}
                           powerSupply={data.powerSupply}
+                          descriptionType={data.descriptionType}
                           id={data._id}/>
                       </div>
                     </Col>
