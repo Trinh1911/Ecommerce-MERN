@@ -250,7 +250,7 @@ const HomePage = () => {
                 type="outline"
                 style={{
                   display: "block",
-                  width: "240px",
+                  width: "180px",
                   height: "38px",
                   fontSize: "17px",
                   margin: "25px auto",
@@ -430,7 +430,7 @@ const HomePage = () => {
                 type="outline"
                 style={{
                   display: "block",
-                  width: "240px",
+                  width: "180px",
                   height: "38px",
                   fontSize: "17px",
                   margin: "25px auto",
@@ -620,7 +620,7 @@ const HomePage = () => {
                 type="outline"
                 style={{
                   display: "block",
-                  width: "240px",
+                  width: "180px",
                   height: "38px",
                   fontSize: "17px",
                   margin: "25px auto",
