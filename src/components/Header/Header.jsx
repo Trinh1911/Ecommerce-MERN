@@ -4,6 +4,8 @@ import {
   ContentPopover,
   LogoHeader,
   MenuItems,
+  MenuItemsCart,
+  MenuItemsMobile,
   TextHeader,
   Wrapper,
 } from "./styles";
@@ -104,6 +106,47 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
           }}
         >
           <LogoHeader onClick={handleNavigateHome}>KT</LogoHeader>
+          {/* ten dang nhap mobile */}
+          <Loading isLoading={loading}>
+            <MenuItemsMobile>
+              {user?.access_token ? (
+                <>
+                  <Popover content={content} trigger="click" open={isOpenPopOver}>
+                    <div style={{ display: "flex", alignItems: "center" }} onClick={()=> setIsOpenPopOver(!isOpenPopOver)}>
+                      {user?.avatar ? (
+                        <Image
+                          preview={false}
+                          src={user?.avatar}
+                          style={{
+                            height: "30px",
+                            width: "30px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            marginRight: "10px",
+                          }}
+                          alt="avatar"
+                        />
+                      ) : (
+                        <UserOutlined
+                          style={{ fontSize: "24px", marginRight: "4px" }}
+                        />
+                      )}
+                      <TextHeader>
+                        {userName?.length ? userName : user?.email}
+                      </TextHeader>
+                    </div>
+                  </Popover>
+                </>
+              ) : (
+                <div onClick={handleNavigateLogin} style={{ display: "flex" }}>
+                  <SmileOutlined
+                    style={{ fontSize: "24px", marginRight: "4px", color: "rgba(0,0,0,.88)" }}
+                  />
+                  <TextHeader>Tài Khoản</TextHeader>
+                </div>
+              )}
+            </MenuItemsMobile>
+          </Loading>
         </Col>
         {!isHiddenSearch && (
           <Col
@@ -131,7 +174,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             justifyContent: "center",
           }}
         >
-          {/* ten dang nhap */}
+          {/* ten dang nhap laptop*/}
           <Loading isLoading={loading}>
             <MenuItems>
               {user?.access_token ? (
@@ -172,9 +215,8 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               )}
             </MenuItems>
           </Loading>
-          {/*  */}
           {!isHiddenCart && (
-            <MenuItems
+            <MenuItemsCart
               style={{ marginLeft: "24px", cursor: "pointer" }}
               onClick={() => navigate("/order")}
             >
@@ -187,7 +229,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                   }}
                 />
               </Badge>
-            </MenuItems>
+            </MenuItemsCart>
           )}
         </Col>
       </Wrapper>

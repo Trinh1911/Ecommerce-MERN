@@ -3,11 +3,18 @@ import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import styles from "styled-components";
 import { Row } from "antd";
 export const WrapperCard = styles(Row)`
+    width: 100%;
     &.ant-row {
     padding: 0px 21px; 
 }
+@media (max-width:1023px) {
+        padding: 10px;
+}
 `
 export const WrapperTypeProduct = styles.div`
+@media (max-width:1023px) {
+    padding: 10px;
+}
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -49,4 +56,33 @@ export const ButtonMore = styles(ButtonComponent)`
     span {
         font-weight: 500;
     }
+`
+export const WrapperProduct = styles.div`
+@media (max-width:1023px) {
+    display: none;
+}
+    display: block;
+    margin-top: 40px;
+`
+export const WrapperProductMobile = styles.div`
+@media (max-width:1023px) {
+    display: block;
+}
+    display: none;
+    margin-top: 40px;
+`
+export const Container = styles.div`
+@media (max-width:1023px) {
+    width: 100%;
+}
+    width: 1270px;
+    margin: 0 auto;
+`
+export const WrapType = styles.div`
+@media (max-width:1023px) {
+    padding: 0;
+    margin-top: 10px;
+}
+    padding: 0 120px;
+    margin-bottom: 10px;
 `

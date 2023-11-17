@@ -1,10 +1,11 @@
 import React from "react";
-import { Input } from "antd";
+// import { Input } from "antd";
+import { WrapperInput } from "./styles";
 
 const InputComponent = ({ size, placeholder, bordered, style, ...rest }) => {
   return (
     <>
-      <Input
+      <WrapperInput
         size={size}
         placeholder={placeholder}
         style={style}

@@ -3,22 +3,14 @@ import { SearchOutlined } from "@ant-design/icons";
 import InputComponent from "../InputComponent/InputComponent";
 import { Button } from "antd";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
+import { WrapperSearch } from "./styles";
 const Search = (props) => {
   const { size, placeholder, textbutton } = props;
   return (
-    <div style={{ display: "flex", width: "400px" }}>
+    <WrapperSearch>
       <InputComponent
         size={size}
         placeholder={placeholder}
-        style={{
-          padding: "9px 86px 10px 29px",
-          borderRadius: "43px",
-          borderRight: "0",
-          borderTopRightRadius: "0",
-          borderBottomRightRadius: "0",
-          backgroundColor: "#fff",
-          boxShadow: " 0 0 5pt 0.5pt #D3D3D3"
-        }}
         {...props}
       />
       <ButtonComponent
@@ -26,14 +18,14 @@ const Search = (props) => {
         textbutton={textbutton}
         icon={<SearchOutlined />}
         style={{
-          height: "43px",
+          height: "44px",
           width: "50px",
           borderRadius: "43px",
           borderTopLeftRadius: "0",
           borderBottomLeftRadius: "0",
         }}
       ></ButtonComponent>
-    </div>
+    </WrapperSearch>
   );
 };
 

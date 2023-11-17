@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Card, Image } from "antd";
 import styles from "styled-components";
 export const NameProduct = styles.div`
     height: 24px;
@@ -13,13 +13,19 @@ export const NameProduct = styles.div`
     overflow: hidden;
 `
 export const CardProduct = styles(Card)`
-    width: 230px;
+    width: 220px;
     position: relative;
     margin-top: 15px;
     background-color:${props => props.disabled ? "#ccc": "#fff"};
     cursor:${props => props.disabled ? "not-allowed": "pointer"};
     & .ant-card-body {
         padding: 10px;
+    }
+    @media (max-width:1023px) {
+        width: 100%;
+        & .ant-card-cover >* {
+            width: 180px;
+        }
     }
 `
 export const SaleText = styles.div`

@@ -5,7 +5,7 @@ import CardComponent from "../../components/CardComponent/CardComponent.jsx";
 import * as ProductService from "../../service/ProductService";
 import { Col, Row } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import Footer from "../../components/Footer/Footer.js";
+import Footer from "../../components/Footer/Footer.jsx";
 const ProductDetailPage = () => {
   const fetchProductAll = async (context) => {
     // const limit = context?.queryKey && context?.queryKey[1];

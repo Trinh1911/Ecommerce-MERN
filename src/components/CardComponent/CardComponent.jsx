@@ -9,6 +9,7 @@ import {
   PriceText,
   SaleText,
   CardProduct,
+  wrapImage
 } from "./styles";
 import logoSales from "../../assets/images/logoSales.png";
 import sale from "../../assets/images/sale.png";
@@ -16,8 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { convertPrice } from "../../untils";
 const CardComponent = (props) => {
   const {
-    countInStock,
-    description,
     image,
     name,
     price,
@@ -35,38 +34,30 @@ const CardComponent = (props) => {
     <CardProduct
       hoverable
       onClick={() => handleDetailProduct(id)}
-      style={{
-        width: "220px",
-        position: "relative",
-      }}
       cover={
         <img
           alt="example"
           src={image}
-          style={{
-            width: "220px",
-            height: "200px",
-          }}
         />
       }
     >
-      {selled >= 10 && (<div style={{ position: "absolute", left: "-20px",top: '0', margin: "10px 0" }}>
+      {selled >= 10 && (<div style={{ position: "absolute", left: "-12px",top: '0', margin: "10px 0" }}>
         <Image
           src={sale}
           style={{
-            width: "84px",
-            height: "22px",
+            width: "78px",
+            height: "19px",
           }}
         />
         <span
           style={{
             position: "absolute",
             color: "#fff",
-            fontSize: "12px",
+            fontSize: "11px",
             fontStyle: "italic",
             fontWeight: "700",
-            left: "22px",
-            top: "2px",
+            left: "19px",
+            top: "3px",
             zIndex: "10",
           }}
         >

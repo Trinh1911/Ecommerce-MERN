@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import {
   ButtonMore,
+  Container,
   InputInfo,
+  WrapType,
   WrapperCard,
   WrapperInfo,
+  WrapperProduct,
+  WrapperProductMobile,
   WrapperTypeProduct,
 } from "./styles";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
@@ -62,43 +66,36 @@ const HomePage = () => {
   }, []);
   return (
     <Loading isLoading={isLoading || isLoadingSearch}>
-      <div
-        style={{
-          padding: " 0 120px",
-          backgroundColor: "#fff",
-          // borderBottom: " 1px solid #ff761c",
-          marginBottom: "10px",
-        }}
-      >
+      <WrapType>
         <WrapperTypeProduct>
           {typeProduct.map((item) => {
             return <TypeProduct key={item} name={item} />;
           })}
         </WrapperTypeProduct>
-      </div>
+      </WrapType>
       <div className="body" style={{ width: "100%", backgroundColor: "#fff" }}>
-        <div id="container" style={{ width: "1270px", margin: "0 auto" }}>
+        <Container>
           <SliderComponent arraySlider={[slider1, slider2, slider3]} />
           {/* thuong hieu */}
           <Row
-            gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
-            style={{ marginTop: "57px" }}
+            gutter={{ xs: 12, sm: 16, md: 24, lg: 32 }}
+            style={{ marginTop: "57px", width: "100%" }}
           >
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" xl={6} xs={12}>
               <Image src={Cisco} preview={false} />
             </Col>
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" xl={6} xs={12}>
               <Image src={Aruba} preview={false} />
             </Col>
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" xl={6} xs={12}>
               <Image src={Huawei} preview={false} />
             </Col>
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" xl={6} xs={12}>
               <Image src={Unifi} preview={false} />
             </Col>
           </Row>
-          {/* san pham ban chay */}
-          <div style={{ marginTop: "40px" }}>
+          {/* san pham ban chay lap top*/}
+          <WrapperProduct>
             <div
               style={{
                 fontSize: "30px",
@@ -117,18 +114,19 @@ const HomePage = () => {
                 marginTop: "20px",
               }}
             >
-              <Row
+              <WrapperCard
                 gutter={{
                   xs: 8,
                   sm: 16,
                   md: 24,
                   lg: 32,
                 }}
+                style={{ width: "100%" }}
               >
                 {products?.data?.map((product) => {
                   return (
                     product?.selled >= 10 && (
-                      <Col className="gutter-row" span={2 / 4}>
+                      <Col className="gutter-row" xl={2 / 4}>
                         <div>
                           <CardComponent
                             key={product._id}
@@ -148,7 +146,7 @@ const HomePage = () => {
                     )
                   );
                 })}
-              </Row>
+              </WrapperCard>
             </div>
             <div
               style={{
@@ -187,9 +185,100 @@ const HomePage = () => {
                 onClick={() => setLimit((prev) => prev + 6)}
               />
             </div>
-          </div>
+          </WrapperProduct>
+          {/* san pham ban chay mobile*/}
+          <WrapperProductMobile>
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "500",
+                lineHeight: "50px",
+                marginLeft: "8px",
+                marginTop: "8px",
+                borderBottom: "1px solid #ff761c",
+                padding: "10px 0",
+              }}
+            >
+              Sản phẩm bán chạy
+            </div>
+            <div
+              style={{
+                marginTop: "20px",
+              }}
+            >
+              <WrapperCard
+                gutter={{
+                  xs: 12,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                }}
+              >
+                {products?.data?.map((product) => {
+                  return (
+                    product?.selled >= 10 && (
+                      <Col className="gutter-row" xs={12}>
+                        <div>
+                          <CardComponent
+                            key={product._id}
+                            countInStock={product.countInStock}
+                            description={product.description}
+                            image={product.image}
+                            name={product.name}
+                            price={product.price}
+                            rating={product.rating}
+                            type={product.type}
+                            selled={product.selled}
+                            discount={product.discount}
+                            id={product._id}
+                          />
+                        </div>
+                      </Col>
+                    )
+                  );
+                })}
+              </WrapperCard>
+            </div>
+            <div
+              style={{
+                width: "100%",
+                marginTop: "15px",
+              }}
+            >
+              <ButtonMore
+                textbutton={isPreviousData ? "Load more" : "Xem Thêm"}
+                type="outline"
+                style={{
+                  display: "block",
+                  width: "240px",
+                  height: "38px",
+                  fontSize: "17px",
+                  margin: "25px auto",
+                  borderRadius: "4px",
+                  border: "1px solid #FD7E14",
+                  boxShadow: " 1px 1px 11px rgba(0, 0, 0, 0.18)",
+                  borderRadius: "25px",
+                  cursor: "pointer",
+                  backgroundColor: "rgba(255, 255, 255)",
+                  color: `${
+                    products?.total === products?.data?.length ? "#fff" : "#000"
+                  }`,
+                }}
+                styleTextButton={{
+                  fontWeight: 500,
+                  color:
+                    products?.total === products?.data?.length && "#FD7E14",
+                }}
+                disabled={
+                  products?.total === products?.data?.length ||
+                  products?.totalPage === 1
+                }
+                onClick={() => setLimit((prev) => prev + 6)}
+              />
+            </div>
+          </WrapperProductMobile>
           {/* tat ca san pham */}
-          <div style={{ marginTop: "40px" }}>
+          <WrapperProduct>
             <div
               style={{
                 fontSize: "30px",
@@ -208,7 +297,7 @@ const HomePage = () => {
                 marginTop: "20px",
               }}
             >
-              <Row
+              <WrapperCard
                 gutter={{
                   xs: 8,
                   sm: 16,
@@ -218,7 +307,7 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    <Col className="gutter-row" span={2 / 4}>
+                    <Col className="gutter-row" xl={2 / 4}>
                       <div>
                         <CardComponent
                           key={product._id}
@@ -237,7 +326,7 @@ const HomePage = () => {
                     </Col>
                   );
                 })}
-              </Row>
+              </WrapperCard>
             </div>
             <div
               style={{
@@ -276,9 +365,100 @@ const HomePage = () => {
                 onClick={() => setLimit((prev) => prev + 6)}
               />
             </div>
-          </div>
+          </WrapperProduct>
+          {/*tat ca san pham mobile*/}
+          <WrapperProductMobile>
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "500",
+                lineHeight: "50px",
+                marginLeft: "8px",
+                marginTop: "8px",
+                borderBottom: "1px solid #ff761c",
+                padding: "10px 0",
+              }}
+            >
+              Sản phẩm bán chạy
+            </div>
+            <div
+              style={{
+                marginTop: "20px",
+              }}
+            >
+              <WrapperCard
+                gutter={{
+                  xs: 12,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                }}
+              >
+                {products?.data?.map((product) => {
+                  return (
+                    product?.selled >= 10 && (
+                      <Col className="gutter-row" xs={12}>
+                        <div>
+                          <CardComponent
+                            key={product._id}
+                            countInStock={product.countInStock}
+                            description={product.description}
+                            image={product.image}
+                            name={product.name}
+                            price={product.price}
+                            rating={product.rating}
+                            type={product.type}
+                            selled={product.selled}
+                            discount={product.discount}
+                            id={product._id}
+                          />
+                        </div>
+                      </Col>
+                    )
+                  );
+                })}
+              </WrapperCard>
+            </div>
+            <div
+              style={{
+                width: "100%",
+                marginTop: "15px",
+              }}
+            >
+              <ButtonMore
+                textbutton={isPreviousData ? "Load more" : "Xem Thêm"}
+                type="outline"
+                style={{
+                  display: "block",
+                  width: "240px",
+                  height: "38px",
+                  fontSize: "17px",
+                  margin: "25px auto",
+                  borderRadius: "4px",
+                  border: "1px solid #FD7E14",
+                  boxShadow: " 1px 1px 11px rgba(0, 0, 0, 0.18)",
+                  borderRadius: "25px",
+                  cursor: "pointer",
+                  backgroundColor: "rgba(255, 255, 255)",
+                  color: `${
+                    products?.total === products?.data?.length ? "#fff" : "#000"
+                  }`,
+                }}
+                styleTextButton={{
+                  fontWeight: 500,
+                  color:
+                    products?.total === products?.data?.length && "#FD7E14",
+                }}
+                disabled={
+                  products?.total === products?.data?.length ||
+                  products?.totalPage === 1
+                }
+                onClick={() => setLimit((prev) => prev + 6)}
+              />
+            </div>
+          </WrapperProductMobile>
           {/* san pham giam gia */}
-          <div style={{ margin: "40px 0" }}>
+          <WrapperProduct>
             <div
               style={{
                 display: "flex",
@@ -302,7 +482,7 @@ const HomePage = () => {
             >
               <WrapperCard
                 gutter={{
-                  xs: 8,
+                  xs: 12,
                   sm: 8,
                   md: 8,
                   lg: 32,
@@ -311,7 +491,7 @@ const HomePage = () => {
                 {products?.data?.map((product) => {
                   return (
                     product?.discount && (
-                      <Col className="gutter-row" span={2 / 4}>
+                      <Col className="gutter-row" xl={2 / 4}>
                         <div>
                           <CardComponent
                             key={product._id}
@@ -375,8 +555,100 @@ const HomePage = () => {
                 onClick={() => setLimit((prev) => prev + 6)}
               />
             </div>
-          </div>
-          <div style={{ marginTop: "40px" }}>
+          </WrapperProduct>
+          {/* tat ca san pham giam gia mobile*/}
+          <WrapperProductMobile>
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "500",
+                lineHeight: "50px",
+                marginLeft: "8px",
+                marginTop: "8px",
+                borderBottom: "1px solid #ff761c",
+                padding: "10px 0",
+              }}
+            >
+              Sản phẩm bán chạy
+            </div>
+            <div
+              style={{
+                marginTop: "20px",
+              }}
+            >
+              <WrapperCard
+                gutter={{
+                  xs: 12,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                }}
+              >
+                {products?.data?.map((product) => {
+                  return (
+                    product?.selled >= 10 && (
+                      <Col className="gutter-row" xs={12}>
+                        <div>
+                          <CardComponent
+                            key={product._id}
+                            countInStock={product.countInStock}
+                            description={product.description}
+                            image={product.image}
+                            name={product.name}
+                            price={product.price}
+                            rating={product.rating}
+                            type={product.type}
+                            selled={product.selled}
+                            discount={product.discount}
+                            id={product._id}
+                          />
+                        </div>
+                      </Col>
+                    )
+                  );
+                })}
+              </WrapperCard>
+            </div>
+            <div
+              style={{
+                width: "100%",
+                marginTop: "15px",
+              }}
+            >
+              <ButtonMore
+                textbutton={isPreviousData ? "Load more" : "Xem Thêm"}
+                type="outline"
+                style={{
+                  display: "block",
+                  width: "240px",
+                  height: "38px",
+                  fontSize: "17px",
+                  margin: "25px auto",
+                  borderRadius: "4px",
+                  border: "1px solid #FD7E14",
+                  boxShadow: " 1px 1px 11px rgba(0, 0, 0, 0.18)",
+                  borderRadius: "25px",
+                  cursor: "pointer",
+                  backgroundColor: "rgba(255, 255, 255)",
+                  color: `${
+                    products?.total === products?.data?.length ? "#fff" : "#000"
+                  }`,
+                }}
+                styleTextButton={{
+                  fontWeight: 500,
+                  color:
+                    products?.total === products?.data?.length && "#FD7E14",
+                }}
+                disabled={
+                  products?.total === products?.data?.length ||
+                  products?.totalPage === 1
+                }
+                onClick={() => setLimit((prev) => prev + 6)}
+              />
+            </div>
+          </WrapperProductMobile>
+          {/* map */}
+          <WrapperProduct>
             <div
               style={{
                 fontSize: "30px",
@@ -400,8 +672,8 @@ const HomePage = () => {
                 height="450"
               ></iframe>
             </div>
-          </div>
-        </div>
+          </WrapperProduct>
+        </Container>
         {/* footer */}
         <Footer />
       </div>
