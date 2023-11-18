@@ -51,11 +51,7 @@ const TypeProductPage = () => {
   };
   // hàm lọc sản phẩm nhỏ hơn 5 triệu
   const handleStateClick = () => {
-    setstateFilter((pre) => !pre);
-    console.log("test");
-    if (!stateFilter) {
-      setFilterRedProduct(product);
-    }
+    setstateFilter(false)
   };
   const filterProductMin = (product, value) => {
     return product.filter((item) => {
@@ -63,7 +59,7 @@ const TypeProductPage = () => {
     });
   };
   const handleFilterMin = () => {
-    if (!stateFilter) return;
+    setstateFilter(true)
     const value = 5000000;
     const filtered = filterProductMin(product, value);
     setFilterRedProduct(filtered);
@@ -75,11 +71,18 @@ const TypeProductPage = () => {
     });
   };
   const handleFilterMax = () => {
-    if (!stateFilter) return;
+    setstateFilter(true)
     const value = 5000000;
     const filtered = filterProductMax(product, value);
     setFilterRedProduct(filtered);
   };
+  useEffect(() => {
+    if (!stateFilter) {
+      setFilterRedProduct(product)
+    } else {
+      setFilterRedProduct(filterRedProduct)
+    }
+  })
   return (
     <Loading isLoading={isLoading}>
       <div

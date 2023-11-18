@@ -126,7 +126,7 @@ const HomePage = () => {
                 {products?.data?.map((product) => {
                   return (
                     product?.selled >= 10 && (
-                      <Col className="gutter-row" xl={2 / 4}>
+                      <Col className="gutter-row" span={2 / 4}>
                         <div>
                           <CardComponent
                             key={product._id}
@@ -307,7 +307,7 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    <Col className="gutter-row" xl={2 / 4}>
+                    <Col className="gutter-row" span={2 / 4}>
                       <div>
                         <CardComponent
                           key={product._id}
@@ -491,7 +491,7 @@ const HomePage = () => {
                 {products?.data?.map((product) => {
                   return (
                     product?.discount && (
-                      <Col className="gutter-row" xl={2 / 4}>
+                      <Col className="gutter-row" span={2 / 4}>
                         <div>
                           <CardComponent
                             key={product._id}
