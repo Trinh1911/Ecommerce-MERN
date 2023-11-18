@@ -44,6 +44,11 @@ export const MenuItemsCart = styles(Row)`
     color: #fff;
     cursor: pointer;
     border-radius: 8px;
+    margin-left: 24px;
+    cursor: pointer;
+    @media (max-width:1023px) {
+        margin: 0 ;
+    }
 `
 export const MenuItemsMobile = styles(Row)`
     @media (max-width:1023px) {

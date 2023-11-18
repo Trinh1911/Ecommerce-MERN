@@ -11,6 +11,10 @@ export const NameProduct = styles.div`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+    @media (max-width:1023px) {
+        width: 145px;
+        font-size: 14px;
+    }
 `
 export const CardProduct = styles(Card)`
     width: 220px;
@@ -24,7 +28,7 @@ export const CardProduct = styles(Card)`
     @media (max-width:1023px) {
         width: 100%;
         & .ant-card-cover >* {
-            width: 180px;
+            width: 160px;
         }
     }
 `
@@ -39,6 +43,9 @@ export const PriceText = styles.div`
     color: rgb(255, 66, 78);
     font-size: 16px;
     font-weight: 500;
+    @media (max-width:1023px) {
+        font-size: 14px;
+    }
 `
 
 export const DiscountText = styles.span`

@@ -18,13 +18,18 @@ import {
   AttributeItem,
   TableContent,
   AttributeValue,
+  WrapperImage,
+  WrapName,
+  InfoPrice,
+  WrapRating,
+  Info,
+  WrapperRate,
+  Spectification,
 } from "./styles.js";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  addOrderProduct,
-} from "../../redux/slides/OrderSlice";
+import { addOrderProduct } from "../../redux/slides/OrderSlice";
 const ProductDetailComponents = ({ idProduct }) => {
   const [quantity, setQuantity] = useState(1);
   const [active, setActive] = useState(1);
@@ -119,38 +124,33 @@ const ProductDetailComponents = ({ idProduct }) => {
     <Loading isLoading={isLoading}>
       <div style={{ backgroundColor: "#fff" }}>
         <Row
-          style={{ padding: "16px 0 16px 16px" }}
-          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+          gutter={{ xs: 16, sm: 16, md: 24, lg: 16 }}
         >
-          <Col span={9}>
-            <Image
-              src={productDetails?.image}
-              preview={false}
-              style={{
-                width: "444px",
-              }}
-            />
+          <Col xs={24} xl={9}>
+            <WrapperImage>
+              <Image src={productDetails?.image} preview={false} />
+            </WrapperImage>
           </Col>
-          <Col span={15}>
+          <Col xs={24} xl={15}>
             <div style={{ margin: "28px 0", padding: "0 30px" }}>
-              <div style={{ width: "600px", padding: "16px 28px 16px 0px" }}>
+              <WrapName>
                 <NameProduct>{productDetails?.name}</NameProduct>
-              </div>
-              <div style={{ display: "flex" }}>
+              </WrapName>
+              <InfoPrice>
                 <Price>
                   <CurrentPrice>
                     {convertPrice(productDetails?.price)}
                   </CurrentPrice>
                 </Price>
-                <div style={{ margin: "14px 10px" }}>
-                  <Rate
+                <WrapRating>
+                  <WrapperRate
                     allowHalf
                     value={productDetails?.rating}
                     defaultValue={productDetails?.rating}
                   />
                   <span> | Đã bán {productDetails?.selled}</span>
-                </div>
-              </div>
+                </WrapRating>
+              </InfoPrice>
               <Quanlity>
                 <div> Số Lượng </div>
                 <div
@@ -231,36 +231,16 @@ const ProductDetailComponents = ({ idProduct }) => {
               >
                 Model: UAP-AC-PRO
               </div>
-              <p
-                style={{
-                  paddingLeft: "16px",
-                  width: "516px",
-                  fontSize: "16px",
-                  whiteSpace: "pre-line",
-                  textAlign: "justify",
-                }}
-              >
-                {productDetails?.description}
-              </p>
+              <Info>{productDetails?.description}</Info>
             </div>
           </Col>
         </Row>
         {/* spectification */}
-        <div
-          style={{
-            width: "1300px",
-            height: "56px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "20px",
-            borderRadius: "20px",
-            boxShadow: " 0 0 5pt 0.5pt #D3D3D3",
-          }}
+        <Spectification
         >
           <Title onClick={() => setActive(1)}>Thông tin nổi bật</Title>
           <Title onClick={() => setActive(2)}>Thông số kỹ thuật</Title>
-        </div>
+        </Spectification>
         {active === 1 ? (
           <WrapContent>
             <ContentDescription>

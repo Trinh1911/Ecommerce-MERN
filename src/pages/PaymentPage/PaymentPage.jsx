@@ -21,7 +21,7 @@ import { convertPrice } from "../../untils";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import Loading from "../../components/LoadingComponent/Loading";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { removeAllOrderProduct } from "../../redux/slides/OrderSlice";
 
 const PaymentPage = () => {
@@ -106,7 +106,8 @@ const PaymentPage = () => {
         },
       });
     } else if (isError) {
-      Message.error();
+      navigate('/login')
+      Message.error('Vui lòng đăng nhập lại');
     }
   }, [isSuccess, isError]);
   useEffect(() => {

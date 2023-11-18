@@ -1,5 +1,26 @@
 import styles from "styled-components";
-import { InputNumber } from "antd";
+import { Image, InputNumber, Rate, Row } from "antd";
+export const WrapName = styles.div`
+    width: 600px;
+    padding: 16px 28px 16px 0px;
+    @media (max-width:1023px) {
+        width: fit-content;
+        padding: 0;
+    }
+`
+export const InfoPrice = styles.div`
+    display: flex;
+    @media (max-width:1023px) {
+        align-items: center;
+        justify-content: space-between;
+    }
+`
+export const WrapRating = styles.div`
+    margin: 14px 10px;
+    @media (max-width:1023px) {
+        margin: 0;
+    }
+`
 export const NameProduct = styles.h1`
     margin: 0px 0px 10px;
     padding-left: 10px;
@@ -8,6 +29,10 @@ export const NameProduct = styles.h1`
     font-weight: 600;
     font-size: 38px;
     line-height: 56px;
+    @media (max-width:1023px) {
+        font-size: 30px;
+        font-weight: 500;
+    }
 }
 `
 export const SaleProduct = styles.span`
@@ -26,6 +51,11 @@ export const CurrentPrice = styles.div`
     margin-right: 8px;
     padding: 10px;
     font-weight: 500;
+    @media (max-width:1023px) {
+        font-size: 20px;
+        padding: 0;
+        padding-left: 10px;
+    }
 `
 export const ExportGoods = styles.div`
     span.address {
@@ -48,6 +78,9 @@ export const Quanlity = styles.div`
     display: flex;
     align-items: center;
     margin-left: 16px;
+    @media (max-width:1023px) {
+        margin-left: 10px;
+    }
 `
 export const WrapperInputNumber = styles(InputNumber)`
     &.ant-input-number.ant-input-number-sm {
@@ -59,7 +92,27 @@ export const WrapperInputNumber = styles(InputNumber)`
         .ant-input-number-handler-wrap {
             display: none !important;
         }
-    };
+    }
+`
+export const WrapperRate = styles(Rate)`
+    &.ant-rate {
+        font-size: 16px;
+    }
+`
+export const Info = styles.div`
+    padding-left: 16px;
+    width: 516px;
+    font-size: 16px;
+    white-space: pre-line;
+    text-align: justify;
+    @media (max-width:1023px) {
+        height: 336px;
+        width: 307px;
+        margin-top: 15px;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 26px;
+    }
 `
 export const Title = styles.div`
     width: 292px;
@@ -91,6 +144,10 @@ export const WrapContent = styles.div`
         white-space: pre-line;
         text-align: justify;
         border: 1px solid #eae7e7;
+        @media (max-width:1023px) {
+            height: 420px;
+            width: 307px;
+        }
 `
 export const TableContent = styles.table`
         width: 1200px;
@@ -103,6 +160,9 @@ export const TableContent = styles.table`
         white-space: pre-line;
         text-align: justify;
         border: 1px solid #eae7e7;
+        @media (max-width:1023px) {
+            width: 350px;
+        }
 `
 export const ContentDescription = styles.p`
         margin: 2rem 10px;
@@ -114,6 +174,10 @@ export const AttributeItem = styles.th`
     line-height: 16px;
     padding-left: 20px;
     text-align: center;
+    @media (max-width:1023px) {
+        font-size: 14px;
+        padding-left: 5px;
+    }
 `
 export const AttributeValue = styles.th`
     width: 60%;
@@ -122,4 +186,30 @@ export const AttributeValue = styles.th`
     line-height: 16px;
     padding-left: 20px;
     text-align: center;
+    @media (max-width:1023px) {
+        font-size: 13px;
+        font-weight: 400;
+        padding-left: 10px;
+    }
+`
+export const WrapperImage = styles.div`
+        @media (max-width:1023px) {
+            width: 350px;
+        }
+        width: 444px;
+`
+export const Spectification = styles.div`
+    width: 1300px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border-radius: 20px;
+    box-shadow: rgb(211, 211, 211) 0px 0px 5pt 0.5pt;
+    @media (max-width:1023px) {
+        width: 350px;
+        height: 46px;
+        margin: 0 auto;
+    }
 `

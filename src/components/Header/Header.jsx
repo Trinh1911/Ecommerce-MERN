@@ -45,21 +45,22 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     setLoading(false);
   };
   const handleClickNavigate = (type) => {
-    if(type === 'profile') {
-      navigate('/profile-user')
-    }else if(type === 'admin') {
-      navigate('/admin')
-    }else if(type === 'my-order') {
-      navigate('/my-order',{ state : {
+    if (type === "profile") {
+      navigate("/profile-user");
+    } else if (type === "admin") {
+      navigate("/admin");
+    } else if (type === "my-order") {
+      navigate("/my-order", {
+        state: {
           id: user?.id,
-          token : user?.access_token
-        }
-      })
-    }else {
-      handleLogout()
+          token: user?.access_token,
+        },
+      });
+    } else {
+      handleLogout();
     }
-    setIsOpenPopOver(false)
-  }
+    setIsOpenPopOver(false);
+  };
   // cập nhật tên người dùng khi có sự cập nhật từ trang thông tin người dùng
   useEffect(() => {
     setUserName(user?.name);
@@ -67,26 +68,33 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   }, [user?.name, user?.avatar]);
   const content = (
     <div>
-      <ContentPopover onClick={() => handleClickNavigate('profile')}>Thông tin người dùng</ContentPopover>
+      <ContentPopover onClick={() => handleClickNavigate("profile")}>
+        Thông tin người dùng
+      </ContentPopover>
       {user?.isAdmin && (
-
-        <ContentPopover onClick={() => handleClickNavigate('admin')}>Quản lí hệ thống</ContentPopover>
+        <ContentPopover onClick={() => handleClickNavigate("admin")}>
+          Quản lí hệ thống
+        </ContentPopover>
       )}
-      <ContentPopover onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</ContentPopover>
-      <ContentPopover onClick={() => handleClickNavigate()}>Đăng xuất</ContentPopover>
+      <ContentPopover onClick={() => handleClickNavigate(`my-order`)}>
+        Đơn hàng của tôi
+      </ContentPopover>
+      <ContentPopover onClick={() => handleClickNavigate()}>
+        Đăng xuất
+      </ContentPopover>
     </div>
   );
-  
+
   const onSearch = (e) => {
     setSearch(e.target.value);
     dispatch(searchProduct(e.target.value));
   };
   const handleNavigateSearch = (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       navigate(`/search/${search}`);
       setSearch("");
     }
-  }
+  };
   return (
     <div
       style={{
@@ -111,8 +119,15 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             <MenuItemsMobile>
               {user?.access_token ? (
                 <>
-                  <Popover content={content} trigger="click" open={isOpenPopOver}>
-                    <div style={{ display: "flex", alignItems: "center" }} onClick={()=> setIsOpenPopOver(!isOpenPopOver)}>
+                  <Popover
+                    content={content}
+                    trigger="click"
+                    open={isOpenPopOver}
+                  >
+                    <div
+                      style={{ display: "flex", alignItems: "center" }}
+                      onClick={() => setIsOpenPopOver(!isOpenPopOver)}
+                    >
                       {user?.avatar ? (
                         <Image
                           preview={false}
@@ -140,7 +155,11 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               ) : (
                 <div onClick={handleNavigateLogin} style={{ display: "flex" }}>
                   <SmileOutlined
-                    style={{ fontSize: "24px", marginRight: "4px", color: "rgba(0,0,0,.88)" }}
+                    style={{
+                      fontSize: "24px",
+                      marginRight: "4px",
+                      color: "rgba(0,0,0,.88)",
+                    }}
                   />
                   <TextHeader>Tài Khoản</TextHeader>
                 </div>
@@ -150,7 +169,8 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         </Col>
         {!isHiddenSearch && (
           <Col
-            span={13}
+            xs={14}
+            xl={13}
             style={{
               display: "flex",
               alignItems: "center",
@@ -167,7 +187,8 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
           </Col>
         )}
         <Col
-          span={6}
+          xs={5}
+          xl={6}
           style={{
             display: "flex",
             alignItems: "center",
@@ -179,8 +200,15 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             <MenuItems>
               {user?.access_token ? (
                 <>
-                  <Popover content={content} trigger="click" open={isOpenPopOver}>
-                    <div style={{ display: "flex", alignItems: "center" }} onClick={()=> setIsOpenPopOver(!isOpenPopOver)}>
+                  <Popover
+                    content={content}
+                    trigger="click"
+                    open={isOpenPopOver}
+                  >
+                    <div
+                      style={{ display: "flex", alignItems: "center" }}
+                      onClick={() => setIsOpenPopOver(!isOpenPopOver)}
+                    >
                       {user?.avatar ? (
                         <Image
                           preview={false}
@@ -208,7 +236,11 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               ) : (
                 <div onClick={handleNavigateLogin} style={{ display: "flex" }}>
                   <SmileOutlined
-                    style={{ fontSize: "24px", marginRight: "4px", color: "rgba(0,0,0,.88)" }}
+                    style={{
+                      fontSize: "24px",
+                      marginRight: "4px",
+                      color: "rgba(0,0,0,.88)",
+                    }}
                   />
                   <TextHeader>Tài Khoản</TextHeader>
                 </div>
@@ -216,10 +248,7 @@ const Header = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             </MenuItems>
           </Loading>
           {!isHiddenCart && (
-            <MenuItemsCart
-              style={{ marginLeft: "24px", cursor: "pointer" }}
-              onClick={() => navigate("/order")}
-            >
+            <MenuItemsCart onClick={() => navigate("/order")}>
               <Badge count={order?.orderItems?.length} size="small">
                 <ShoppingCartOutlined
                   style={{
