@@ -106,7 +106,7 @@ const PaymentPage = () => {
         },
       });
     } else if (isError) {
-      navigate('/login')
+      navigate('/sign-in')
       Message.error('Vui lòng đăng nhập lại');
     }
   }, [isSuccess, isError]);
