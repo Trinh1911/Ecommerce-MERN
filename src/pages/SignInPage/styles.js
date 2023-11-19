@@ -33,3 +33,18 @@ export const WrapperRight = styles.div`
         font-weight: 500;
     }
 `
+export const Container = styles.div`
+  @media (max-width:1023px) {
+    width: 90%;
+    right: 0;
+    margin: 0 20px;
+  }
+    display: flex;
+    position: absolute;
+    width: 800px;
+    height: 528px;
+    border-radius: 20px;
+    top: 70px;
+    right: 28%;
+    box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+`

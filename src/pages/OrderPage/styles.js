@@ -11,6 +11,7 @@ export const WrapperOrder = styles.div`
 export const Container = styles.div`
   @media (max-width:1023px) {
     flex-direction: column;
+    margin-left: 20px;
   }
   display: flex;
   justify-content: center;

@@ -5,6 +5,7 @@ import {
   WrapperLabel,
   WrapperInput,
   WrapperUploadFile,
+  Heading,
 } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
@@ -18,6 +19,7 @@ import { Button } from "antd/es/radio";
 import { UploadOutlined } from "@ant-design/icons";
 import { getBase64 } from "../../untils";
 import { useNavigate } from "react-router-dom";
+import { Wrapper } from "../SearchFeed/styles";
 const ProfilePage = () => {
   // lay state ben sign in sau do lai lay ra nhap vao
   const user = useSelector((state) => state.user);
@@ -83,8 +85,8 @@ const ProfilePage = () => {
     });
   };
   return (
-    <div style={{ width: "1270px", margin: "0 auto" }}>
-      <div style={{ marginTop: "22px", marginLeft: "54px", fontSize: "16px" }}>
+    <Wrapper >
+      <Heading>
         <span
           style={{
             cursor: "pointer",
@@ -99,7 +101,7 @@ const ProfilePage = () => {
           Trang chủ
         </span>
         - Profile User
-      </div>
+      </Heading>
       <Container>
         <Loading isLoading={isLoading}>
           {/* name */}
@@ -237,7 +239,7 @@ const ProfilePage = () => {
           </WrapperInput>
         </Loading>
       </Container>
-    </div>
+    </Wrapper>
   );
 };
 

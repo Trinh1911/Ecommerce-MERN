@@ -5,6 +5,14 @@ export const Title = styles.div`
     font-size: 18px;
     margin: 4px 0;
 `
+export const Heading = styles.div`
+    margin-top: 22px;
+    margin-left: 54px;
+    font-size: 16px;
+    @media (max-width:1023px) {
+        margin-left: 28px;
+    }
+`
 export const Container = styles.div`
     display: flex;
     flex-direction: column;
@@ -14,6 +22,11 @@ export const Container = styles.div`
     padding: 30px;
     border-radius: 10px;
     gap: 30px;
+    @media (max-width:1023px) {
+        border: none;
+        width: 370px;
+      }
+
 `
 export const WrapperLabel = styles.label`
     color: #000;

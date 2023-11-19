@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { WrapperLeft, WrapperRight } from "./styles";
+import { Container, WrapperLeft, WrapperRight } from "./styles";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import { Image, message } from "antd";
 import logoSignIn from "../../assets/images/logoSignIn.png";
@@ -49,27 +49,30 @@ const SignInPage = () => {
     bước 3: theo useEffect thì khi thành công access_token và refresh_token sẽ được lưu vào localStorage, sau đó ... lấy id và access_token
     Vì: ta phải lấy được dữ liệu của người đăng nhập để lưu vào kho từ đó sử dụng ở components khác
    */
-    useEffect(() => {
-      if (data?.status === "SUCCESS") {
-        if(location?.state) {
-          navigate(location?.state);
-        } else {
-          navigate("/");
-        }
-        localStorage.setItem("access_token", JSON.stringify(data?.access_token))
-        localStorage.setItem("refresh_token", JSON.stringify(data?.refresh_token))
-        if (data?.access_token) {
-          // sử dụng thư viện jwt_decode để giải mã payload của access_token
-          const decoded = jwt_decode(data?.access_token);
-          if (decoded?.id) {
-            // thông qua hàm để lấy dữ liệu người dùng từ api
-            handleGetDetailsUser(decoded?.id, data?.access_token);
-          }
-        }
-      } else if (data?.status === "ERR") {
-      Message.error("Tài khoản không tồn tại! vui lòng nhập lại");
+  useEffect(() => {
+    if (data?.status === "SUCCESS") {
+      if (location?.state) {
+        navigate(location?.state);
+      } else {
+        navigate("/");
       }
-    }, [data?.status]);
+      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
+      localStorage.setItem(
+        "refresh_token",
+        JSON.stringify(data?.refresh_token)
+      );
+      if (data?.access_token) {
+        // sử dụng thư viện jwt_decode để giải mã payload của access_token
+        const decoded = jwt_decode(data?.access_token);
+        if (decoded?.id) {
+          // thông qua hàm để lấy dữ liệu người dùng từ api
+          handleGetDetailsUser(decoded?.id, data?.access_token);
+        }
+      }
+    } else if (data?.status === "ERR") {
+      Message.error("Tài khoản không tồn tại! vui lòng nhập lại");
+    }
+  }, [data?.status]);
   const handleGetDetailsUser = async (id, token) => {
     // lay duoc du lieu tu backend
     const res = await UserService.getDetailsUser(id, token);
@@ -78,19 +81,7 @@ const SignInPage = () => {
   return (
     <div style={{ position: "relative", zIndex: "1" }}>
       <Image src={background} preview={false} />
-      <div
-        style={{
-          display: "flex",
-          position: "absolute",
-          width: "800px",
-          height: "528px",
-          borderRadius: "20px",
-          top: "70px",
-          right: "28%",
-          boxShadow:
-            "rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px",
-        }}
-      >
+      <Container>
         <WrapperLeft>
           <div style={{ margin: "20px 0" }}>
             <h4
@@ -184,7 +175,7 @@ const SignInPage = () => {
             </span>
           </p>
         </WrapperLeft>
-      </div>
+      </Container>
     </div>
   );
 };

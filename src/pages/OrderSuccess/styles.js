@@ -28,6 +28,10 @@ export const WrapperContainer = styles.div`
 `
 
 export const WrapperListOrder = styles.div`
+@media (max-width:1023px) {
+  width: 90%;
+  padding: 0;
+}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,9 +51,11 @@ export const WrapperItemOrder = styles.div`
   padding: 9px 16px;
   background: #fff;
   margin-top: 12px;
-  justify-content: center
+  justify-content: center;
 `
-
+export const WrapperItemOrderMobile = styles.div`
+    padding: 0;
+`
 export const WrapperPriceDiscount = styles.span`
   color: #999;
   font-size: 12px;
@@ -88,8 +94,21 @@ export const WrapperItemOrderInfo = styles.div`
   background: #fff;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
+  @media (max-width:1023px) {
+    display: none;
+  }
 `
-
+export const WrapperItemOrderInfoMobile = styles.div`
+  display: none;
+  padding: 17px 20px;
+  border-bottom: 1px solid #f5f5f5;
+  background: #fff;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  @media (max-width:1023px) {
+    display: flex;
+  }
+`
 export const WrapperTotal = styles.div`
   display: flex;
    align-items: flex-start; 

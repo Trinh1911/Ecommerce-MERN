@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   Lable,
   WrapperInfo,
-  WrapperLeft,
   WrapperRadio,
   WrapperRight,
   WrapperTotal,
@@ -23,6 +22,7 @@ import { useEffect } from "react";
 import Loading from "../../components/LoadingComponent/Loading";
 import { Navigate, useNavigate } from "react-router-dom";
 import { removeAllOrderProduct } from "../../redux/slides/OrderSlice";
+import { WrapperOrder, Container, WrapperLeft } from "../OrderPage/styles";
 
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
@@ -184,9 +184,9 @@ const PaymentPage = () => {
   return (
     <div style={{with: "100%", height: "100vh" }}>
       <Loading isLoading={isLoadingAddOrder}>
-        <div style={{ height: "100%", width: "1270px", margin: "0 auto" }}>
-          <h3>Giỏ hàng</h3>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+        <WrapperOrder>
+          <h3 style={{paddingLeft: "16px"}}>Giỏ hàng</h3>
+          <Container style={{ display: "flex", justifyContent: "center" }}>
             <WrapperLeft>
               <WrapperInfo>
                 <div>
@@ -321,8 +321,8 @@ const PaymentPage = () => {
                 ></ButtonComponent>
               )}
             </WrapperRight>
-          </div>
-        </div>
+          </Container>
+        </WrapperOrder>
       </Loading>
     </div>
   );
