@@ -660,7 +660,7 @@ const HomePage = () => {
                 padding: "10px 0",
               }}
             >
-              Địa Chỉ Công Ty
+              Địa Chỉ Cửa Hàng
             </div>
             <div style={{ textAlign: "center" }}>
               <iframe

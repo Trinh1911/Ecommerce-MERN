@@ -102,6 +102,7 @@ export const WrapperRate = styles(Rate)`
 export const Info = styles.div`
     padding-left: 16px;
     width: 516px;
+    padding-top: 10px;
     font-size: 16px;
     white-space: pre-line;
     text-align: justify;

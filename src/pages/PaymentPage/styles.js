@@ -119,7 +119,7 @@ export const WrapperRadio = styles(Radio.Group)`
     margin-top: 6px;
     background: rgb(240, 248, 255);
     border: 1px solid rgb(194, 225, 255);
-    width: 500%;
+    width: 500px;
     border-radius: 4px;
     height: 100px;
     padding: 16px;
