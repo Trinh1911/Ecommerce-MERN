@@ -41,6 +41,11 @@ const DetailsOrderPage = () => {
     }, 0);
     return result;
   }, [data]);
+  const convertPriceCenter = (currentPrice, discountPercentage) => {
+    const percentage = discountPercentage / 100;
+    const discountAmount = currentPrice * percentage;
+    return currentPrice + discountAmount;
+  };
   return (
     <Loading isLoading={isLoading}>
       <div style={{ width: "100%"}}>
@@ -100,7 +105,8 @@ const DetailsOrderPage = () => {
               }}
             >
               <div style={{ width: "670px" }}>Sản phẩm</div>
-              <WrapperItemLabel>Giá</WrapperItemLabel>
+              <WrapperItemLabel>Giá Cũ</WrapperItemLabel>
+              <WrapperItemLabel>Giá đã ưu đãi</WrapperItemLabel>
               <WrapperItemLabel>Số lượng</WrapperItemLabel>
               <WrapperItemLabel>Giảm giá</WrapperItemLabel>
             </div>
@@ -129,9 +135,10 @@ const DetailsOrderPage = () => {
                         height: "70px",
                       }}
                     >
-                      Điện thoại
+                      {order?.name}
                     </div>
                   </WrapperNameProduct>
+                  <WrapperItem>{convertPrice(convertPriceCenter(order?.price, order?.discount))}</WrapperItem>
                   <WrapperItem>{convertPrice(order?.price)}</WrapperItem>
                   <WrapperItem>{order?.amount}</WrapperItem>
                   <WrapperItem>

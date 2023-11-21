@@ -9,61 +9,61 @@ import {
   PriceText,
   SaleText,
   CardProduct,
-  wrapImage
+  wrapImage,
 } from "./styles";
 import logoSales from "../../assets/images/logoSales.png";
 import sale from "../../assets/images/sale.png";
 import { useNavigate } from "react-router-dom";
-import { convertPrice } from "../../untils";
+import { convertPrice, convertPriceCenter } from "../../untils";
 const CardComponent = (props) => {
-  const {
-    image,
-    name,
-    price,
-    rating,
-    type,
-    discount,
-    selled,
-    id,
-  } = props;
+  const { image, name, price, rating, type, discount, selled, id } = props;
   const navigate = useNavigate();
   const handleDetailProduct = (id) => {
     navigate(`/product-detail/${id}`);
+  };
+  const convertPriceCenter = (currentPrice, discountPercentage) => {
+    const percentage = discountPercentage / 100;
+    const discountAmount = currentPrice * percentage;
+    return currentPrice + discountAmount;
   };
   return (
     <CardProduct
       hoverable
       onClick={() => handleDetailProduct(id)}
-      cover={
-        <img
-          alt="example"
-          src={image}
-        />
-      }
+      cover={<img alt="example" src={image} />}
     >
-      {selled >= 10 && (<div style={{ position: "absolute", left: "-12px",top: '0', margin: "10px 0" }}>
-        <Image
-          src={sale}
-          style={{
-            width: "78px",
-            height: "19px",
-          }}
-        />
-        <span
+      {selled >= 10 && (
+        <div
           style={{
             position: "absolute",
-            color: "#fff",
-            fontSize: "11px",
-            fontStyle: "italic",
-            fontWeight: "700",
-            left: "19px",
-            top: "3px",
-            zIndex: "10",
+            left: "-12px",
+            top: "0",
+            margin: "10px 0",
           }}
         >
-          Bán chạy
-        </span>
-      </div>)}
+          <Image
+            src={sale}
+            style={{
+              width: "78px",
+              height: "19px",
+            }}
+          />
+          <span
+            style={{
+              position: "absolute",
+              color: "#fff",
+              fontSize: "11px",
+              fontStyle: "italic",
+              fontWeight: "700",
+              left: "19px",
+              top: "3px",
+              zIndex: "10",
+            }}
+          >
+            Bán chạy
+          </span>
+        </div>
+      )}
       <NameProduct>{name}</NameProduct>
       <SaleText>
         <span style={{ marginRight: "4px" }}>
@@ -78,8 +78,11 @@ const CardComponent = (props) => {
         <span> | Đã bán {selled || 1000}+</span>
       </SaleText>
       <PriceText>
-        <span style={{ marginRight: "8px" }}>{convertPrice(price)}</span>
-        {discount && (<DiscountText> - {discount}  %</DiscountText>)}
+        <span style={{ marginRight: "5px" }}>{convertPrice(price)}</span>
+        <p style={{ marginRight: "4px" }}>
+          {discount && convertPrice(convertPriceCenter(price, discount))}
+        </p>
+        {discount && <DiscountText> - {discount} %</DiscountText>}
       </PriceText>
     </CardProduct>
   );

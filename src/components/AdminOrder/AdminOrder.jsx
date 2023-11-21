@@ -11,6 +11,7 @@ import Loading from "../LoadingComponent/Loading";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import PieChartComponent from "./PieChart";
+import { formatTimeStr } from "antd/es/statistic/utils";
 
 const AdminOrder = () => {
   const user = useSelector((state) => state.user);
@@ -109,22 +110,22 @@ const AdminOrder = () => {
       ...getColumnSearchProps("address"),
     },
     {
-      title: "Time",
+      title: "Date",
       dataIndex: "updatedAt",
       sorter: (a, b) => a.updatedAt.length - b.updatedAt.length,
       ...getColumnSearchProps("updatedAt"),
+    },
+    {
+      title: "Time",
+      dataIndex: "time",
+      sorter: (a, b) => a.time.length - b.time.length,
+      ...getColumnSearchProps("time"),
     },
     {
       title: "Price",
       dataIndex: "totalPrice",
       sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
       ...getColumnSearchProps("totalPrice"),
-    },
-    {
-      title: "Shipping Price",
-      dataIndex: "shippingPrice",
-      sorter: (a, b) => a.shippingPrice.length - b.shippingPrice.length,
-      ...getColumnSearchProps("shippingPrice"),
     },
     {
       title: "Payment Method",
@@ -136,14 +137,15 @@ const AdminOrder = () => {
   const dataTable =
     orders?.data?.length &&
     orders?.data?.map((order) => {
-      console.log("order", order);
+      const date = order.updatedAt.split('T')[0];
+      const timeOrder = order.updatedAt.split('T')[1].split('.')[0];
       return {
         ...order,
         key: order._id,
         totalPrice: order.totalPrice,
-        updatedAt: order.updatedAt,
+        updatedAt: date,
         itemsPrice: order.itemsPrice,
-        shippingPrice: order.shippingPrice,
+        time: timeOrder,
         paymentMethod: orderContant.payment[order.paymentMethod],
         userName: order?.shippingAddress?.fullName,
         address: order?.shippingAddress?.address,

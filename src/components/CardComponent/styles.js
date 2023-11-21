@@ -40,11 +40,21 @@ export const SaleText = styles.div`
     margin: 6px 0 0px;
 `
 export const PriceText = styles.div`
+    display: flex;
+    align-items: flex-end;
     color: rgb(255, 66, 78);
     font-size: 16px;
     font-weight: 500;
     @media (max-width:1023px) {
         font-size: 14px;
+    }
+    & p {
+        margin: 0;
+        margin-right: 8px;
+        width: fit-content;
+        font-size: 13px;
+        text-decoration: line-through;
+        color: #4E4E4E;
     }
 `
 

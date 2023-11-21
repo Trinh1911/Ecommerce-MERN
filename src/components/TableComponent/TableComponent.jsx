@@ -43,7 +43,7 @@ const TableComponent = (props) => {
   return (
     <div>
       <Loading isLoading={isLoading}>
-        <div style={{ margin: "10px" }}>
+        <div style={{ margin: "10px", marginLeft: "0" }}>
           {rowSelectedKey.length > 0 && (
             <Button danger onClick={handleDeletedAll}>
               Xóa Tất Cả
