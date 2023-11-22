@@ -125,7 +125,7 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    product?.selled >= 10 && (
+                    product?.selled >= 5 && (
                       <Col className="gutter-row" span={2 / 4}>
                         <div>
                           <CardComponent
@@ -216,7 +216,7 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    product?.selled >= 10 && (
+                    product?.selled >= 5 && (
                       <Col className="gutter-row" xs={12}>
                         <div>
                           <CardComponent
@@ -379,7 +379,7 @@ const HomePage = () => {
                 padding: "10px 0",
               }}
             >
-              Sản phẩm bán chạy
+              Tất cả sản phẩm
             </div>
             <div
               style={{
@@ -396,7 +396,6 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    product?.selled >= 10 && (
                       <Col className="gutter-row" xs={12}>
                         <div>
                           <CardComponent
@@ -414,7 +413,6 @@ const HomePage = () => {
                           />
                         </div>
                       </Col>
-                    )
                   );
                 })}
               </WrapperCard>
@@ -569,7 +567,8 @@ const HomePage = () => {
                 padding: "10px 0",
               }}
             >
-              Sản phẩm bán chạy
+              Hot Deals
+              <CountDown />
             </div>
             <div
               style={{
@@ -586,7 +585,7 @@ const HomePage = () => {
               >
                 {products?.data?.map((product) => {
                   return (
-                    product?.selled >= 10 && (
+                    product?.selled >= 5 && (
                       <Col className="gutter-row" xs={12}>
                         <div>
                           <CardComponent

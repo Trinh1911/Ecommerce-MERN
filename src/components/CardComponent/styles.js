@@ -30,6 +30,9 @@ export const CardProduct = styles(Card)`
         & .ant-card-cover >* {
             width: 160px;
         }
+        & .ant-card-body {
+            padding: 10px 3px;
+        }
     }
 `
 export const SaleText = styles.div`
@@ -43,7 +46,7 @@ export const PriceText = styles.div`
     display: flex;
     align-items: flex-end;
     color: rgb(255, 66, 78);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     @media (max-width:1023px) {
         font-size: 14px;
@@ -62,6 +65,9 @@ export const DiscountText = styles.span`
     color: rgb(255, 66, 78);
     font-size: 12px;
     font-weight: 500;
+    @media (max-width:1023px) {
+        font-size: 9px;
+    }
 `
 
 export const StyleTextSell = styles.span`
